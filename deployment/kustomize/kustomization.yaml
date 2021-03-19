@@ -1,0 +1,7 @@
+resources:
+- microservice-deployment.yaml
+- microservice-mapping.yaml
+- microservice-service.yaml
+- microservice-db-migration-job.yaml # Only needed if microservice contains db migrations
+- microservice-clusterrole.yaml # Only needed if microservice contains db migrations
+- microservice-clusterrolebinding.yaml # Only needed if microservice contains db migrations
