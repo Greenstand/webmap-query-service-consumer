@@ -1,9 +1,0 @@
-DROP INDEX IF EXISTS capture_mp_fieldusr_idx;
-DROP INDEX IF EXISTS capture_mp_fieldusrname_id;
-DROP INDEX IF EXISTS capture_mp_crdate_idx;
-DROP INDEX IF EXISTS capture_mp_trckgsess_idx;
-DROP INDEX IF EXISTS capture_mp_token_idx;
-DROP INDEX IF EXISTS capture_mp_token_idx;
-DROP INDEX IF EXISTS capture_mp_attrbs_idx;
-DROP INDEX IF EXISTS capture_mp_map_name_idx;
-DROP TABLE IF EXISTS capture_map;
