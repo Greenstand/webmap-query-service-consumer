@@ -1,15 +1,15 @@
-# Name of this microservice
+# Webmap Query Service Consumer
    
-Description of this microservice
+This application subscribes to specific events published by other services of Greenstand platform that allows it to build a data view of the tree tracking activity to be shown in a webmap.
 
-# Getting Started
+## Development Environment Quick Start
   
-## Project Setup
+1. Project Setup
 
 Open terminal and navigate to a folder to install this project:
 
 ```
-git clone https://github.com/Greenstand/treetracker-repository-name.git
+git clone https://github.com/Greenstand/webmap-query-service-consumer.gitt
 
 ```
 Install all necessary dependencies: 
@@ -18,7 +18,22 @@ Install all necessary dependencies:
 npm install
 ```
 
-### Database Setup
+2. In the command line run the following to decrypt and create `.env` file that contains connection credentials to the database and message queues this project relies on.
+
+```
+npm run decrypt
+```
+The command will prompt for a password, please reach out in slack `engineering` or `microservices-working-group` channels for the credential.
+On successfully running the command, the file env.secret is decrypted and creates a `.env` file.
+
+3. Now run the app
+```
+node .
+```
+The above will start the app listening at port 3006. 
+
+
+### Local Database Setup - Advanced
 
 // TODO - add generic database setup instructions
 
@@ -41,43 +56,6 @@ If you have not installed db-migrate globally, you can run:
 ```
 
 See here to learn more about db-migrate: https://db-migrate.readthedocs.io/en/latest/
-
-# Architecture of this project
-
-This project use multiple layer structure to build the whole system. Similar with MVC structure:
-
-![layers](/layers.png "layers")
-
-
-* **Protocol layer**
-
-Wallet API offers RESTFul API interace based on HTTP protocol. We use Express to handle all HTTP requests.
-
-The Express-routers work like the controller role in MVC, they receive the requests and parameters from client, and translate it and dispatch tasks to appropriate business objects. Then receive the result from them, translate to the 'view', the JSON response, to client.
-
-* **Service layer**
-
-Both service layer and model layer are where all the business logic is located. Comparing to the Model , `service` object don't have state (stateless).  
-
-Please put business logic code into service object when it is hard to put them into the `Model` object.
-
-Because we didn't use Factory or dependency injection to create object, so service layer also can be used as Factory to create `model` object.
-
-* **Model layer**
-
-The business model, major business logic is here. They are real object, in the perspective of object oriented programming: they have states, they have the method to do stuff. 
-
-There are more discussion about this, check below selection.
-
-* **Repository layer**
-
-Repository is responsible for communicate with the real database, this isolation brings flexibility for us, for example, we can consider replace the implementation of the storage infrastructure in the future.
-
-All the SQL statements should be here.
-
-
-TODO: Add link to WIKI page detailing our architecture rules
-
 
 # How to test
 
