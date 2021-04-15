@@ -1,10 +1,10 @@
 const Broker = require('rascal').BrokerAsPromised
 const config = require('./config').config
 
-const publishMessage = (async (payload, resultHandler) => {
+const publishMessage = (async (publicationName, routingKey, payload, resultHandler) => {
     const broker = await Broker.create(config);
     try {
-        const publication = await broker.publish("capture-created", payload, "field-data.capture.creation");
+        const publication = await broker.publish(publicationName, payload, routingKey);
         publication
         .on("success", resultHandler)
         .on("error", (err, messageId)=> {
@@ -27,7 +27,7 @@ const subscribe = (async (subscriptionName, eventHandler) => {
         })
         .on('error', console.error);
     } catch(err) {
-        console.error(`Error subscribing to the queue ${queueName}, error: ${err}`);
+        console.error(`Error subscribing to ${subscriptionName}, error: ${err}`);
     }
 });
 

@@ -1,11 +1,14 @@
 const expect = require('expect-runtime');
+
 const log = require("loglevel");
 
-let knexConfig = {
+const connection = process.env.DATABASE_URL;
+
+const knexConfig = {
   client: 'pg',
-  debug: process.env.NODE_LOG_LEVEL === "debug"? true:false,
-  process.env.DATABASE_URL,
-  pool: { min:0, max: 100},
+  debug: process.env.NODE_LOG_LEVEL === "debug",
+  connection,
+  pool: { min:0, max: 10},
 }
 
 log.debug(process.env.DATABASE_SCHEMA)
