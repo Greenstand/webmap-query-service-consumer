@@ -1,7 +1,7 @@
 const Broker = require('rascal').BrokerAsPromised
 const config = require('./config').config
 
-const publishMessage = (async (publicationName, routingKey, payload, resultHandler) => {
+const publish = (async (publicationName, routingKey, payload, resultHandler) => {
     const broker = await Broker.create(config);
     try {
         const publication = await broker.publish(publicationName, payload, routingKey);
@@ -31,4 +31,4 @@ const subscribe = (async (subscriptionName, eventHandler) => {
     }
 });
 
-module.exports = { publishMessage, subscribe };
+module.exports = { publish, subscribe };

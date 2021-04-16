@@ -7,6 +7,11 @@
     "npm": ">=6.0.0"
   },
   "main": "server/server.js",
+  "watch": {
+    "test": {
+        "patterns": ["**/*.js", "**/*.spec.js"]
+      }
+  },
   "scripts": {
     "lint": "npm run eslint",
     "lint:fix": "npm run eslint:fix && npm run prettier:fix",
@@ -24,7 +29,8 @@
     "prettier-fix": "prettier ./ --write",
     "db-migrate-ci": "cd database; db-migrate up",
     "encrypt": "nodecipher encrypt .env env.secret",
-    "decrypt": "nodecipher decrypt env.secret .env"
+    "decrypt": "nodecipher decrypt env.secret .env",
+    "watch": "npm-watch"
   },
   "keywords": [
     "ecology"
@@ -64,6 +70,7 @@
     "mocha": "^8.3.2",
     "mock-knex": "^0.4.9",
     "nodemon": "^2.0.4",
+    "npm-watch": "^0.9.0",
     "prettier": "^2.1.2",
     "sinon": "^9.2.4",
     "sinon-chai": "^2.14.0",

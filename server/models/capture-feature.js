@@ -9,9 +9,14 @@ const captureFeatureFromMessage = ({
     attributes,
     species_name,
     created_at,
+    ...additionalParameters
  }) => {
-     
-     Object.freeze({
+
+    for(key in additionalParameters) {
+        attributes.push( { [key]: additionalParameters[key] });
+    }
+
+    return Object.freeze({
      id,
      lat,
      lon,
@@ -29,4 +34,3 @@ const createCaptureFeature = (captureFeatureRepo) => (async captureFeature => {
 });
 
 module.exports = { captureFeatureFromMessage, createCaptureFeature };
-
