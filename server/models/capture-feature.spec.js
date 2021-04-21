@@ -41,7 +41,7 @@ describe('invoking captureFeatureFromMessage with variable parameters', function
             morphology: 'medium sized'
         });
         let additionalArgs = 0
-        captureFeature.attributes.forEach(attribute => {
+        captureFeature.attributes.entries.forEach(attribute => {
             if (attribute.age && attribute['age'] === 12) {
                 additionalArgs++;
             }

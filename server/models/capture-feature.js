@@ -2,11 +2,13 @@ const { Repository } = require('./Repository');
 
 const captureFeatureFromMessage = ({
     id,
+    image_url,
     lat,
     lon,
     field_user_id,
     field_username,
-    attributes,
+    device_identifier,
+    attributes = [],
     species_name,
     created_at,
     ...additionalParameters
@@ -18,11 +20,13 @@ const captureFeatureFromMessage = ({
 
     return Object.freeze({
      id,
+     image_url,
      lat,
      lon,
      field_user_id,
      field_username,
-     attributes,
+     device_identifier,
+     attributes: { entries: attributes },
      species_name,
      created_at
   });
