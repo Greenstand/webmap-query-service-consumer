@@ -1,16 +1,12 @@
 CREATE TABLE capture_feature
 (
     id uuid NOT NULL PRIMARY KEY,
-    image_url varchar NOT NULL,
     lat numeric NOT NULL,
     lon numeric NOT NULL,
     location geometry(POINT, 4326) NOT NULL,
-    gps_accuracy smallint NULL,
     field_user_id int8 NOT NULL,
-    field_user_photo_url varchar NULL,
     field_username varchar NOT NULL,
     device_identifier varchar NULL,
-    note varchar NULL,
     attributes jsonb NULL, 
     tracking_session_id uuid NULL,
     map_name jsonb NULL,
