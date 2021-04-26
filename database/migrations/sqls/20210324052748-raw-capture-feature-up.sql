@@ -8,14 +8,12 @@ CREATE TABLE raw_capture_feature
     field_username varchar NOT NULL,
     device_identifier varchar NULL,
     attributes jsonb NULL, 
-    status varchar NOT NULL,
     tracking_session_id uuid NULL,
     map_name jsonb NULL,
     created_at timestamptz NOT NULL,
     updated_at timestamptz NOT NULL
 );
 
-CREATE INDEX rcapturef_status_idx ON raw_capture_feature (status);
 CREATE INDEX rcapturef_fieldusr_idx ON raw_capture_feature (field_user_id);
 CREATE INDEX rcapturef_fieldusrname_idx ON raw_capture_feature (field_username);
 CREATE INDEX rcapturef_crdate_idx ON raw_capture_feature (created_at);

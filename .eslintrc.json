@@ -17,6 +17,7 @@
 		"ecmaVersion": 12
 	},
 	"rules": {
+		"max-classes-per-file": "off",
 		"simple-import-sort/imports": "error",
 		"no-underscore-dangle": "off",
 		"camelcase": "off",

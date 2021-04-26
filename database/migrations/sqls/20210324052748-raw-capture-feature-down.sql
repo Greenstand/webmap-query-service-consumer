@@ -1,4 +1,3 @@
-DROP INDEX IF EXISTS rcapturef_status_idx;
 DROP INDEX IF EXISTS rcapturef_fieldusr_idx;
 DROP INDEX IF EXISTS rcapturef_fieldusrname_idx;
 DROP INDEX IF EXISTS rcapturef_crdate_idx;

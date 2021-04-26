@@ -1,0 +1,34 @@
+name: CI for New Pull Requests
+
+on:
+  pull_request:
+    branches:
+      - master
+
+env: 
+  project-directory: ./
+
+jobs:
+  build:
+    name: Run all tests
+    runs-on: ubuntu-latest
+    container: node:10.18-jessie
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: npm clean install
+      run: npm ci
+      working-directory: ${{ env.project-directory }}
+
+    - name: run ESLint
+      run: npm run lint
+      working-directory: ${{ env.project-directory }}
+
+    - name: run unit tests
+      run: npm run test-unit
+      working-directory: ${{ env.project-directory }}
+        
