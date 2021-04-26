@@ -3,14 +3,14 @@ apiVersion: batch/v1
 # Only needed if microservice contains db migrations
 kind: Job
 metadata:
-  name: #microservice name migration job#
+  name: webmap-query-consumer-db-migration-job
 spec:
   backoffLimit: 1 # allow for one re-try of the migration
   template:
     spec:
       containers:
       - name: migration
-        image: greenstand/#treetracker-microservice-name#:VERSION
+        image: greenstand/webmap-query-service-consumer:TAG
         env:
           - name: BASE_DATABASE_URL
             valueFrom:
@@ -18,7 +18,7 @@ spec:
                 name: treetracker-api-database-connection
                 key: db
           - name: DATABASE_URL
-            value: "$(BASE_DATABASE_URL)&schema=<microservice schema name>"
+            value: "$(BASE_DATABASE_URL)&schema=map_features"
         command: ["node"]
         args: ["node_modules/db-migrate/bin/db-migrate", "up", "--migrations-dir", "database/migrations/", "-v"]
       restartPolicy: Never

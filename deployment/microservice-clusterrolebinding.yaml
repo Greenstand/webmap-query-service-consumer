@@ -6,7 +6,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: #treetracker-microservice-name#
+    namespace: webmap-query-service-consumer
 roleRef:
   kind: ClusterRole
   name: k8s-wait-for
