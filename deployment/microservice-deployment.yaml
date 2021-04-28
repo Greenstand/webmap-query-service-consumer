@@ -32,7 +32,10 @@ spec:
                 name: webmap-query-database-connection
                 key: db
           - name: DATABASE_SCHEMA
-            value: "map_features"
+            valueFrom:
+              secretKeyRef:
+                name: webmap-query-database-connection
+                key: schema
           - name: NODE_LOG_LEVEL
             value: trace
           - name: REMOTE_LOG_URL

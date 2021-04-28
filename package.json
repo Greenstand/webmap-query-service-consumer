@@ -77,10 +77,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Greenstand/{project}.git"
+    "url": "git+https://github.com/Greenstand/webmap-query-service-consumer.git"
   },
   "bugs": {
-    "url": "https://github.com/Greenstand/{project}/issues"
+    "url": "https://github.com/Greenstand/webmap-query-service-consumer/issues"
   },
-  "homepage": "https://github.com/Greenstand/{project}#readme"
+  "homepage": "https://github.com/Greenstand/webmap-query-service-consumer#readme"
 }
