@@ -85,7 +85,7 @@ async function seed() {
     });
 
   await knex('token')
-    .insert(tokenB);
+    .insert(token);
 }
 
 async function clear() {

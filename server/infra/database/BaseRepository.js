@@ -79,7 +79,6 @@ class BaseRepository{
   }
 
   async create(object){
-    console.log(JSON.stringify(this._session));
     const result = await this._session.getDB()(this._tableName).insert(object).returning("*");
     expect(result).match([{
       id: expect.anything(),
