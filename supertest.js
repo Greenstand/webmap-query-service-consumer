@@ -12,9 +12,9 @@ const sinon = require("sinon");
 describe('microservice integration tests', () => {
 
   beforeEach(async () => {
-    //In case other sinon stub would affect me 
+    // In case other sinon stub would affect me 
     sinon.restore();
-    //before all, seed data to DB
+    // before all, seed data to DB
     await seed.clear();
     await seed.seed();
 
@@ -23,7 +23,7 @@ describe('microservice integration tests', () => {
   });
 
   afterEach(done => {
-    //after finished all the test, clear data from DB
+    // after finished all the test, clear data from DB
     seed.clear()
       .then(() => {
         done();

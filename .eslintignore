@@ -1,4 +1,5 @@
 node_modules/
+database/
 dist/
 coverage/
 **/__tests__/

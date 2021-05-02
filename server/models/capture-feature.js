@@ -13,9 +13,9 @@ const captureFeatureFromMessage = ({
     ...additionalParameters
  }) => {
 
-    for(key in additionalParameters) {
+    Object.keys(additionalParameters).forEach((key) => {
         attributes.push( { [key]: additionalParameters[key] });
-    }
+    });
 
     return Object.freeze({
      id,

@@ -6,7 +6,6 @@ const log = require("loglevel");
 const knex = require("../server/database/knex");
 
 // Run the seed, and check that it's working
-
 describe("Seed data into DB", () => {
 
   before(async () => {
