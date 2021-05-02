@@ -15,7 +15,7 @@ spec:
           - name: BASE_DATABASE_URL
             valueFrom:
               secretKeyRef:
-                name: treetracker-api-database-connection
+                name: webmap-query-database-connection
                 key: db
           - name: DATABASE_URL
             value: "$(BASE_DATABASE_URL)&schema=map_features"
