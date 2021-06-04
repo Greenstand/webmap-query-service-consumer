@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.0.0...v1.0.1) (2021-06-04)
+
+
+### Bug Fixes
+
+* add capture_taken_at column ([693a2ef](https://github.com/Greenstand/webmap-query-service-consumer/commit/693a2efc718428e48f3ac02fbaf69cd637c835ca))
+
 # 1.0.0 (2021-04-29)
 
 
