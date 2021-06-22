@@ -12,7 +12,7 @@ const publish = (async (publicationName, routingKey, payload, resultHandler) => 
             throw err;
         });
     } catch(err) {
-        console.error(`Error publishing message ${err}`);
+        console.error(`Error publishing message ${err}`, err);
     }
 });
 
