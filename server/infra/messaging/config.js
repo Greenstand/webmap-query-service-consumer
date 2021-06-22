@@ -14,10 +14,14 @@ module.exports = {
             "capture-data-ex -> capture-data:events",
             "field-data -> field-data-events"
           ],
+          publications: {
+            'capture-created': {
+                "queue": "capture-data:events",
+            },
+          },
           subscriptions: {
             'capture-created': {
                 "queue": "capture-data:events",
-                "contentType": "application/json"
             },
             'raw-capture-created': {
                "queue": "field-data-events",
