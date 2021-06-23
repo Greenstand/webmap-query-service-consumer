@@ -1,5 +1,6 @@
 const Broker = require('rascal').BrokerAsPromised
 const config = require('./config').config
+const log = require("loglevel");
 
 const publish = (async (publicationName, routingKey, payload, resultHandler) => {
     try {
@@ -31,4 +32,14 @@ const subscribe = (async (subscriptionName, eventHandler) => {
     }
 });
 
-module.exports = { publish, subscribe };
+const unsubscribeAll = (async () => {
+  log.warn("unsubscribeAll");
+    try {
+        const broker = await Broker.create(config);
+        await broker.unsubscribeAll();
+    } catch(err) {
+        console.error(`Error unsubscribeAll , error: ${err}`);
+    }
+});
+
+module.exports = { publish, subscribe, unsubscribeAll };

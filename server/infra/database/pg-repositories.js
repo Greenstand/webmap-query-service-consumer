@@ -1,4 +1,5 @@
 const BaseRepository = require("./BaseRepository");
+const log = require("loglevel");
 
 class CaptureFeatureRepository extends BaseRepository {
     constructor(session) {
@@ -20,6 +21,11 @@ class CaptureFeatureRepository extends BaseRepository {
             captureFeature.attributes, captureFeature.species_name, captureFeature.created_at, captureFeature.created_at]);
         return result.rows[0];
     }
+
+  async batchUpdate(captureIds, updateObject){
+    log.warn("batchUpdate");
+  }
+
 }
 
 class RawCaptureFeatureRepository extends BaseRepository {
