@@ -1,5 +1,5 @@
 const { captureFeatureFromMessage, updateCaptureFeature } = require("../models/capture-feature.js");
-const { CaptureFeatureRepository } = require("../../server/infra/database/pg-repositories");
+const { CaptureFeatureRepository } = require("../infra/database/pg-repositories");
 const log = require("loglevel");
 const Session = require('../infra/database/session.js');
 
