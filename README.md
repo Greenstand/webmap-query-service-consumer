@@ -79,6 +79,31 @@ Run tests:
 npm run test-integration
 ```
 
+### To setup the RabbitMQ for locally integration test
+
+(Could consider tweak this approach to run it in the Github Action for CI in the future)
+
+To connect to the RabbitMQ locally, can use this Docker container: 
+
+```
+docker run -d --hostname my-rabbit --name rabbit -p 5672:5672 -p 15672:15672  rabbitmq:3.8.9-management
+```
+
+This would run the RabbitMQ on: 
+```
+RABBIT_MQ_URL=amqp://guest:guest@localhost
+```
+(The port might be 5672 as the default value)
+
+The admin dashborad:
+
+```
+http://localhost:15672/
+```
+Admin user: guest:guest
+
+
+
 ## Database seeding test
 In order to efficiently run our integration tests, we rely on automated database seeding/clearing functions to mock database entries. To test these functions, run:
 

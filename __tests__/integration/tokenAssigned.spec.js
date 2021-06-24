@@ -17,7 +17,7 @@ describe("tokenAssigned", () => {
     await unsubscribeAll();
   });
 
-  it.only("Successfully handle", async () => {
+  it("Successfully handle tokenAssigned event", async () => {
     const capture_id = "63e00bca-8eb0-11eb-8dcd-0242ac130003";
     const token_id = "9d7abad8-8eb0-11eb-8dcd-0242ac130003";
     const capture = {
@@ -35,16 +35,17 @@ describe("tokenAssigned", () => {
     }
     //prepare the capture before the wallet event
     await knex("capture_feature").insert(capture);
+    const wallet_name_new = "newone";
     const message = {
       "type": "TokensAssigned",
-      "wallet_name": "joeswallet",
+      "wallet_name": wallet_name_new,
       "entries": [
         { "capture_id": capture_id, "token_id": token_id },
       ],
     }
     publish("token-assigned", undefined, message, (e) => console.log("result:", e));
     await new Promise(r => setTimeout(() => r(), 2000));
-    const result = await knex("capture_feature").select();
+    const result = await knex("capture_feature").select().where("wallet_name", wallet_name_new);
     expect(result).lengthOf(1);
 
   });
