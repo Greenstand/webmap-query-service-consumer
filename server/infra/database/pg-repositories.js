@@ -24,6 +24,11 @@ class CaptureFeatureRepository extends BaseRepository {
 
   async batchUpdate(captureIds, updateObject){
     log.warn("batchUpdate");
+    const objectCopy = {};
+    Object.assign(objectCopy, updateObject)
+    delete objectCopy.id
+    const result = await this._session.getDB()(this._tableName).update(objectCopy).whereIn("id", captureIds);
+    log.warn("result of update:", result);
   }
 
 }

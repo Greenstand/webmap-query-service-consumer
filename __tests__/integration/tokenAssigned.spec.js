@@ -3,12 +3,14 @@ const knex = require("../../server/infra/database/knex");
 const {expect} = require("chai");
 const registerEventHandlers = require('../../server/services/event-handlers.js');
 const { unsubscribeAll } = require("../../server/infra/messaging/rabbit-mq-messaging");
+const {v4} = require("uuid");
 
 describe("tokenAssigned", () => {
 
   beforeEach(async () => {
     //load server
     registerEventHandlers();
+    await knex("capture_feature").del();
   });
 
   afterEach(async () => {
@@ -16,12 +18,29 @@ describe("tokenAssigned", () => {
   });
 
   it.only("Successfully handle", async () => {
+    const capture_id = "63e00bca-8eb0-11eb-8dcd-0242ac130003";
+    const token_id = "9d7abad8-8eb0-11eb-8dcd-0242ac130003";
+    const capture = {
+      id: capture_id,
+      lat: 0,
+      lon: 0,
+      location: `POINT(0 0)`,
+      field_user_id: 0,
+      field_username: "fake_name",
+      token_id,
+      wallet_name: "oldone",
+      capture_taken_at: new Date(),
+      created_at: new Date(),
+      updated_at: new Date(),
+    }
+    //prepare the capture before the wallet event
+    await knex("capture_feature").insert(capture);
     const message = {
       "type": "TokensAssigned",
       "wallet_name": "joeswallet",
       "entries": [
-        { "capture_id": "63e00bca-8eb0-11eb-8dcd-0242ac130003", "token_id": "9d7abad8-8eb0-11eb-8dcd-0242ac130003" },
-        { "capture_id": "8533b704-8eb0-11eb-8dcd-0242ac130003", "token_id":"a5799d94-8eb0-11eb-8dcd-0242ac130003" } ]
+        { "capture_id": capture_id, "token_id": token_id },
+      ],
     }
     publish("token-assigned", undefined, message, (e) => console.log("result:", e));
     await new Promise(r => setTimeout(() => r(), 2000));
