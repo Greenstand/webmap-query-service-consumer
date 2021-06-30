@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.0.1...v1.1.0) (2021-06-30)
+
+
+### Bug Fixes
+
+* eslint error ([0cb19dc](https://github.com/Greenstand/webmap-query-service-consumer/commit/0cb19dc486cc37567dd895d049cd1779c19bd917))
+
+
+### Features
+
+* can pass the token assigned test ([6a6f0a6](https://github.com/Greenstand/webmap-query-service-consumer/commit/6a6f0a61e8d97639c685c8ce4fc398aa539b91e5))
+
 ## [1.0.1](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.0.0...v1.0.1) (2021-06-04)
 
 
