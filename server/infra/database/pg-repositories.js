@@ -1,4 +1,5 @@
 const BaseRepository = require("./BaseRepository");
+const log = require("loglevel");
 
 class CaptureFeatureRepository extends BaseRepository {
     constructor(session) {
@@ -20,6 +21,16 @@ class CaptureFeatureRepository extends BaseRepository {
             captureFeature.attributes, captureFeature.species_name, captureFeature.created_at, captureFeature.created_at]);
         return result.rows[0];
     }
+
+  async batchUpdate(captureIds, updateObject){
+    log.warn("batchUpdate");
+    const objectCopy = {};
+    Object.assign(objectCopy, updateObject)
+    delete objectCopy.id
+    const result = await this._session.getDB()(this._tableName).update(objectCopy).whereIn("id", captureIds);
+    log.warn("result of update:", result);
+  }
+
 }
 
 class RawCaptureFeatureRepository extends BaseRepository {

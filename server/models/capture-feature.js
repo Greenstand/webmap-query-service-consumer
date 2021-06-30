@@ -1,4 +1,5 @@
 const { Repository } = require('./Repository');
+const log = require("loglevel");
 
 const captureFeatureFromMessage = ({
     id,
@@ -35,4 +36,10 @@ const createCaptureFeature = (captureFeatureRepo) => (async captureFeature => {
     repository.add(captureFeature);
 });
 
-module.exports = { captureFeatureFromMessage, createCaptureFeature };
+const updateCaptureFeature = (captureFeatureRepo) => (async (captureFeatureIds, captureFeatureUpdateObject) => {
+  log.warn("repo:", captureFeatureRepo);
+  // Because here is using a special fn to update db, so didn't use Repository
+  await captureFeatureRepo.batchUpdate(captureFeatureIds, captureFeatureUpdateObject);
+});
+
+module.exports = { captureFeatureFromMessage, createCaptureFeature, updateCaptureFeature };

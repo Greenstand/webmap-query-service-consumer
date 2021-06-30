@@ -4,6 +4,7 @@ const { rawCaptureFeatureFromMessage, createRawCaptureFeature } = require("../mo
 const { CaptureFeatureRepository, RawCaptureFeatureRepository } = require('../infra/database/pg-repositories.js');
 const { subscribe } = require('../infra/messaging/rabbit-mq-messaging');
 const Session = require('../infra/database/session.js');
+const tokenAssignedHandler = require("./event-token-assigned-handler.js");
 
 const createCaptureFeatureHandler = (async (message) => {
   const newCaptureFeature = captureFeatureFromMessage({ ...message });
@@ -21,9 +22,11 @@ const createRawCaptureFeatureHandler = (async (message) => {
   executeRawCreateCaptureFeature(newRawCaptureFeature);
 })
 
+
 const registerEventHandlers = () => {
   subscribe("capture-created", createCaptureFeatureHandler);
   subscribe("raw-capture-created", createRawCaptureFeatureHandler);
+  subscribe("token-assigned", tokenAssignedHandler);
 }
 
 module.exports = registerEventHandlers;
