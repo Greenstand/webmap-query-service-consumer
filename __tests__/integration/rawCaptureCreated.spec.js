@@ -5,7 +5,7 @@ const {expect} = require("chai");
 const registerEventHandlers = require('../../server/services/event-handlers.js');
 const { unsubscribeAll } = require("../../server/infra/messaging/rabbit-mq-messaging");
 const {v4} = require("uuid");
-const capture = require("../mock/capture.json");
+const capture_in_kenya = require("../mock/capture_in_kenya.json");
 
 describe.only("rawCaptureFeature", () => {
 
@@ -21,13 +21,19 @@ describe.only("rawCaptureFeature", () => {
   });
 
   it("Successfully handle raw capture created event", async () => {
-    const capture_id = "63e00bca-8eb0-11eb-8dcd-0242ac130003";
-    const token_id = "9d7abad8-8eb0-11eb-8dcd-0242ac130003";
     //prepare the capture before the wallet event
-    const message = capture; 
+    const message = capture_in_kenya; 
     publish("raw-capture-created", undefined, message, (e) => log.warn("result:", e));
     await new Promise(r => setTimeout(() => r(), 2000));
-    const result = await knex("raw_capture_feature").select().where("id", capture_id);
+    let result = await knex("raw_capture_feature").select().where("id", capture_in_kenya.id);
+    expect(result).lengthOf(1);
+    
+    //check the region data, be sure the sample data has been imported from mock/xxx.copy
+    result = await knex("region_assignment").select().where({
+      map_feature_id: capture_in_kenya.id,
+      zoom_level: 9,
+      region_id: 2281072,
+    });
     expect(result).lengthOf(1);
   });
 
