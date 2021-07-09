@@ -15,7 +15,7 @@ const rawCaptureFeatureFromMessage = ({ id, lat, lon, field_user_id, field_usern
 
 const createRawCaptureFeature = (rawCaptureFeatureRepo) => (async rawCaptureFeature => {
     const repository = new Repository(rawCaptureFeatureRepo);
-    repository.add(rawCaptureFeature);
+    await repository.add(rawCaptureFeature);
 });
 
 module.exports = { rawCaptureFeatureFromMessage, createRawCaptureFeature };
