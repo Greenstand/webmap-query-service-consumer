@@ -7,7 +7,7 @@ const { unsubscribeAll } = require("../../server/infra/messaging/rabbit-mq-messa
 const {v4} = require("uuid");
 const capture_in_kenya = require("../mock/capture_in_kenya.json");
 
-describe.only("rawCaptureFeature", () => {
+describe("rawCaptureFeature", () => {
 
   beforeEach(async () => {
     //load server
