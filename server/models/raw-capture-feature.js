@@ -17,10 +17,10 @@ const createRawCaptureFeature = (rawCaptureFeatureRepo) => (async rawCaptureFeat
     const repository = new Repository(rawCaptureFeatureRepo);
     await repository.add(rawCaptureFeature);
 
-    //update region
+    // update region
     await rawCaptureFeatureRepo.assignRegion(rawCaptureFeature);
 
-    //update cluster
+    // update cluster
     await rawCaptureFeatureRepo.updateCluster(rawCaptureFeature);
 });
 
