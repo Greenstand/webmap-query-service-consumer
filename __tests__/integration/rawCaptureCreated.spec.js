@@ -15,7 +15,7 @@ describe.only("rawCaptureFeature", () => {
     await knex("capture_feature").del();
     await knex("raw_capture_feature").del();
     await knex("region_assignment").del();
-//    await knex("raw_capture_cluster").del();
+    await knex("raw_capture_cluster").del();
   });
 
   afterEach(async () => {
