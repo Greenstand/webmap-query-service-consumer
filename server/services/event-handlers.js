@@ -1,3 +1,4 @@
+const log = require("loglevel");
 const { captureFeatureFromMessage, createCaptureFeature } = require("../models/capture-feature.js");
 const { rawCaptureFeatureFromMessage, createRawCaptureFeature } = require("../models/raw-capture-feature.js");
 
@@ -15,11 +16,16 @@ const createCaptureFeatureHandler = (async (message) => {
 });
 
 const createRawCaptureFeatureHandler = (async (message) => {
-  const newRawCaptureFeature = rawCaptureFeatureFromMessage({ ...message });
-  const dbSession = new Session();
-  const rawCaptureFeatureRepo = new RawCaptureFeatureRepository(dbSession);
-  const executeRawCreateCaptureFeature = createRawCaptureFeature(rawCaptureFeatureRepo);
-  executeRawCreateCaptureFeature(newRawCaptureFeature);
+  try{
+    log.warn("createRawCaptureFeatureHandler...", message);
+    const newRawCaptureFeature = rawCaptureFeatureFromMessage({ ...message });
+    const dbSession = new Session();
+    const rawCaptureFeatureRepo = new RawCaptureFeatureRepository(dbSession);
+    const executeRawCreateCaptureFeature = createRawCaptureFeature(rawCaptureFeatureRepo);
+    await executeRawCreateCaptureFeature(newRawCaptureFeature);
+  }catch(e){
+    log.error("Get error when handling message:", e);
+  }
 })
 
 

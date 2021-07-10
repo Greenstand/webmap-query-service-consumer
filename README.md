@@ -102,6 +102,17 @@ http://localhost:15672/
 ```
 Admin user: guest:guest
 
+## How to import sample data for `region`, and `region_zoom` table
+
+Because the `region` and `region_zoom` table is too big, it's almost impossible to 
+build the whole table. So we copied some data sample from the real database, 
+to dump them into local test database:
+
+```
+>cat ./__tests__/mock/region_zoom.copy  | psql "postgresql://xxx" -c "COPY region_zoom FROM STDIN"
+>cat ./__tests__/mock/region.copy  | psql "postgresql://xxx" -c "COPY region FROM STDIN"
+```
+
 
 
 ## Database seeding test
