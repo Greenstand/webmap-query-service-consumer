@@ -47,6 +47,8 @@ describe('calling createRawCaptureFeature function', function(){
 
         const rawCaptureFeatureRepository = new RawCaptureFeatureRepository();
         const stub = sinon.stub(rawCaptureFeatureRepository, "add");
+        const stub2 = sinon.stub(rawCaptureFeatureRepository, "assignRegion");
+        const stub3 = sinon.stub(rawCaptureFeatureRepository, "updateCluster");
         const executeCreateRawCaptureFeature = createRawCaptureFeature(rawCaptureFeatureRepository);
         await executeCreateRawCaptureFeature(rawCaptureFeature);
         expect(stub).calledWith(rawCaptureFeature);
