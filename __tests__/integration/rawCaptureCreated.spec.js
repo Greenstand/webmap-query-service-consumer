@@ -15,6 +15,7 @@ describe.only("rawCaptureFeature", () => {
     await knex("capture_feature").del();
     await knex("raw_capture_feature").del();
     await knex("region_assignment").del();
+//    await knex("raw_capture_cluster").del();
   });
 
   afterEach(async () => {
@@ -22,6 +23,22 @@ describe.only("rawCaptureFeature", () => {
   });
 
   it("Successfully handle raw capture created event", async () => {
+    //just care about the 14 zoom level
+    const cluster_zoom_level = 14;
+    //prepare two clusters, the new capture will find the nearest to update
+    await knex("raw_capture_cluster").insert({
+      zoom_level: cluster_zoom_level,
+      location: `POINT(${capture_in_kenya.lon + 1} ${capture_in_kenya.lat})`, 
+      count: 1,
+    });
+
+    //a farther cluster
+    await knex("raw_capture_cluster").insert({
+      zoom_level: cluster_zoom_level,
+      location: `POINT(${capture_in_kenya.lon + 2} ${capture_in_kenya.lat})`, 
+      count: 5,
+    });
+
     //prepare the capture before the wallet event
     const message = capture_in_kenya; 
     publish("raw-capture-created", undefined, message, (e) => log.warn("result:", e));
@@ -70,6 +87,14 @@ describe.only("rawCaptureFeature", () => {
     });
     log.warn("inserted:", result);
     expect(result).lengthOf(15);
+
+    //the cluster closer should be updated, and it's count is 2 now
+    result = await knex("raw_capture_cluster").select().where({
+      count: 2,
+    });
+    log.warn("cluster:", result);
+    expect(result).lengthOf(1);
+
   });
 
 });

@@ -53,14 +53,11 @@ class RawCaptureFeatureRepository extends BaseRepository {
         rawCaptureFeature.field_user_id, rawCaptureFeature.field_username, rawCaptureFeature.device_identifier,
         rawCaptureFeature.attributes, rawCaptureFeature.created_at, rawCaptureFeature.created_at]);
     
-    //update region
-    await this.assignRegion(rawCaptureFeature);
     return result.rows[0]; 
   }
     
   async assignRegion(rawCaptureFeature){
     log.warn(this._tableName, " assign region:", rawCaptureFeature);
-    const wellKnownText = `POINT(${rawCaptureFeature.lon} ${rawCaptureFeature.lat})`;
     const result = await this._session.getDB().raw(`
       INSERT INTO region_assignment
         (map_feature_id, zoom_level, region_id)
@@ -84,6 +81,32 @@ class RawCaptureFeatureRepository extends BaseRepository {
     );
     log.warn(this._tableName, "inserted:", result);
     return true;
+  }
+
+  /*
+   * To update the count of cluster 
+   * https://github.com/Greenstand/treetracker-web-map-api/blob/e8c8abc0c6b07841e0ba69f0826eead69315342c/src/cron/assign-new-trees-to-clusters.js#L106-L128
+   * For performance, just update the count that this capture belongs to, so just find the nearest cluster and add +1, we still need a periodically task to refresh these cluster
+   */
+  async updateCluster(rawCaptureFeature){
+    log.warn(this._tableName, " updateCluster");
+
+    const result = await this._session.getDB().raw(`
+      UPDATE raw_capture_cluster 
+      SET count = count + 1 
+      WHERE id = (
+        SELECT id FROM 
+          (SELECT id, count, ST_Distance(location, ST_SetSRID(ST_Point(?, ?), 4326)) AS dis 
+          FROM raw_capture_cluster 
+          ORDER BY dis 
+          LIMIT 1) dissql
+      )
+      `,[
+        rawCaptureFeature.lon,
+        rawCaptureFeature.lat,
+      ]
+    );
+    log.warn(this._tableName, " updated:", result);
   }
     
 }
