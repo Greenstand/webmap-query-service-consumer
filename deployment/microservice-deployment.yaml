@@ -22,6 +22,15 @@ spec:
         args: 
         - "job"
         - "webmap-query-consumer-db-migration-job"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: doks.digitalocean.com/node-pool
+                operator: In
+                values:
+                - microservices-node-pool  
       containers:
       - name: webmap-query-service-consumer
         image: greenstand/webmap-query-service-consumer:latest
