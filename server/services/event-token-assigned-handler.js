@@ -1,8 +1,5 @@
 const log = require('loglevel');
-const {
-  captureFeatureFromMessage,
-  updateCaptureFeature,
-} = require('../models/capture-feature.js');
+const { updateCaptureFeature } = require('../models/capture-feature.js');
 const {
   CaptureFeatureRepository,
 } = require('../infra/database/pg-repositories');

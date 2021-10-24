@@ -15,11 +15,15 @@
     "consistent-return": "warn",
     "func-names": "off",
     "global-require": "off",
-    "import/no-extraneous-dependencies": "warn",
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": ["**/*.test.js", "**/*.spec.js"] }
+    ],
     "import/no-unresolved": "warn",
     "import/order": "warn",
     "max-classes-per-file": "off",
     "no-await-in-loop": "off",
+    "no-console": ["warn", { "allow": ["error"] }],
     "no-continue": "off",
     "no-new-wrappers": "warn",
     "no-param-reassign": "warn",
