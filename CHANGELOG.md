@@ -1,3 +1,16 @@
+# [1.2.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.1.0...v1.2.0) (2021-10-27)
+
+
+### Bug Fixes
+
+* changed git workflows to node 16 ([fdc758c](https://github.com/Greenstand/webmap-query-service-consumer/commit/fdc758ce11160b296985b67dd0f69bdbc0e02024))
+* update husky hooks ([f47b960](https://github.com/Greenstand/webmap-query-service-consumer/commit/f47b960e96dd8e30c61fe2717375854fa7a043df))
+
+
+### Features
+
+* move deployment to microservices-node-pool ([2113234](https://github.com/Greenstand/webmap-query-service-consumer/commit/21132341b2d350ca9ca7ec3e971d6ae4565489cb))
+
 # [1.1.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.0.1...v1.1.0) (2021-06-30)
 
 
