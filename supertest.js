@@ -3,11 +3,11 @@
  */
 require('dotenv').config()
 const request = require('supertest');
-const server = require("../server/app");
 const { expect } = require('chai');
-const seed = require('./seed');
 const log = require('loglevel');
 const sinon = require("sinon");
+const seed = require('./seed');
+const server = require("../server/app");
 
 describe('microservice integration tests', () => {
 

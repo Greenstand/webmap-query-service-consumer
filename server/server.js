@@ -1,10 +1,9 @@
-require('dotenv').config()
+require('dotenv').config();
 // set up log level
-require("loglevel");
+require('loglevel');
 
-require("./setup");
+require('./setup');
 
 const registerEventHandlers = require('./services/event-handlers.js');
 
-registerEventHandlers()
-
+registerEventHandlers();
