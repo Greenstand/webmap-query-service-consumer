@@ -22,11 +22,10 @@ const rawCaptureFeatureFromMessage = ({
   });
 };
 
-const createRawCaptureFeature = (rawCaptureFeatureRepo) => async (
-  rawCaptureFeature,
-) => {
-  const repository = new Repository(rawCaptureFeatureRepo);
-  repository.add(rawCaptureFeature);
-};
+const createRawCaptureFeature =
+  (rawCaptureFeatureRepo) => async (rawCaptureFeature) => {
+    const repository = new Repository(rawCaptureFeatureRepo);
+    repository.add(rawCaptureFeature);
+  };
 
 module.exports = { rawCaptureFeatureFromMessage, createRawCaptureFeature };

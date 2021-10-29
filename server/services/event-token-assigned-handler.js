@@ -14,9 +14,8 @@ const handler = async (message) => {
     };
     const dbSession = new Session();
     const captureFeatureRepo = new CaptureFeatureRepository(dbSession);
-    const executeRawCreateCaptureFeature = updateCaptureFeature(
-      captureFeatureRepo,
-    );
+    const executeRawCreateCaptureFeature =
+      updateCaptureFeature(captureFeatureRepo);
     await executeRawCreateCaptureFeature(
       captureFeatureIds,
       captureFeatureUpdateObject,

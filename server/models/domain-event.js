@@ -19,16 +19,15 @@ const receiveEvent = (eventRepositoryImpl) => async (domainEvent) => {
   return eventRepository.add({ ...domainEvent, status: 'received' });
 };
 
-const dispatch = (eventRepositoryImpl, publishToTopic) => async (
-  domainEvent,
-) => {
-  publishToTopic(domainEvent.payload, () => {
-    eventRepositoryImpl.update({
-      ...domainEvent,
-      status: 'sent',
-      updated_at: new Date().toISOString(),
+const dispatch =
+  (eventRepositoryImpl, publishToTopic) => async (domainEvent) => {
+    publishToTopic(domainEvent.payload, () => {
+      eventRepositoryImpl.update({
+        ...domainEvent,
+        status: 'sent',
+        updated_at: new Date().toISOString(),
+      });
     });
-  });
-};
+  };
 
 module.exports = { DomainEvent, raiseEvent, receiveEvent, dispatch };
