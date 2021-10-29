@@ -68,7 +68,7 @@
 		"mocha": "^8.3.2",
 		"mock-knex": "^0.4.9",
 		"nodemon": "^2.0.4",
-		"prettier": "^2.1.2",
+		"prettier": "^2.4.1",
 		"sinon": "^9.2.4",
 		"sinon-chai": "^2.14.0",
 		"supertest": "^4.0.2"
