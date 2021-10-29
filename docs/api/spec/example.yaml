@@ -6,9 +6,9 @@ info:
 paths:
   /entity:
     get:
-      tags: 
-      - Domain entity 
-      summary: "Get all instanaces of a domain entity with some filters"
+      tags:
+        - Domain entity
+      summary: 'Get all instanaces of a domain entity with some filters'
       parameters:
         - $ref: '#/components/parameters/treetrackerApiKeyParam'
         - $ref: '#/components/parameters/contentTypeJsonHeader'
@@ -21,10 +21,10 @@ paths:
                 $ref: '#/components/schemas/walletsResponse'
       deprecated: false
     post:
-      tags: 
-      - Managed wallets
-      summary: "Create a new managed wallet"
-      description: "Create a new managed wallet.  Requires the manage_account role."      
+      tags:
+        - Managed wallets
+      summary: 'Create a new managed wallet'
+      description: 'Create a new managed wallet.  Requires the manage_account role.'
       parameters:
         - $ref: '#/components/parameters/treetrackerApiKeyParam'
         - $ref: '#/components/parameters/contentTypeJsonHeader'
@@ -45,8 +45,8 @@ paths:
       deprecated: false
   /trust_relationships:
     get:
-      tags: 
-      - Trust relationships
+      tags:
+        - Trust relationships
       summary: 'Get a list of existing, requested, and pending trust relationships'
       parameters:
         - $ref: '#/components/parameters/treetrackerApiKeyParam'
@@ -127,8 +127,8 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
     post:
-      tags: 
-      - Trust relationships
+      tags:
+        - Trust relationships
       summary: 'Request a new trust relationship from another wallet'
       parameters:
         - $ref: '#/components/parameters/treetrackerApiKeyParam'
@@ -147,20 +147,20 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
   /trust_relationships/{trust_relationship_id}:
     delete:
-      tags: 
-      - Trust relationships
+      tags:
+        - Trust relationships
       summary: 'Remove a trust relationship linked to the autheticated wallet'
       description: 'Remove a trust relationship linked to the autheticated wallet.  This could be either the actor wallet or the target wallet'
       parameters:
-      - $ref: '#/components/parameters/treetrackerApiKeyParam'
-      - $ref: '#/components/parameters/contentTypeJsonHeader'
-      - name: trust_relationship_id
-        in: path
-        description: the id of the entity trust record on the server
-        required: true
-        style: simple
-        schema:
-          type: integer
+        - $ref: '#/components/parameters/treetrackerApiKeyParam'
+        - $ref: '#/components/parameters/contentTypeJsonHeader'
+        - name: trust_relationship_id
+          in: path
+          description: the id of the entity trust record on the server
+          required: true
+          style: simple
+          schema:
+            type: integer
       responses:
         '200':
           description: ''
@@ -168,8 +168,8 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
   /trust_relationships/{trust_relationship_id}/accept:
     post:
-      tags: 
-      - Trust relationships
+      tags:
+        - Trust relationships
       summary: 'Accept a trust relationship'
       parameters:
         - $ref: '#/components/parameters/treetrackerApiKeyParam'
@@ -188,7 +188,7 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         '403':
           $ref: '#/components/responses/ForbiddenError'
-          
+
     trustRequest:
       title: Trust Request
       type: object
@@ -197,18 +197,18 @@ paths:
           type: string
         requester_wallet:
           type: string
-          description: "This is optional, if ignore it, then the default requester_wallet should be the current logged in wallet"
+          description: 'This is optional, if ignore it, then the default requester_wallet should be the current logged in wallet'
         requestee_wallet:
           type: string
-          description: "The wallet to who this request are targetting"
+          description: 'The wallet to who this request are targetting'
     historyResponse:
       title: History Response
       type: object
       properties:
         history:
           type: array
-          items: 
-            $ref: "#/components/schemas/historyItem"
+          items:
+            $ref: '#/components/schemas/historyItem'
     historyItem:
       title: History Item
       type: object
@@ -222,10 +222,10 @@ paths:
         processed_at:
           type: string
       example:
-          token: e3cd6587-ff01-419b-b2c9-44ceed4dc749
-          sender_wallet: zaven
-          receiver_wallet: zaven2
-          processed_at: "2020-01-17T22:32:43.008Z"
+        token: e3cd6587-ff01-419b-b2c9-44ceed4dc749
+        sender_wallet: zaven
+        receiver_wallet: zaven2
+        processed_at: '2020-01-17T22:32:43.008Z'
     eventStream:
       title: Event Stream
       type: object
@@ -233,7 +233,7 @@ paths:
         events:
           type: array
           items:
-            $ref: "#/components/schemas/eventItem"
+            $ref: '#/components/schemas/eventItem'
     eventItem:
       title: Event Item
       type: object
@@ -255,14 +255,14 @@ paths:
         trust_relationships:
           type: array
           items:
-            $ref: "#/components/schemas/trustRelationshipItem"
+            $ref: '#/components/schemas/trustRelationshipItem'
     trustRelationshipItem:
       title: Trust Relationship Item
       type: object
       properties:
         id:
           type: integer
-        actor_wallet: 
+        actor_wallet:
           type: string
         target_wallet:
           type: string
@@ -285,7 +285,6 @@ paths:
     httpBearer:
       type: http
       scheme: bearer
-      bearerFormat: JWT  
+      bearerFormat: JWT
 security:
   - httpBearer: []
-
