@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /*
  * seed data to DB for testing
  */

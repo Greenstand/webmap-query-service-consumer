@@ -1,11 +1,11 @@
-const expect = require('expect-runtime');
-const HttpError = require('../../utils/HttpError');
+const expect = require('expect-runtime')
+const HttpError = require('../../utils/HttpError')
 
 class BaseRepository {
   constructor(tableName, session) {
-    expect(tableName).defined();
-    this._tableName = tableName;
-    this._session = session;
+    expect(tableName).defined()
+    this._tableName = tableName
+    this._session = session
   }
 
   async getById(id) {
@@ -14,11 +14,11 @@ class BaseRepository {
       .select()
       .table(this._tableName)
       .where('id', id)
-      .first();
+      .first()
     if (!object) {
-      throw new HttpError(404, `Can not found ${this._tableName} by id:${id}`);
+      throw new HttpError(404, `Can not found ${this._tableName} by id:${id}`)
     }
-    return object;
+    return object
   }
 
   /*
@@ -29,52 +29,49 @@ class BaseRepository {
    */
   async getByFilter(filter, options) {
     const whereBuilder = function (object, builder) {
-      let result = builder;
+      let result = builder
       if (object.and) {
-        expect(Object.keys(object)).lengthOf(1);
-        expect(object.and).a(expect.any(Array));
+        expect(Object.keys(object)).lengthOf(1)
+        expect(object.and).a(expect.any(Array))
         for (const one of object.and) {
           if (one.or) {
             result = result.andWhere((subBuilder) =>
               whereBuilder(one, subBuilder),
-            );
+            )
           } else {
-            expect(Object.keys(one)).lengthOf(1);
-            result = result.andWhere(
-              Object.keys(one)[0],
-              Object.values(one)[0],
-            );
+            expect(Object.keys(one)).lengthOf(1)
+            result = result.andWhere(Object.keys(one)[0], Object.values(one)[0])
           }
         }
       } else if (object.or) {
-        expect(Object.keys(object)).lengthOf(1);
-        expect(object.or).a(expect.any(Array));
+        expect(Object.keys(object)).lengthOf(1)
+        expect(object.or).a(expect.any(Array))
         for (const one of object.or) {
           if (one.and) {
             result = result.orWhere((subBuilder) =>
               whereBuilder(one, subBuilder),
-            );
+            )
           } else {
-            expect(Object.keys(one)).lengthOf(1);
-            result = result.orWhere(Object.keys(one)[0], Object.values(one)[0]);
+            expect(Object.keys(one)).lengthOf(1)
+            result = result.orWhere(Object.keys(one)[0], Object.values(one)[0])
           }
         }
       } else {
-        result.where(object);
+        result.where(object)
       }
-      return result;
-    };
+      return result
+    }
     let promise = this._session
       .getDB()
       .select()
       .table(this._tableName)
-      .where((builder) => whereBuilder(filter, builder));
+      .where((builder) => whereBuilder(filter, builder))
     if (options && options.limit) {
-      promise = promise.limit(options && options.limit);
+      promise = promise.limit(options && options.limit)
     }
-    const result = await promise;
-    expect(result).a(expect.any(Array));
-    return result;
+    const result = await promise
+    expect(result).a(expect.any(Array))
+    return result
   }
 
   async countByFilter(filter) {
@@ -82,13 +79,13 @@ class BaseRepository {
       .getDB()
       .count()
       .table(this._tableName)
-      .where(filter);
+      .where(filter)
     expect(result).match([
       {
         count: expect.any(String),
       },
-    ]);
-    return parseInt(result[0].count);
+    ])
+    return parseInt(result[0].count)
   }
 
   async update(object) {
@@ -96,27 +93,27 @@ class BaseRepository {
       .getDB()(this._tableName)
       .update(object)
       .where('id', object.id)
-      .returning('*');
+      .returning('*')
     expect(result).match([
       {
         id: expect.any(Number),
       },
-    ]);
-    return result[0];
+    ])
+    return result[0]
   }
 
   async create(object) {
     const result = await this._session
       .getDB()(this._tableName)
       .insert(object)
-      .returning('*');
+      .returning('*')
     expect(result).match([
       {
         id: expect.anything(),
       },
-    ]);
-    return result[0];
+    ])
+    return result[0]
   }
 }
 
-module.exports = BaseRepository;
+module.exports = BaseRepository

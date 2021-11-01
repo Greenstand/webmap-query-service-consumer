@@ -1,43 +1,43 @@
-const knex = require('./knex.js');
+const knex = require('./knex.js')
 
 class Session {
   constructor() {
-    this.thx = undefined;
+    this.thx = undefined
   }
 
   getDB() {
     if (this.thx) {
-      return this.thx;
+      return this.thx
     }
-    return knex;
+    return knex
   }
 
   isTransactionInProgress() {
-    return this.thx !== undefined;
+    return this.thx !== undefined
   }
 
   async beginTransaction() {
     if (this.thx) {
-      throw new Error('Can not start transaction in transaction');
+      throw new Error('Can not start transaction in transaction')
     }
-    this.thx = await knex.transaction();
+    this.thx = await knex.transaction()
   }
 
   async commitTransaction() {
     if (!this.thx) {
-      throw new Error('Can not commit transaction before start it!');
+      throw new Error('Can not commit transaction before start it!')
     }
-    await this.thx.commit();
-    this.thx = undefined;
+    await this.thx.commit()
+    this.thx = undefined
   }
 
   async rollbackTransaction() {
     if (!this.thx) {
-      throw new Error('Can not rollback transaction before start it!');
+      throw new Error('Can not rollback transaction before start it!')
     }
-    await this.thx.rollback();
-    this.thx = undefined;
+    await this.thx.rollback()
+    this.thx = undefined
   }
 }
 
-module.exports = Session;
+module.exports = Session

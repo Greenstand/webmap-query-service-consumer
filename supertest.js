@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /*
  * The integration test to test the whole microservice, with DB
  */
