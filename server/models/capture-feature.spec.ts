@@ -1,14 +1,12 @@
-const {
+import chai from 'chai'
+import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
+
+import {
   captureFeatureFromMessage,
   createCaptureFeature,
-} = require('./capture-feature.js')
-const { Repository } = require('./Repository.js')
-const {
-  CaptureFeatureRepository,
-} = require('../infra/database/pg-repositories.js')
-const sinon = require('sinon')
-const chai = require('chai')
-const sinonChai = require('sinon-chai')
+} from './capture-feature'
+
 chai.use(sinonChai)
 const { expect } = chai
 
@@ -47,10 +45,10 @@ describe('invoking captureFeatureFromMessage with variable parameters', function
     })
     let additionalArgs = 0
     captureFeature.attributes.entries.forEach((attribute) => {
-      if (attribute.age && attribute['age'] === 12) {
+      if (attribute.age && attribute.age === 12) {
         additionalArgs++
       }
-      if (attribute.morphology && attribute['morphology'] === 'medium sized') {
+      if (attribute.morphology && attribute.morphology === 'medium sized') {
         additionalArgs++
       }
     })

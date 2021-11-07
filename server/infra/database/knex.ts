@@ -1,10 +1,9 @@
-const expect = require('expect-runtime')
-
-const log = require('loglevel')
+import { Knex, knex as knexApp } from 'knex'
+import log from 'loglevel'
 
 const connection = process.env.DATABASE_URL
 
-const knexConfig = {
+const knexConfig: Knex.Config = {
   client: 'pg',
   debug: process.env.NODE_LOG_LEVEL === 'debug',
   connection,
@@ -18,6 +17,5 @@ if (process.env.DATABASE_SCHEMA) {
 }
 log.debug(knexConfig.searchPath)
 
-const knex = require('knex')(knexConfig)
-
-module.exports = knex
+const knex = knexApp(knexConfig)
+export default knex

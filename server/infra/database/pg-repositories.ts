@@ -1,17 +1,21 @@
-const BaseRepository = require('./BaseRepository');
-const log = require('loglevel');
+import log from 'loglevel'
+import { Message } from 'models/capture-feature'
+import { RawCapture } from 'models/raw-capture-feature'
+
+import BaseRepository from './BaseRepository'
+import Session from './session'
 
 class CaptureFeatureRepository extends BaseRepository {
-  constructor(session) {
+  constructor(session:Session) {
     super('capture_feature', session);
-    this._tableName = 'capture_feature';
-    this._session = session;
+    this.tableName = 'capture_feature';
+    this.session = session;
   }
 
-  async add(captureFeature) {
+  async add(captureFeature:Message) {
     // Since the query uses postgres function ST_PointFromText, knex's raw function is used
     const wellKnownText = `POINT(${captureFeature.lon} ${captureFeature.lat})`;
-    const result = await this._session.getDB().raw(
+    const result = await this.session.getDB().raw(
       `insert into map_features.capture_feature (
              id, lat, lon, location, field_user_id, field_username, 
              device_identifier, attributes, species_name, created_at, updated_at) 
@@ -34,13 +38,11 @@ class CaptureFeatureRepository extends BaseRepository {
     return result.rows[0];
   }
 
-  async batchUpdate(captureIds, updateObject) {
+  async batchUpdate<T>(captureIds: string[], updateObject: T) {
     log.warn('batchUpdate');
-    const objectCopy = {};
-    Object.assign(objectCopy, updateObject);
-    delete objectCopy.id;
-    const result = await this._session
-      .getDB()(this._tableName)
+    const objectCopy = {...updateObject }as Omit<T, 'id'>;
+    const result = await this.session
+      .getDB()(this.tableName)
       .update(objectCopy)
       .whereIn('id', captureIds);
     log.warn('result of update:', result);
@@ -48,21 +50,22 @@ class CaptureFeatureRepository extends BaseRepository {
 }
 
 class RawCaptureFeatureRepository extends BaseRepository {
-  constructor(session) {
+  constructor(session:Session) {
     super('raw_capture_feature', session);
-    this._tableName = 'raw_capture_feature';
-    this._session = session;
+    this.tableName = 'raw_capture_feature';
+    this.session = session;
   }
 
-  async add(rawCaptureFeature) {
-    log.warn(this._tableName, ' add:', rawCaptureFeature);
+  async add(rawCaptureFeature: RawCapture) {
+    log.warn(this.tableName, ' add:', rawCaptureFeature);
     const wellKnownText = `POINT(${rawCaptureFeature.lon} ${rawCaptureFeature.lat})`;
-    const result = await this._session.getDB().raw(
-      `insert into raw_capture_feature (
+    const result = await this.session.getDB().raw(
+      `insert into map_features.raw_capture_feature (
              id, lat, lon, location, field_user_id, field_username, 
              device_identifier, attributes, created_at, updated_at) 
              values(?, ?, ?, ST_PointFromText(?, 4326), ?, ?, ?, ?, ?, ?)
-             returning id`,
+             returning id`
+						 ,
       [
         rawCaptureFeature.id,
         rawCaptureFeature.lat,
@@ -74,15 +77,15 @@ class RawCaptureFeatureRepository extends BaseRepository {
         rawCaptureFeature.attributes,
         rawCaptureFeature.created_at,
         rawCaptureFeature.created_at,
-      ],
+      ]
     );
 
     return result.rows[0];
   }
 
-  async assignRegion(rawCaptureFeature) {
-    log.warn(this._tableName, ' assign region:', rawCaptureFeature);
-    const result = await this._session.getDB().raw(
+  async assignRegion(rawCaptureFeature:RawCapture) {
+    log.warn(this.tableName, ' assign region:', rawCaptureFeature);
+    const result = await this.session.getDB().raw(
       `
       INSERT INTO region_assignment
         (map_feature_id, zoom_level, region_id)
@@ -100,7 +103,7 @@ class RawCaptureFeatureRepository extends BaseRepository {
     `,
       [rawCaptureFeature.id, rawCaptureFeature.lon, rawCaptureFeature.lat],
     );
-    log.warn(this._tableName, 'inserted:', result);
+    log.warn(this.tableName, 'inserted:', result);
     return true;
   }
 
@@ -109,10 +112,10 @@ class RawCaptureFeatureRepository extends BaseRepository {
    * https://github.com/Greenstand/treetracker-web-map-api/blob/e8c8abc0c6b07841e0ba69f0826eead69315342c/src/cron/assign-new-trees-to-clusters.js#L106-L128
    * For performance, just update the count that this capture belongs to, so just find the nearest cluster and add +1, we still need a periodically task to refresh these cluster
    */
-  async updateCluster(rawCaptureFeature) {
-    log.warn(this._tableName, ' updateCluster');
+  async updateCluster(rawCaptureFeature:RawCapture) {
+    log.warn(this.tableName, ' updateCluster');
 
-    const result = await this._session.getDB().raw(
+    const result = await this.session.getDB().raw(
       `
       UPDATE raw_capture_cluster 
       SET count = count + 1 
@@ -126,7 +129,7 @@ class RawCaptureFeatureRepository extends BaseRepository {
       `,
       [rawCaptureFeature.lon, rawCaptureFeature.lat],
     );
-    log.warn(this._tableName, ' updated:', result);
+    log.warn(this.tableName, ' updated:', result);
   }
 }
 

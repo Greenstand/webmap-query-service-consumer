@@ -1,14 +1,10 @@
-const {
-  publish,
-  subscribe,
-} = require('../../server/infra/messaging/rabbit-mq-messaging')
+const { publish } = require('../../server/infra/messaging/rabbit-mq-messaging')
 const knex = require('../../server/infra/database/knex')
 const { expect } = require('chai')
 const registerEventHandlers = require('../../server/services/event-handlers.js')
 const {
   unsubscribeAll,
 } = require('../../server/infra/messaging/rabbit-mq-messaging')
-const { v4 } = require('uuid')
 
 describe('tokenAssigned', () => {
   beforeEach(async () => {

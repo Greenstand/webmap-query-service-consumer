@@ -1,22 +1,27 @@
 const expect = require('expect-runtime')
-const HttpError = require('../../utils/HttpError')
+import Session from 'infra/database/session'
+import { Knex } from 'knex'
+import HttpError from 'utils/HttpError'
 
-class BaseRepository {
-  constructor(tableName, session) {
+export default class BaseRepository {
+  tableName: string
+  session: Session
+
+  constructor(tableName: string, session: Session) {
     expect(tableName).defined()
-    this._tableName = tableName
-    this._session = session
+    this.tableName = tableName
+    this.session = session
   }
 
-  async getById(id) {
-    const object = await this._session
+  async getById(id: string) {
+    const object = await this.session
       .getDB()
       .select()
-      .table(this._tableName)
+      .table(this.tableName)
       .where('id', id)
       .first()
     if (!object) {
-      throw new HttpError(404, `Can not found ${this._tableName} by id:${id}`)
+      throw new HttpError(404, `Can not found ${this.tableName} by id:${id}`)
     }
     return object
   }
@@ -27,8 +32,8 @@ class BaseRepository {
    * options:
    *  limit: number
    */
-  async getByFilter(filter, options) {
-    const whereBuilder = function (object, builder) {
+  async getByFilter(filter: Knex, options: any) {
+    const whereBuilder = function (object: any, builder: Knex.QueryBuilder) {
       let result = builder
       if (object.and) {
         expect(Object.keys(object)).lengthOf(1)
@@ -40,7 +45,10 @@ class BaseRepository {
             )
           } else {
             expect(Object.keys(one)).lengthOf(1)
-            result = result.andWhere(Object.keys(one)[0], Object.values(one)[0])
+            result = result.andWhere(
+              Object.keys(one)[0],
+              Object.values(one)[0] as any,
+            )
           }
         }
       } else if (object.or) {
@@ -53,7 +61,10 @@ class BaseRepository {
             )
           } else {
             expect(Object.keys(one)).lengthOf(1)
-            result = result.orWhere(Object.keys(one)[0], Object.values(one)[0])
+            result = result.orWhere(
+              Object.keys(one)[0],
+              Object.values(one)[0] as any,
+            )
           }
         }
       } else {
@@ -61,10 +72,11 @@ class BaseRepository {
       }
       return result
     }
-    let promise = this._session
+
+    let promise = this.session
       .getDB()
       .select()
-      .table(this._tableName)
+      .table(this.tableName)
       .where((builder) => whereBuilder(filter, builder))
     if (options && options.limit) {
       promise = promise.limit(options && options.limit)
@@ -74,23 +86,23 @@ class BaseRepository {
     return result
   }
 
-  async countByFilter(filter) {
-    const result = await this._session
+  async countByFilter(filter: Knex) {
+    const result = await this.session
       .getDB()
       .count()
-      .table(this._tableName)
+      .table(this.tableName)
       .where(filter)
     expect(result).match([
       {
         count: expect.any(String),
       },
     ])
-    return parseInt(result[0].count)
+    return parseInt(result[0].count.toString())
   }
 
-  async update(object) {
-    const result = await this._session
-      .getDB()(this._tableName)
+  async update<T>(object: T & { id: string }) {
+    const result = await this.session
+      .getDB()(this.tableName)
       .update(object)
       .where('id', object.id)
       .returning('*')
@@ -102,9 +114,9 @@ class BaseRepository {
     return result[0]
   }
 
-  async create(object) {
-    const result = await this._session
-      .getDB()(this._tableName)
+  async create<T>(object: T) {
+    const result = await this.session
+      .getDB()(this.tableName)
       .insert(object)
       .returning('*')
     expect(result).match([
@@ -115,5 +127,3 @@ class BaseRepository {
     return result[0]
   }
 }
-
-module.exports = BaseRepository

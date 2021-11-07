@@ -1,8 +1,16 @@
-const Broker = require('rascal').BrokerAsPromised
-const log = require('loglevel')
-const { config } = require('./config')
+import log from 'loglevel'
+import rascal from 'rascal'
 
-const publish = async (publicationName, routingKey, payload, resultHandler) => {
+import config from './config'
+
+const Broker = rascal.BrokerAsPromised
+
+export async function publish<T1>(
+  publicationName: string,
+  routingKey: string,
+  payload: T1,
+  resultHandler: (messageId: string) => void,
+) {
   try {
     const broker = await Broker.create(config)
     const publication = await broker.publish(
@@ -19,12 +27,15 @@ const publish = async (publicationName, routingKey, payload, resultHandler) => {
   }
 }
 
-const subscribe = async (subscriptionName, eventHandler) => {
+export async function subscribe<T>(
+  subscriptionName: string,
+  eventHandler: (event: T) => void,
+) {
   const broker = await Broker.create(config)
   try {
     const subscription = await broker.subscribe(subscriptionName)
     subscription
-      .on('message', (message, content, ackOrNack) => {
+      .on('message', (_message, content: T, ackOrNack) => {
         eventHandler(content)
         ackOrNack()
       })
@@ -34,7 +45,7 @@ const subscribe = async (subscriptionName, eventHandler) => {
   }
 }
 
-const unsubscribeAll = async () => {
+export const unsubscribeAll = async () => {
   log.warn('unsubscribeAll')
   try {
     const broker = await Broker.create(config)
@@ -43,5 +54,3 @@ const unsubscribeAll = async () => {
     console.error(`Error unsubscribeAll , error: ${err}`)
   }
 }
-
-module.exports = { publish, subscribe, unsubscribeAll }

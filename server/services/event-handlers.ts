@@ -1,30 +1,29 @@
-const log = require('loglevel')
-const {
-  captureFeatureFromMessage,
-  createCaptureFeature,
-} = require('../models/capture-feature.js')
-const {
-  rawCaptureFeatureFromMessage,
-  createRawCaptureFeature,
-} = require('../models/raw-capture-feature.js')
-
-const {
+import {
   CaptureFeatureRepository,
   RawCaptureFeatureRepository,
-} = require('../infra/database/pg-repositories.js')
-const { subscribe } = require('../infra/messaging/rabbit-mq-messaging')
-const Session = require('../infra/database/session.js')
-const tokenAssignedHandler = require('./event-token-assigned-handler.js')
+} from 'infra/database/pg-repositories'
+import Session from 'infra/database/session'
+import { subscribe } from 'infra/messaging/rabbit-mq-messaging'
+import {
+  captureFeatureFromMessage,
+  createCaptureFeature,
+  Message,
+} from 'models/capture-feature'
+import {
+  createRawCaptureFeature,
+  RawCapture,
+  rawCaptureFeatureFromMessage,
+} from 'models/raw-capture-feature'
+import tokenAssignedHandler from 'services/event-token-assigned-handler'
 
-const createCaptureFeatureHandler = async (message) => {
+const createCaptureFeatureHandler = async (message: Message) => {
   const newCaptureFeature = captureFeatureFromMessage({ ...message })
   const dbSession = new Session()
   const captureFeatureRepo = new CaptureFeatureRepository(dbSession)
-  const executeCreateCaptureFeature = createCaptureFeature(captureFeatureRepo)
-  executeCreateCaptureFeature.add(newCaptureFeature)
+  createCaptureFeature(captureFeatureRepo)(newCaptureFeature)
 }
 
-const createRawCaptureFeatureHandler = async (message) => {
+const createRawCaptureFeatureHandler = async (message: RawCapture) => {
   try {
     log.warn('createRawCaptureFeatureHandler...', message)
     const newRawCaptureFeature = rawCaptureFeatureFromMessage({ ...message })
@@ -39,10 +38,8 @@ const createRawCaptureFeatureHandler = async (message) => {
   }
 }
 
-const registerEventHandlers = () => {
+export default function registerEventHandlers() {
   subscribe('capture-created', createCaptureFeatureHandler)
   subscribe('raw-capture-created', createRawCaptureFeatureHandler)
   subscribe('token-assigned', tokenAssignedHandler)
 }
-
-module.exports = registerEventHandlers

@@ -1,11 +1,17 @@
-const log = require('loglevel')
-const { updateCaptureFeature } = require('../models/capture-feature.js')
-const {
-  CaptureFeatureRepository,
-} = require('../infra/database/pg-repositories')
-const Session = require('../infra/database/session.js')
+import log from 'loglevel'
 
-const handler = async (message) => {
+import { CaptureFeatureRepository } from '../infra/database/pg-repositories'
+import Session from '../infra/database/session.js'
+import { updateCaptureFeature } from '../models/capture-feature.js'
+
+type TokenMessage = {
+  entries: {
+    capture_id: string
+  }[]
+  wallet_name: string
+}
+
+export default async function tokenAssignedHandler(message: TokenMessage) {
   try {
     log.warn('handler received:', message)
     const captureFeatureIds = message.entries.map((entry) => entry.capture_id)
@@ -25,5 +31,3 @@ const handler = async (message) => {
     log.error('Get error when handling message:', e)
   }
 }
-
-module.exports = handler
