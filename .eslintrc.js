@@ -3,11 +3,15 @@ module.exports = {
     'airbnb-typescript/base',
     'prettier', // disable eslint formatting rules to prevent inconsistencies with prettier, should be last
   ],
-  plugins: ['import'],
+  plugins: ['import', 'simple-import-sort'],
   parserOptions: { project: 'tsconfig.eslint.json' },
   reportUnusedDisableDirectives: true,
   rules: {
-    '@typescript-eslint/no-var-requires': 'warn',
-    '@typescript-eslint/no-require-imports': 'warn',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
+    '@typescript-eslint/naming-convention': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'lines-between-class-members': 'off',
+    '@typescript-eslint/lines-between-class-members': 'off',
   },
 }

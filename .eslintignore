@@ -1,9 +1,14 @@
 node_modules/
-database/
+database/migrations/
 dist/
 coverage/
 **/__tests__/
 **/*.test.*
 **/*.spec.js
 .prettierrc.js
-.eslintrc*
+.eslintrc.js
+
+# temporary ignores
+seed.js
+seed.spec.js
+supertest.js
