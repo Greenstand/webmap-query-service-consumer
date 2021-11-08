@@ -2,16 +2,10 @@ import { CaptureFeatureRepository } from 'infra/database/pg-repositories'
 import log from 'loglevel'
 import Repository from 'models/Repository'
 
-export type Message = {
-  id: string
-  lat: number | string
-  lon: number | string
-  field_user_id: number | string
-  field_username: string
-  attributes: any[]
-  device_identifier?: string
+import { RawCapture } from './raw-capture-feature'
+
+export type Message = RawCapture & {
   species_name: string
-  created_at: string
 } & { [key: string]: any }
 
 export const captureFeatureFromMessage = ({

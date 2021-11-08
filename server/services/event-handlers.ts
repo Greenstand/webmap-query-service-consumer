@@ -11,7 +11,6 @@ import {
 } from 'models/capture-feature'
 import {
   createRawCaptureFeature,
-  RawCapture,
   rawCaptureFeatureFromMessage,
 } from 'models/raw-capture-feature'
 import tokenAssignedHandler from 'services/event-token-assigned-handler'
@@ -23,7 +22,7 @@ const createCaptureFeatureHandler = async (message: Message) => {
   createCaptureFeature(captureFeatureRepo)(newCaptureFeature)
 }
 
-const createRawCaptureFeatureHandler = async (message: RawCapture) => {
+const createRawCaptureFeatureHandler = async (message: Message) => {
   try {
     log.warn('createRawCaptureFeatureHandler...', message)
     const newRawCaptureFeature = rawCaptureFeatureFromMessage({ ...message })

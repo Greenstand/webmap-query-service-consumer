@@ -1,12 +1,14 @@
-const BaseRepository = require('./BaseRepository')
-const { expect } = require('chai')
-const knex = require('./knex')
-const mockKnex = require('mock-knex')
+import { expect } from 'chai'
+import mockKnex from 'mock-knex'
+
+import BaseRepository from './BaseRepository'
+import knex from './knex'
+import Session from './session'
+
 const tracker = mockKnex.getTracker()
-const Session = require('./session')
 
 describe('BaseRepository', () => {
-  let baseRepository
+  let baseRepository: BaseRepository
 
   beforeEach(() => {
     mockKnex.mock(knex)

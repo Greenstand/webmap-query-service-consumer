@@ -1,15 +1,16 @@
 import { RawCaptureFeatureRepository } from 'infra/database/pg-repositories'
 
+import { Message } from './capture-feature'
 import Repository from './Repository'
 
 export type RawCapture = {
-  id: string
-  lat: string
-  lon: string
-  field_user_id: string
+  id: number | string
+  lat: number | string
+  lon: number | string
+  field_user_id: number | string
   field_username: string
-  attributes: string[]
-  device_identifier: string
+  attributes: any[]
+  device_identifier: string | number
   created_at: string
 }
 
@@ -22,7 +23,7 @@ export const rawCaptureFeatureFromMessage = ({
   attributes,
   device_identifier = '',
   created_at,
-}: RawCapture) => {
+}: Message) => {
   return Object.freeze({
     id,
     lat,

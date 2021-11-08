@@ -13,7 +13,7 @@ export default class BaseRepository {
     this.session = session
   }
 
-  async getById(id: string) {
+  async getById(id: string | number) {
     const object = await this.session
       .getDB()
       .select()
@@ -32,7 +32,10 @@ export default class BaseRepository {
    * options:
    *  limit: number
    */
-  async getByFilter(filter: Knex, options: any) {
+  async getByFilter<T>(
+    filter: T,
+    options: { limit?: number } | undefined = undefined,
+  ) {
     const whereBuilder = function (object: any, builder: Knex.QueryBuilder) {
       let result = builder
       if (object.and) {
@@ -86,7 +89,7 @@ export default class BaseRepository {
     return result
   }
 
-  async countByFilter(filter: Knex) {
+  async countByFilter<T>(filter: T) {
     const result = await this.session
       .getDB()
       .count()
@@ -100,7 +103,7 @@ export default class BaseRepository {
     return parseInt(result[0].count.toString())
   }
 
-  async update<T>(object: T & { id: string }) {
+  async update<T>(object: T & { id: string | number }) {
     const result = await this.session
       .getDB()(this.tableName)
       .update(object)

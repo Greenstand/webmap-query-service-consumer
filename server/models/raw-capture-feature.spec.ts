@@ -1,15 +1,15 @@
-const {
-  rawCaptureFeatureFromMessage,
-  createRawCaptureFeature,
-} = require('./raw-capture-feature.js')
-const {
-  RawCaptureFeatureRepository,
-} = require('../infra/database/pg-repositories.js')
+import chai from 'chai'
+import assertArrays from 'chai-arrays'
+import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
 
-const sinon = require('sinon')
-const chai = require('chai')
-const assertArrays = require('chai-arrays')
-const sinonChai = require('sinon-chai')
+import { RawCaptureFeatureRepository } from '../infra/database/pg-repositories'
+import Session from '../infra/database/session'
+import {
+  createRawCaptureFeature,
+  rawCaptureFeatureFromMessage,
+} from './raw-capture-feature'
+
 chai.use(sinonChai)
 chai.use(assertArrays)
 const { expect } = chai
@@ -23,15 +23,12 @@ describe('rawCaptureFeatureFromMessage function', function () {
     field_username: 'planter',
     attributes: [],
     created_at: new Date().toISOString(),
-  })
-
-  it('should return a immutable object', function () {
-    rawCaptureFeature.new_attribute = 10
-    expect(rawCaptureFeature.new_attribute).to.equal(undefined)
+    device_identifier: 1,
+    species_name: 'species',
   })
 
   it('should contain the required parameters', function () {
-    expect(Object.keys(rawCaptureFeature)).to.equalTo([
+    expect(Object.keys(rawCaptureFeature)).to.equal([
       'id',
       'lat',
       'lon',
@@ -54,10 +51,13 @@ describe('calling createRawCaptureFeature function', function () {
     attributes: [],
     identifier: '34fwaasdgsasfd',
     created_at: new Date().toISOString(),
+    device_identifier: 1,
+    species_name: 'species',
   })
 
   it('should add the raw capture feature to the repository', async function () {
-    const rawCaptureFeatureRepository = new RawCaptureFeatureRepository()
+    const session = new Session()
+    const rawCaptureFeatureRepository = new RawCaptureFeatureRepository(session)
     const stub = sinon.stub(rawCaptureFeatureRepository, 'add')
     const executeCreateRawCaptureFeature = createRawCaptureFeature(
       rawCaptureFeatureRepository,
