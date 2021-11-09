@@ -7,6 +7,8 @@ coverage/
 **/*.spec.js
 .prettierrc.js
 .eslintrc.js
+.lintstagedrc.js
+.prettierrc.js
 
 # temporary ignores
 seed.js
