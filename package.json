@@ -2,38 +2,49 @@
   "name": "treetracker",
   "version": "1.2.0",
   "private": true,
-  "engines": {
-    "node": ">=16",
-    "npm": ">=6.0.0"
-  },
-  "main": "server/server.js",
-  "scripts": {
-    "start": "NODE_PATH=dist/ node dist/server.js",
-    "dev": "nodemon --watch 'server/**/*.ts' --exec 'ts-node' server/server.ts",
-    "build": "tsc",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prettier": "prettier ./ --write",
-    "format": "npm run prettier; npm run lint:fix",
-    "server": "nodemon server/server.js",
-    "server-test": "DEBUG=express:* NODE_LOG_LEVEL=debug nodemon server/serverTest.js",
-    "test": "npm run test-unit; npm run test-integration;npm run test-repository",
-    "test-unit": "NODE_ENV=test mocha --exit --ignore './server/infra/database/*.spec.js' ./server/**/*.spec.js",
-    "test-repository": "NODE_ENV=test mocha -r dotenv/config dotenv_config_path=.env.test --exit ./server/infra/database/*.spec.js",
-    "test-seedDB": "NODE_ENV=test mocha -r dotenv/config dotenv_config_path=.env.test --timeout 10000 './**/*.spec.js'",
-    "test-integration": "NODE_ENV=test mocha --exit --timeout 20000 './__tests__/integration/**/*.spec.js'",
-    "test-watch": "NODE_ENV=test NODE_LOG_LEVEL=info mocha -w './server/**/{,spec}.js' --recursive ./server/**/*.spec.js",
-    "test-watch-debug": "NODE_ENV=test NODE_LOG_LEVEL=debug mocha  -w './server/**/{,spec}.js' ./server/**/*.spec.js",
-    "encrypt": "nodecipher encrypt .env env.secret",
-    "decrypt": "nodecipher decrypt env.secret .env",
-    "db-migrate": "db-migrate up -v -m database/migrations/",
-    "prepare": "is-ci || husky install"
-  },
   "keywords": [
     "ecology"
   ],
-  "author": "Greenstand Engineers",
+  "homepage": "https://github.com/Greenstand/webmap-query-service-consumer#readme",
+  "bugs": {
+    "url": "https://github.com/Greenstand/webmap-query-service-consumer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Greenstand/webmap-query-service-consumer.git"
+  },
   "license": "GPL-3.0-or-later",
+  "author": "Greenstand Engineers",
+  "main": "server/server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "tsc",
+    "db-migrate": "db-migrate up -v -m database/migrations/",
+    "decrypt": "nodecipher decrypt env.secret .env",
+    "dev": "nodemon --watch 'server/**/*.ts' --exec 'ts-node' server/server.ts",
+    "encrypt": "nodecipher encrypt .env env.secret",
+    "format": "npm run prettier; npm run lint:fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "is-ci || husky install",
+    "prettier": "prettier ./ --write",
+    "server": "nodemon server/server.js",
+    "server-test": "DEBUG=express:* NODE_LOG_LEVEL=debug nodemon server/serverTest.js",
+    "start": "NODE_PATH=dist/ node dist/server.js",
+    "test": "npm run test-unit; npm run test-integration;npm run test-repository",
+    "test-integration": "NODE_ENV=test mocha --exit --timeout 20000 './__tests__/integration/**/*.spec.js'",
+    "test-repository": "NODE_ENV=test mocha -r dotenv/config dotenv_config_path=.env.test --exit ./server/infra/database/*.spec.js",
+    "test-seedDB": "NODE_ENV=test mocha -r dotenv/config dotenv_config_path=.env.test --timeout 10000 './**/*.spec.js'",
+    "test-unit": "NODE_ENV=test mocha --exit --ignore './server/infra/database/*.spec.js' ./server/**/*.spec.js",
+    "test-watch": "NODE_ENV=test NODE_LOG_LEVEL=info mocha -w './server/**/{,spec}.js' --recursive ./server/**/*.spec.js",
+    "test-watch-debug": "NODE_ENV=test NODE_LOG_LEVEL=debug mocha  -w './server/**/{,spec}.js' ./server/**/*.spec.js"
+  },
+  "mocha": {
+    "env": "dotenv_config_path=.env.test",
+    "require": "dotenv/config"
+  },
   "dependencies": {
     "@sentry/node": "^5.1.0",
     "body-parser": "^1.18.2",
@@ -87,19 +98,8 @@
     "supertest": "^4.0.2",
     "typescript": "^4.4.4"
   },
-  "directories": {
-    "doc": "docs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Greenstand/webmap-query-service-consumer.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Greenstand/webmap-query-service-consumer/issues"
-  },
-  "mocha": {
-    "env": "dotenv_config_path=.env.test",
-    "require": "dotenv/config"
-  },
-  "homepage": "https://github.com/Greenstand/webmap-query-service-consumer#readme"
+  "engines": {
+    "node": ">=16",
+    "npm": ">=6.0.0"
+  }
 }
