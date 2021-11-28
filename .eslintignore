@@ -4,13 +4,6 @@ dist/
 coverage/
 **/__tests__/
 **/*.test.*
-**/*.spec.js
-.prettierrc.js
-.eslintrc.js
-.lintstagedrc.js
-.prettierrc.js
 
+**/*.js
 # temporary ignores
-seed.js
-seed.spec.js
-supertest.js
