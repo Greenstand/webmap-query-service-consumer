@@ -5,7 +5,7 @@ import { RawCapture } from 'models/raw-capture-feature'
 import BaseRepository from './BaseRepository'
 import Session from './session'
 
-class CaptureFeatureRepository extends BaseRepository {
+export class CaptureFeatureRepository extends BaseRepository {
   constructor(session:Session) {
     super('capture_feature', session);
     this.tableName = 'capture_feature';
@@ -49,7 +49,7 @@ class CaptureFeatureRepository extends BaseRepository {
   }
 }
 
-class RawCaptureFeatureRepository extends BaseRepository {
+export class RawCaptureFeatureRepository extends BaseRepository {
   constructor(session:Session) {
     super('raw_capture_feature', session);
     this.tableName = 'raw_capture_feature';
@@ -133,4 +133,3 @@ class RawCaptureFeatureRepository extends BaseRepository {
   }
 }
 
-module.exports = { CaptureFeatureRepository, RawCaptureFeatureRepository };

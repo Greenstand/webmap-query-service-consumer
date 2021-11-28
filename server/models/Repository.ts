@@ -1,16 +1,22 @@
-import { RawCaptureFeatureRepository } from 'infra/database/pg-repositories'
+import {
+  CaptureFeatureRepository,
+  RawCaptureFeatureRepository,
+} from 'infra/database/pg-repositories'
 import { Knex } from 'knex'
 
+import { Message } from './capture-feature'
 import { RawCapture } from './raw-capture-feature'
 
 export default class Repository {
-  repoImpl: RawCaptureFeatureRepository
+  repoImpl: RawCaptureFeatureRepository | CaptureFeatureRepository
 
-  constructor(repoImpl: RawCaptureFeatureRepository) {
+  constructor(
+    repoImpl: RawCaptureFeatureRepository | CaptureFeatureRepository,
+  ) {
     this.repoImpl = repoImpl
   }
 
-  async add(data: RawCapture) {
+  async add(data: Message) {
     return this.repoImpl.add(data)
   }
 
