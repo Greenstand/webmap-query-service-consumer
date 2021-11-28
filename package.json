@@ -22,7 +22,7 @@
   "scripts": {
     "start": "NODE_PATH=dist/ node dist/server.js",
     "dev": "nodemon --watch 'server/**/*.ts' --exec 'ts-node' server/server.ts",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "prepare": "is-ci || husky install",
     "lint": "eslint . --cache",
     "lint:quiet": "eslint . --cache --quiet",

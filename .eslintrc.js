@@ -4,7 +4,7 @@ module.exports = {
     'prettier', // disable eslint formatting rules to prevent inconsistencies with prettier, should be last
   ],
   plugins: ['import', 'simple-import-sort'],
-  parserOptions: { project: 'tsconfig.eslint.json' },
+  parserOptions: { project: 'tsconfig.json' },
   reportUnusedDisableDirectives: true,
   rules: {
     'simple-import-sort/imports': 'error',
