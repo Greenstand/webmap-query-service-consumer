@@ -1,16 +1,11 @@
-const log = require('loglevel')
-const {
-  publish,
-  subscribe,
-} = require('../../server/infra/messaging/rabbit-mq-messaging')
-const knex = require('../../server/infra/database/knex')
-const { expect } = require('chai')
-const registerEventHandlers = require('../../server/services/event-handlers.js')
-const {
-  unsubscribeAll,
-} = require('../../server/infra/messaging/rabbit-mq-messaging')
-const { v4 } = require('uuid')
-const capture_in_kenya = require('../mock/capture_in_kenya.json')
+import log from 'loglevel'
+import { publish, subscribe } from 'infra/messaging/rabbit-mq-messaging'
+import knex from 'infra/database/knex'
+import { expect } from 'chai'
+import registerEventHandlers from 'services/event-handlers.js'
+import { unsubscribeAll } from 'infra/messaging/rabbit-mq-messaging'
+import { v4 } from 'uuid'
+import capture_in_kenya from '../mock/capture_in_kenya.json'
 
 describe('rawCaptureFeature', () => {
   beforeEach(async () => {
@@ -45,10 +40,8 @@ describe('rawCaptureFeature', () => {
 
     //prepare the capture before the wallet event
     const message = capture_in_kenya
-    publish('raw-capture-created', undefined, message, (e) =>
-      log.warn('result:', e),
-    )
-    await new Promise((r) => setTimeout(() => r(), 2000))
+    publish('raw-capture-created', '', message, (e) => log.warn('result:', e))
+    await new Promise((r) => setTimeout(() => r(''), 2000))
     let result = await knex('raw_capture_feature')
       .select()
       .where('id', capture_in_kenya.id)

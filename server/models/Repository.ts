@@ -16,8 +16,8 @@ export default class Repository {
     this.repoImpl = repoImpl
   }
 
-  async add(data: Message) {
-    return this.repoImpl.add(data)
+  async add(data: Message | RawCapture) {
+    return this.repoImpl.add(data as Message)
   }
 
   async update<T>(data: T & { id: string }) {

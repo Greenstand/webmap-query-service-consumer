@@ -1,10 +1,7 @@
-const { publish } = require('../../server/infra/messaging/rabbit-mq-messaging')
-const knex = require('../../server/infra/database/knex')
-const { expect } = require('chai')
-const registerEventHandlers = require('../../server/services/event-handlers.js')
-const {
-  unsubscribeAll,
-} = require('../../server/infra/messaging/rabbit-mq-messaging')
+import { expect } from 'chai'
+import knex from 'infra/database/knex'
+import { unsubscribeAll, publish } from 'infra/messaging/rabbit-mq-messaging'
+import registerEventHandlers from 'services/event-handlers'
 
 describe('tokenAssigned', () => {
   beforeEach(async () => {
@@ -41,10 +38,8 @@ describe('tokenAssigned', () => {
       wallet_name: wallet_name_new,
       entries: [{ capture_id: capture_id, token_id: token_id }],
     }
-    publish('token-assigned', undefined, message, (e) =>
-      console.log('result:', e),
-    )
-    await new Promise((r) => setTimeout(() => r(), 2000))
+    publish('token-assigned', '', message, (e) => console.log('result:', e))
+    await new Promise((r) => setTimeout(() => r(''), 2000))
     const result = await knex('capture_feature')
       .select()
       .where('wallet_name', wallet_name_new)

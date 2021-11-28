@@ -4,6 +4,7 @@ import {
 } from 'infra/database/pg-repositories'
 import Session from 'infra/database/session'
 import { subscribe } from 'infra/messaging/rabbit-mq-messaging'
+import log from 'loglevel'
 import {
   captureFeatureFromMessage,
   createCaptureFeature,
