@@ -1,4 +1,3 @@
-import chai from 'chai'
 import { CaptureFeatureRepository } from 'infra/database/pg-repositories'
 import Session from 'infra/database/session'
 import sinon from 'sinon'
@@ -28,15 +27,15 @@ const exampleData: Message = {
 }
 
 // test not necessary with Typescript
-describe('captureFeatureFromMessage function', function () {
-  it('should return a immutable CaptureFeature object', function () {
+describe('captureFeatureFromMessage function', () => {
+  it('should return a immutable CaptureFeature object', () => {
     const captureFeature = captureFeatureFromMessage(exampleData)
     expect(captureFeature.additional_attr).to.equal(undefined)
   })
 })
 
-describe('invoking captureFeatureFromMessage with variable parameters', function () {
-  it('should add them as key-value pairs in parameter named attributes', function () {
+describe('invoking captureFeatureFromMessage with variable parameters', () => {
+  it('should add them as key-value pairs in parameter named attributes', () => {
     const captureFeature = captureFeatureFromMessage(exampleData)
     let additionalArgs = 0
     captureFeature.attributes.forEach((attribute) => {
@@ -51,14 +50,14 @@ describe('invoking captureFeatureFromMessage with variable parameters', function
   })
 })
 
-describe('Creating CaptureFeature', function () {
+describe('Creating CaptureFeature', () => {
   const session = new Session()
   const captureRepository = new CaptureFeatureRepository(session)
   const stub = sinon.stub(captureRepository, 'add')
   const captureFeature = captureFeatureFromMessage(exampleData)
   const saveCaptureFeature = createCaptureFeature(captureRepository)
 
-  it('should add the object to the repository', async function () {
+  it('should add the object to the repository', async () => {
     await saveCaptureFeature(captureFeature)
     expect(stub).calledWith(captureFeature)
     stub.restore()

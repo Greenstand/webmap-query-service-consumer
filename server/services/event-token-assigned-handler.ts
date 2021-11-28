@@ -1,8 +1,7 @@
+import { CaptureFeatureRepository } from 'infra/database/pg-repositories'
+import Session from 'infra/database/session'
 import log from 'loglevel'
-
-import { CaptureFeatureRepository } from '../infra/database/pg-repositories'
-import Session from '../infra/database/session.js'
-import { updateCaptureFeature } from '../models/capture-feature.js'
+import { updateCaptureFeature } from 'models/capture-feature'
 
 type TokenMessage = {
   entries: {

@@ -1,4 +1,3 @@
-import chai from 'chai'
 import assertArrays from 'chai-arrays'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
@@ -14,7 +13,7 @@ chai.use(sinonChai)
 chai.use(assertArrays)
 const { expect } = chai
 
-describe('rawCaptureFeatureFromMessage function', function () {
+describe('rawCaptureFeatureFromMessage function', () => {
   const rawCaptureFeature = rawCaptureFeatureFromMessage({
     id: 'bc53bc67-894b-4cec-8adf-d77bd00f6c67',
     lat: 23.12,
@@ -27,7 +26,7 @@ describe('rawCaptureFeatureFromMessage function', function () {
     species_name: 'species',
   })
 
-  it('should contain the required parameters', function () {
+  it('should contain the required parameters', () => {
     expect(Object.keys(rawCaptureFeature)).to.equal([
       'id',
       'lat',
@@ -41,7 +40,7 @@ describe('rawCaptureFeatureFromMessage function', function () {
   })
 })
 
-describe('calling createRawCaptureFeature function', function () {
+describe('calling createRawCaptureFeature function', () => {
   const rawCaptureFeature = rawCaptureFeatureFromMessage({
     id: 'bc53bc67-894b-4cec-8adf-d77bd00f6c67',
     lat: 23.12,
@@ -55,7 +54,7 @@ describe('calling createRawCaptureFeature function', function () {
     species_name: 'species',
   })
 
-  it('should add the raw capture feature to the repository', async function () {
+  it('should add the raw capture feature to the repository', async () => {
     const session = new Session()
     const rawCaptureFeatureRepository = new RawCaptureFeatureRepository(session)
     const stub = sinon.stub(rawCaptureFeatureRepository, 'add')
