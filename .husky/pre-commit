@@ -3,6 +3,3 @@
 
 # run lint staged
 npx --no-install lint-staged --verbose
-
-# lint entire project if eslint rules changed
-npx --no-install eslint . --cache --quiet
