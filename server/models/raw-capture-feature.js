@@ -1,4 +1,4 @@
-const { Repository } = require('./Repository');
+const { Repository } = require('./Repository')
 
 const rawCaptureFeatureFromMessage = ({
   id,
@@ -19,19 +19,19 @@ const rawCaptureFeatureFromMessage = ({
     attributes,
     device_identifier,
     created_at,
-  });
-};
+  })
+}
 
 const createRawCaptureFeature =
   (rawCaptureFeatureRepo) => async (rawCaptureFeature) => {
-    const repository = new Repository(rawCaptureFeatureRepo);
-    await repository.add(rawCaptureFeature);
+    const repository = new Repository(rawCaptureFeatureRepo)
+    await repository.add(rawCaptureFeature)
 
     // update region
-    await rawCaptureFeatureRepo.assignRegion(rawCaptureFeature);
+    await rawCaptureFeatureRepo.assignRegion(rawCaptureFeature)
 
     // update cluster
-    await rawCaptureFeatureRepo.updateCluster(rawCaptureFeature);
-});
+    await rawCaptureFeatureRepo.updateCluster(rawCaptureFeature)
+  }
 
-module.exports = { rawCaptureFeatureFromMessage, createRawCaptureFeature };
+module.exports = { rawCaptureFeatureFromMessage, createRawCaptureFeature }

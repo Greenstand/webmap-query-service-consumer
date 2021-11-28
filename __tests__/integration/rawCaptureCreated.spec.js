@@ -1,51 +1,59 @@
-const log = require("loglevel");
-const { publish, subscribe} = require("../../server/infra/messaging/rabbit-mq-messaging");
-const knex = require("../../server/infra/database/knex");
-const {expect} = require("chai");
-const registerEventHandlers = require('../../server/services/event-handlers.js');
-const { unsubscribeAll } = require("../../server/infra/messaging/rabbit-mq-messaging");
-const {v4} = require("uuid");
-const capture_in_kenya = require("../mock/capture_in_kenya.json");
+const log = require('loglevel')
+const {
+  publish,
+  subscribe,
+} = require('../../server/infra/messaging/rabbit-mq-messaging')
+const knex = require('../../server/infra/database/knex')
+const { expect } = require('chai')
+const registerEventHandlers = require('../../server/services/event-handlers.js')
+const {
+  unsubscribeAll,
+} = require('../../server/infra/messaging/rabbit-mq-messaging')
+const { v4 } = require('uuid')
+const capture_in_kenya = require('../mock/capture_in_kenya.json')
 
-describe("rawCaptureFeature", () => {
-
+describe('rawCaptureFeature', () => {
   beforeEach(async () => {
     //load server
-    registerEventHandlers();
-    await knex("capture_feature").del();
-    await knex("raw_capture_feature").del();
-    await knex("region_assignment").del();
-    await knex("raw_capture_cluster").del();
-  });
+    registerEventHandlers()
+    await knex('capture_feature').del()
+    await knex('raw_capture_feature').del()
+    await knex('region_assignment').del()
+    await knex('raw_capture_cluster').del()
+  })
 
   afterEach(async () => {
-    await unsubscribeAll();
-  });
+    await unsubscribeAll()
+  })
 
-  it("Successfully handle raw capture created event", async () => {
+  it('Successfully handle raw capture created event', async () => {
     //just care about the 14 zoom level
-    const cluster_zoom_level = 14;
+    const cluster_zoom_level = 14
     //prepare two clusters, the new capture will find the nearest to update
-    await knex("raw_capture_cluster").insert({
+    await knex('raw_capture_cluster').insert({
       zoom_level: cluster_zoom_level,
-      location: `POINT(${capture_in_kenya.lon + 1} ${capture_in_kenya.lat})`, 
+      location: `POINT(${capture_in_kenya.lon + 1} ${capture_in_kenya.lat})`,
       count: 1,
-    });
+    })
 
     //a farther cluster
-    await knex("raw_capture_cluster").insert({
+    await knex('raw_capture_cluster').insert({
       zoom_level: cluster_zoom_level,
-      location: `POINT(${capture_in_kenya.lon + 2} ${capture_in_kenya.lat})`, 
+      location: `POINT(${capture_in_kenya.lon + 2} ${capture_in_kenya.lat})`,
       count: 5,
-    });
+    })
 
     //prepare the capture before the wallet event
-    const message = capture_in_kenya; 
-    publish("raw-capture-created", undefined, message, (e) => log.warn("result:", e));
-    await new Promise(r => setTimeout(() => r(), 2000));
-    let result = await knex("raw_capture_feature").select().where("id", capture_in_kenya.id);
-    expect(result).lengthOf(1);
-    
+    const message = capture_in_kenya
+    publish('raw-capture-created', undefined, message, (e) =>
+      log.warn('result:', e),
+    )
+    await new Promise((r) => setTimeout(() => r(), 2000))
+    let result = await knex('raw_capture_feature')
+      .select()
+      .where('id', capture_in_kenya.id)
+    expect(result).lengthOf(1)
+
     //check the region data, make sure the sample data has been imported from mock/xxx.copy
     /*
      * the result from dev DB
@@ -75,26 +83,24 @@ describe("rawCaptureFeature", () => {
           928260 |         15 | 5447363
       (15 rows)
       */
-    result = await knex("region_assignment").select().where({
+    result = await knex('region_assignment').select().where({
       map_feature_id: capture_in_kenya.id,
       zoom_level: 9,
       region_id: 2281072,
-    });
-    expect(result).lengthOf(1);
+    })
+    expect(result).lengthOf(1)
 
-    result = await knex("region_assignment").select().where({
+    result = await knex('region_assignment').select().where({
       map_feature_id: capture_in_kenya.id,
-    });
-    log.warn("inserted:", result);
-    expect(result).lengthOf(15);
+    })
+    log.warn('inserted:', result)
+    expect(result).lengthOf(15)
 
     //the cluster closer should be updated, and it's count is 2 now
-    result = await knex("raw_capture_cluster").select().where({
+    result = await knex('raw_capture_cluster').select().where({
       count: 2,
-    });
-    log.warn("cluster:", result);
-    expect(result).lengthOf(1);
-
-  });
-
-});
+    })
+    log.warn('cluster:', result)
+    expect(result).lengthOf(1)
+  })
+})

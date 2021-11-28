@@ -1,5 +1,5 @@
-const log = require('loglevel');
-const { Repository } = require('./Repository');
+const log = require('loglevel')
+const { Repository } = require('./Repository')
 
 const captureFeatureFromMessage = ({
   id,
@@ -14,8 +14,8 @@ const captureFeatureFromMessage = ({
   ...additionalParameters
 }) => {
   Object.keys(additionalParameters).forEach((key) => {
-    attributes.push({ [key]: additionalParameters[key] });
-  });
+    attributes.push({ [key]: additionalParameters[key] })
+  })
 
   return Object.freeze({
     id,
@@ -27,27 +27,27 @@ const captureFeatureFromMessage = ({
     attributes: { entries: attributes },
     species_name,
     created_at,
-  });
-};
+  })
+}
 
 const createCaptureFeature = (captureFeatureRepo) => async (captureFeature) => {
-  const repository = new Repository(captureFeatureRepo);
-  repository.add(captureFeature);
-};
+  const repository = new Repository(captureFeatureRepo)
+  repository.add(captureFeature)
+}
 
 const updateCaptureFeature =
   (captureFeatureRepo) =>
   async (captureFeatureIds, captureFeatureUpdateObject) => {
-    log.warn('repo:', captureFeatureRepo);
+    log.warn('repo:', captureFeatureRepo)
     // Because here is using a special fn to update db, so didn't use Repository
     await captureFeatureRepo.batchUpdate(
       captureFeatureIds,
       captureFeatureUpdateObject,
-    );
-  };
+    )
+  }
 
 module.exports = {
   captureFeatureFromMessage,
   createCaptureFeature,
   updateCaptureFeature,
-};
+}
