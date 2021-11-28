@@ -4,15 +4,15 @@ class Repository {
   }
 
   async add(data) {
-    return this.repoImpl.add(data);
+    return await this.repoImpl.add(data);
   }
 
   async update(data) {
-    return this.repoImpl.update(data);
+    return await this.repoImpl.update(data);
   }
 
   async getByFilter(filterCriteria, options) {
-    return this.repoImpl.getByFilter(filterCriteria, options);
+    return await this.repoImpl.getByFilter(filterCriteria, options);
   }
 }
 

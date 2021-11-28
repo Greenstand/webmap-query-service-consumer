@@ -55,9 +55,10 @@ class RawCaptureFeatureRepository extends BaseRepository {
   }
 
   async add(rawCaptureFeature) {
+    log.warn(this._tableName, ' add:', rawCaptureFeature);
     const wellKnownText = `POINT(${rawCaptureFeature.lon} ${rawCaptureFeature.lat})`;
     const result = await this._session.getDB().raw(
-      `insert into map_features.raw_capture_feature (
+      `insert into raw_capture_feature (
              id, lat, lon, location, field_user_id, field_username, 
              device_identifier, attributes, created_at, updated_at) 
              values(?, ?, ?, ST_PointFromText(?, 4326), ?, ?, ?, ?, ?, ?)
@@ -75,7 +76,57 @@ class RawCaptureFeatureRepository extends BaseRepository {
         rawCaptureFeature.created_at,
       ],
     );
+
     return result.rows[0];
+  }
+
+  async assignRegion(rawCaptureFeature) {
+    log.warn(this._tableName, ' assign region:', rawCaptureFeature);
+    const result = await this._session.getDB().raw(
+      `
+      INSERT INTO region_assignment
+        (map_feature_id, zoom_level, region_id)
+        SELECT DISTINCT ON (captures.id, zoom_level) captures.id AS map_feature_id, zoom_level, region.id
+        FROM (
+            SELECT *
+            FROM raw_capture_feature
+            WHERE id = ?
+        ) captures
+        JOIN region
+        ON ST_Contains( region.geom, ST_SetSRID(ST_Point(?, ?), 4326))
+        JOIN region_zoom
+        ON region_zoom.region_id = region.id
+        ORDER BY captures.id, zoom_level, region_zoom.priority DESC
+    `,
+      [rawCaptureFeature.id, rawCaptureFeature.lon, rawCaptureFeature.lat],
+    );
+    log.warn(this._tableName, 'inserted:', result);
+    return true;
+  }
+
+  /*
+   * To update the count of cluster
+   * https://github.com/Greenstand/treetracker-web-map-api/blob/e8c8abc0c6b07841e0ba69f0826eead69315342c/src/cron/assign-new-trees-to-clusters.js#L106-L128
+   * For performance, just update the count that this capture belongs to, so just find the nearest cluster and add +1, we still need a periodically task to refresh these cluster
+   */
+  async updateCluster(rawCaptureFeature) {
+    log.warn(this._tableName, ' updateCluster');
+
+    const result = await this._session.getDB().raw(
+      `
+      UPDATE raw_capture_cluster 
+      SET count = count + 1 
+      WHERE id = (
+        SELECT id FROM 
+          (SELECT id, count, ST_Distance(location, ST_SetSRID(ST_Point(?, ?), 4326)) AS dis 
+          FROM raw_capture_cluster 
+          ORDER BY dis 
+          LIMIT 1) dissql
+      )
+      `,
+      [rawCaptureFeature.lon, rawCaptureFeature.lat],
+    );
+    log.warn(this._tableName, ' updated:', result);
   }
 }
 
