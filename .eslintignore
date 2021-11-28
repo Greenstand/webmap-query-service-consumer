@@ -2,8 +2,5 @@ node_modules/
 database/migrations/
 dist/
 coverage/
-**/__tests__/
-**/*.test.*
 
 **/*.js
-# temporary ignores

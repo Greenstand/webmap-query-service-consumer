@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import knex from 'infra/database/knex'
-import { unsubscribeAll, publish } from 'infra/messaging/rabbit-mq-messaging'
+import { publish, unsubscribeAll } from 'infra/messaging/rabbit-mq-messaging'
 import registerEventHandlers from 'services/event-handlers'
 
 describe('tokenAssigned', () => {

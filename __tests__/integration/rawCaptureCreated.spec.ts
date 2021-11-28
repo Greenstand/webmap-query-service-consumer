@@ -1,10 +1,10 @@
-import log from 'loglevel'
-import { publish, subscribe } from 'infra/messaging/rabbit-mq-messaging'
-import knex from 'infra/database/knex'
 import { expect } from 'chai'
-import registerEventHandlers from 'services/event-handlers'
+import knex from 'infra/database/knex'
+import { publish } from 'infra/messaging/rabbit-mq-messaging'
 import { unsubscribeAll } from 'infra/messaging/rabbit-mq-messaging'
-import { v4 } from 'uuid'
+import log from 'loglevel'
+import registerEventHandlers from 'services/event-handlers'
+
 import capture_in_kenya from '../mock/capture_in_kenya.json'
 
 describe('rawCaptureFeature', () => {
