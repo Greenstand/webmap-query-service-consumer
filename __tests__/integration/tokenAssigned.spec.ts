@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import knex from 'infra/database/knex'
 import { publish, unsubscribeAll } from 'infra/messaging/rabbit-mq-messaging'
 import registerEventHandlers from 'services/event-handlers'
@@ -43,6 +42,6 @@ describe('tokenAssigned', () => {
     const result = await knex('capture_feature')
       .select()
       .where('wallet_name', wallet_name_new)
-    expect(result).lengthOf(1)
+    expect(result).toHaveLength(1)
   })
 })

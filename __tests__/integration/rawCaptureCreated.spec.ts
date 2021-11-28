@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import knex from 'infra/database/knex'
 import { publish } from 'infra/messaging/rabbit-mq-messaging'
 import { unsubscribeAll } from 'infra/messaging/rabbit-mq-messaging'
@@ -45,7 +44,7 @@ describe('rawCaptureFeature', () => {
     let result = await knex('raw_capture_feature')
       .select()
       .where('id', capture_in_kenya.id)
-    expect(result).lengthOf(1)
+    expect(result).toHaveLength(1)
 
     //check the region data, make sure the sample data has been imported from mock/xxx.copy
     /*
@@ -81,19 +80,19 @@ describe('rawCaptureFeature', () => {
       zoom_level: 9,
       region_id: 2281072,
     })
-    expect(result).lengthOf(1)
+    expect(result).toHaveLength(1)
 
     result = await knex('region_assignment').select().where({
       map_feature_id: capture_in_kenya.id,
     })
     log.warn('inserted:', result)
-    expect(result).lengthOf(15)
+    expect(result).toHaveLength(15)
 
     //the cluster closer should be updated, and it's count is 2 now
     result = await knex('raw_capture_cluster').select().where({
       count: 2,
     })
     log.warn('cluster:', result)
-    expect(result).lengthOf(1)
+    expect(result).toHaveLength(1)
   })
 })

@@ -1,17 +1,10 @@
-import assertArrays from 'chai-arrays'
-import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
+import { RawCaptureFeatureRepository } from 'infra/database/pg-repositories'
+import Session from 'infra/database/session'
 
-import { RawCaptureFeatureRepository } from '../infra/database/pg-repositories'
-import Session from '../infra/database/session'
 import {
   createRawCaptureFeature,
   rawCaptureFeatureFromMessage,
 } from './raw-capture-feature'
-
-chai.use(sinonChai)
-chai.use(assertArrays)
-const { expect } = chai
 
 describe('rawCaptureFeatureFromMessage function', () => {
   const rawCaptureFeature = rawCaptureFeatureFromMessage({
@@ -27,7 +20,7 @@ describe('rawCaptureFeatureFromMessage function', () => {
   })
 
   it('should contain the required parameters', () => {
-    expect(Object.keys(rawCaptureFeature)).to.equal([
+    expect(Object.keys(rawCaptureFeature)).toStrictEqual([
       'id',
       'lat',
       'lon',
@@ -57,12 +50,12 @@ describe('calling createRawCaptureFeature function', () => {
   it('should add the raw capture feature to the repository', async () => {
     const session = new Session()
     const rawCaptureFeatureRepository = new RawCaptureFeatureRepository(session)
-    const stub = sinon.stub(rawCaptureFeatureRepository, 'add')
+    const stub = jest.spyOn(rawCaptureFeatureRepository, 'add')
     const executeCreateRawCaptureFeature = createRawCaptureFeature(
       rawCaptureFeatureRepository,
     )
     await executeCreateRawCaptureFeature(rawCaptureFeature)
-    expect(stub).calledWith(rawCaptureFeature)
-    stub.restore()
+    expect(stub).toHaveBeenCalledWith(rawCaptureFeature)
+    stub.mockRestore()
   })
 })

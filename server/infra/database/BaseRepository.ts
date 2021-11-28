@@ -1,4 +1,3 @@
-const expect = require('expect-runtime')
 import Session from 'infra/database/session'
 import { Knex } from 'knex'
 import HttpError from 'utils/HttpError'
@@ -8,7 +7,6 @@ export default class BaseRepository {
   session: Session
 
   constructor(tableName: string, session: Session) {
-    expect(tableName).defined()
     this.tableName = tableName
     this.session = session
   }
@@ -39,15 +37,15 @@ export default class BaseRepository {
     const whereBuilder = function (object: any, builder: Knex.QueryBuilder) {
       let result = builder
       if (object.and) {
-        expect(Object.keys(object)).lengthOf(1)
-        expect(object.and).a(expect.any(Array))
+        expect(Object.keys(object)).toHaveLength(1)
+        expect(object.and).toBeInstanceOf(expect.any(Array))
         for (const one of object.and) {
           if (one.or) {
             result = result.andWhere((subBuilder) =>
               whereBuilder(one, subBuilder),
             )
           } else {
-            expect(Object.keys(one)).lengthOf(1)
+            expect(Object.keys(one)).toHaveLength(1)
             result = result.andWhere(
               Object.keys(one)[0],
               Object.values(one)[0] as any,
@@ -55,15 +53,15 @@ export default class BaseRepository {
           }
         }
       } else if (object.or) {
-        expect(Object.keys(object)).lengthOf(1)
-        expect(object.or).a(expect.any(Array))
+        expect(Object.keys(object)).toHaveLength(1)
+        expect(object.or).toBeInstanceOf(expect.any(Array))
         for (const one of object.or) {
           if (one.and) {
             result = result.orWhere((subBuilder) =>
               whereBuilder(one, subBuilder),
             )
           } else {
-            expect(Object.keys(one)).lengthOf(1)
+            expect(Object.keys(one)).toHaveLength(1)
             result = result.orWhere(
               Object.keys(one)[0],
               Object.values(one)[0] as any,
@@ -85,7 +83,7 @@ export default class BaseRepository {
       promise = promise.limit(options && options.limit)
     }
     const result = await promise
-    expect(result).a(expect.any(Array))
+    expect(result).toBeInstanceOf(expect.any(Array))
     return result
   }
 
@@ -95,11 +93,6 @@ export default class BaseRepository {
       .count()
       .table(this.tableName)
       .where(filter)
-    expect(result).match([
-      {
-        count: expect.any(String),
-      },
-    ])
     return parseInt(result[0].count.toString())
   }
 
@@ -109,11 +102,6 @@ export default class BaseRepository {
       .update(object)
       .where('id', object.id)
       .returning('*')
-    expect(result).match([
-      {
-        id: expect.any(Number),
-      },
-    ])
     return result[0]
   }
 
@@ -122,11 +110,6 @@ export default class BaseRepository {
       .getDB()(this.tableName)
       .insert(object)
       .returning('*')
-    expect(result).match([
-      {
-        id: expect.anything(),
-      },
-    ])
     return result[0]
   }
 }

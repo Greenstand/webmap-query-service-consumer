@@ -57,7 +57,7 @@ export class RawCaptureFeatureRepository extends BaseRepository {
   }
 
   async add(rawCaptureFeature: RawCapture) {
-    log.warn(this.tableName, ' add:', rawCaptureFeature);
+    log.log(this.tableName, ' add:', rawCaptureFeature);
     const wellKnownText = `POINT(${rawCaptureFeature.lon} ${rawCaptureFeature.lat})`;
     const result = await this.session.getDB().raw(
       `insert into map_features.raw_capture_feature (
