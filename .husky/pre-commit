@@ -1,5 +1,8 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+# run lint staged
 npx --no-install lint-staged --verbose
-npx eslint . --cache --quiet
+
+# lint entire project if eslint rules changed
+npx --no-install eslint . --cache --quiet
