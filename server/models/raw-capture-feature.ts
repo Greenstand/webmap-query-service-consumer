@@ -40,5 +40,11 @@ export const createRawCaptureFeature =
   (rawCaptureFeatureRepo: RawCaptureFeatureRepository) =>
   async (rawCaptureFeature: RawCapture) => {
     const repository = new Repository(rawCaptureFeatureRepo)
-    repository.add(rawCaptureFeature)
+    await repository.add(rawCaptureFeature)
+
+    // update region
+    await rawCaptureFeatureRepo.assignRegion(rawCaptureFeature)
+
+    // update cluster
+    await rawCaptureFeatureRepo.updateCluster(rawCaptureFeature)
   }
