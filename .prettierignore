@@ -1,6 +1,5 @@
 node_modules/
-database/migrations/
+database/
 dist/
 coverage/
-
-**/*.js
+package-lock.json

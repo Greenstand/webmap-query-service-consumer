@@ -1,4 +1,5 @@
 module.exports = {
-  '*.{js,ts}': ['eslint --fix'],
-  '*.{md,yml,yaml,json}': ['prettier --write'],
-};
+  '*': ['prettier --ignore-unknown --write'],
+  '*.{ts}': ['eslint --fix --cache'], // run eslint last to prevent prettier from causing lint errors
+  '.eslint*': ['eslint . --fix --cache'], // lint entire project if eslint settings changed
+}
