@@ -23,6 +23,9 @@ const config = {
           exchange: 'wallet-service-ex',
           routingKey: 'token.transfer',
         },
+        'raw-capture-created': {
+          exchange: 'field-data',
+        },
       },
       subscriptions: {
         'capture-created': {
