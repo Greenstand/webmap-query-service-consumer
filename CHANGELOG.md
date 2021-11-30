@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.3.0...v1.3.1) (2021-11-30)
+
+
+### Bug Fixes
+
+* add exchange for raw-capture-created ([844d102](https://github.com/Greenstand/webmap-query-service-consumer/commit/844d1027b750b419f65dcde345fa888a447f2adb))
+
 # [1.3.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.2.0...v1.3.0) (2021-11-30)
 
 
