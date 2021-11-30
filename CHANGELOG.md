@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## [1.3.3](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.3.2...v1.3.3) (2021-11-30)
 
 
