@@ -1,3 +1,17 @@
+# [1.3.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.2.0...v1.3.0) (2021-11-30)
+
+
+### Bug Fixes
+
+* github workflow white space issue ([d991d32](https://github.com/Greenstand/webmap-query-service-consumer/commit/d991d32ad263f4ae80a2b3bf807e38c0c8dbe14e))
+* pr workflow syntax error ([9cc649e](https://github.com/Greenstand/webmap-query-service-consumer/commit/9cc649e1c6a5375dc2af17b70314c1148fee54aa))
+
+
+### Features
+
+* is-ci for ci environment checking ([0f2dee4](https://github.com/Greenstand/webmap-query-service-consumer/commit/0f2dee41f7b34809011a8619fbeafc6a7cbe06d2))
+* lint-staged and husky prepare script ([2fc64b7](https://github.com/Greenstand/webmap-query-service-consumer/commit/2fc64b71eeafcf17af324e123c7ebfdebea08313))
+
 # [1.2.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.1.0...v1.2.0) (2021-10-27)
 
 ### Bug Fixes
