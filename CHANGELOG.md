@@ -1,3 +1,46 @@
+# [1.4.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.3.3...v1.4.0) (2021-11-30)
+
+
+### Bug Fixes
+
+* .nvmrc ([a41ca01](https://github.com/Greenstand/webmap-query-service-consumer/commit/a41ca017f5a2f68c0fe7b303065eeb298a574c02))
+* add exchange for raw-capture-created ([c7fe83f](https://github.com/Greenstand/webmap-query-service-consumer/commit/c7fe83f288ce311bf4a3894fca1b0a6822424831))
+* add exchange for raw-capture-created ([fb6b91c](https://github.com/Greenstand/webmap-query-service-consumer/commit/fb6b91c18f8cf1695f0d40bfdb5d7df50bb03bcd))
+* add rabbitmq sealed secret and env var ([4a04ede](https://github.com/Greenstand/webmap-query-service-consumer/commit/4a04ede6734089ca7ae776e377ccae9dc65c9021))
+* add rabbitmq sealed secret and env var ([deda7ba](https://github.com/Greenstand/webmap-query-service-consumer/commit/deda7ba8380cb40ddbec3f9985bdf75db98fb6bb))
+* add test files to linter ([2efb351](https://github.com/Greenstand/webmap-query-service-consumer/commit/2efb3511e68e7233484436600ad2cd2047f6c13e))
+* build errors ([8c85f6e](https://github.com/Greenstand/webmap-query-service-consumer/commit/8c85f6e8464e6c174d730c9d0a0be388d8283263))
+* capture feature type ([e75b2eb](https://github.com/Greenstand/webmap-query-service-consumer/commit/e75b2eb60996299801f1f66997b6072abf3db86f))
+* eslint error ([a6cf246](https://github.com/Greenstand/webmap-query-service-consumer/commit/a6cf246ab4cbed4e117ec3c55b4181aaed7d63d9))
+* exclude test files from build ([9a77cdb](https://github.com/Greenstand/webmap-query-service-consumer/commit/9a77cdb0174107f65eb11bc20ca16eebd8bf0a55))
+* jest env values ([1417774](https://github.com/Greenstand/webmap-query-service-consumer/commit/141777414d5da334239dfab55e612fcc4b958d7e))
+* only deploy one replice in dev ([cc91951](https://github.com/Greenstand/webmap-query-service-consumer/commit/cc919512cf6ed520db8295397f1250360f4fb997))
+* only deploy one replice in dev ([db067b8](https://github.com/Greenstand/webmap-query-service-consumer/commit/db067b8bdea0d2bf320f28036d33cb4a26bbc84b))
+* only deploy one replice in dev ([a6c3f26](https://github.com/Greenstand/webmap-query-service-consumer/commit/a6c3f26caab4f59d9f2b952e6f3869bf42790b68))
+* raw capture tests ([7032f70](https://github.com/Greenstand/webmap-query-service-consumer/commit/7032f707d3de5f9a7ff0bcf31eaa00dc884dbc4b))
+* raw_capture insert string ([539cd4e](https://github.com/Greenstand/webmap-query-service-consumer/commit/539cd4e3e920f8cc24d1dfd088c082a7ecf4aa87))
+* remove database migration step ([8b36e5e](https://github.com/Greenstand/webmap-query-service-consumer/commit/8b36e5e520c1d1667533fc363ac36f057b7078ab))
+* remove database migration step ([e2cbb5a](https://github.com/Greenstand/webmap-query-service-consumer/commit/e2cbb5a3103637f557a8f4b96c2fad5dfc32a7f2))
+* repo tests pass ([06ee72e](https://github.com/Greenstand/webmap-query-service-consumer/commit/06ee72ee5b5fa0de3d11763ee9599b555f54cfda))
+* reseal the secret using the namespace for the rabbitmq cluster ([20b02d4](https://github.com/Greenstand/webmap-query-service-consumer/commit/20b02d414df1248ad442570e80d92020fcbf51e5))
+* reseal the secret using the namespace for the rabbitmq cluster ([9727b6d](https://github.com/Greenstand/webmap-query-service-consumer/commit/9727b6d72a53242e0c309d2453939484f9ff6865))
+* reseal the secret using the namespace for the rabbitmq cluster ([e23ff42](https://github.com/Greenstand/webmap-query-service-consumer/commit/e23ff4220125e04b2794b59928a5543a3f80be79))
+* start server npm script ([5538b3b](https://github.com/Greenstand/webmap-query-service-consumer/commit/5538b3ba542018fbe74b76b545fbab466798f460))
+* test scripts ([5ff214f](https://github.com/Greenstand/webmap-query-service-consumer/commit/5ff214fbbf396c68bcf8c6e7582d6f180b1af620))
+* test scripts ([3b2478c](https://github.com/Greenstand/webmap-query-service-consumer/commit/3b2478c13913a5a5bce761710db66da389ae47bd))
+* token assigned integration test ([f4f9cb5](https://github.com/Greenstand/webmap-query-service-consumer/commit/f4f9cb53336bfb2de3256cad3ac7271fac9017df))
+* tsconfig files ([4a73d03](https://github.com/Greenstand/webmap-query-service-consumer/commit/4a73d0371684650502ecceb919f3f8610cd773bc))
+* unit tests ([1a2a3b8](https://github.com/Greenstand/webmap-query-service-consumer/commit/1a2a3b816052fbbc60bd978764f11fbddb6f5a6e))
+* update dotenv for typings ([b4b1351](https://github.com/Greenstand/webmap-query-service-consumer/commit/b4b1351c07ff4025cf124119c8b1745ede12cf6b))
+* updated packages to fix security audit ([3491ece](https://github.com/Greenstand/webmap-query-service-consumer/commit/3491ece6d2052028e62cb018f32e0e91add07a11))
+
+
+### Features
+
+* .nvmrc file ([5430225](https://github.com/Greenstand/webmap-query-service-consumer/commit/54302252b1ca3d54224359eeeb3d5fce412b154a))
+* can insert raw capture into db ([f8d31c1](https://github.com/Greenstand/webmap-query-service-consumer/commit/f8d31c15ad518f8df2934ec835fe67f0a52ea94d))
+* create region, region_zoom tables ([c07bc62](https://github.com/Greenstand/webmap-query-service-consumer/commit/c07bc625c095b52f2792f0c4da8de2f1856b3f7c))
+
 ## [1.3.3](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.3.2...v1.3.3) (2021-11-30)
 
 
