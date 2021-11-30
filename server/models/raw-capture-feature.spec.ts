@@ -16,7 +16,6 @@ describe('rawCaptureFeatureFromMessage function', () => {
     attributes: [],
     created_at: new Date().toISOString(),
     device_identifier: 1,
-    species_name: 'species',
   })
 
   it('should contain the required parameters', () => {
@@ -41,21 +40,21 @@ describe('calling createRawCaptureFeature function', () => {
     field_user_id: 432523,
     field_username: 'planter',
     attributes: [],
-    identifier: '34fwaasdgsasfd',
     created_at: new Date().toISOString(),
     device_identifier: 1,
-    species_name: 'species',
   })
 
   it('should add the raw capture feature to the repository', async () => {
     const session = new Session()
+
     const rawCaptureFeatureRepository = new RawCaptureFeatureRepository(session)
-    const stub = jest.spyOn(rawCaptureFeatureRepository, 'add')
+    rawCaptureFeatureRepository.add = jest.fn()
     const executeCreateRawCaptureFeature = createRawCaptureFeature(
       rawCaptureFeatureRepository,
     )
     await executeCreateRawCaptureFeature(rawCaptureFeature)
-    expect(stub).toHaveBeenCalledWith(rawCaptureFeature)
-    stub.mockRestore()
+    expect(rawCaptureFeatureRepository.add).toHaveBeenCalledWith(
+      rawCaptureFeature,
+    )
   })
 })

@@ -6,9 +6,9 @@ import Session from 'infra/database/session'
 import { subscribe } from 'infra/messaging/rabbit-mq-messaging'
 import log from 'loglevel'
 import {
+  CaptureFeature,
   captureFeatureFromMessage,
   createCaptureFeature,
-  Message,
 } from 'models/capture-feature'
 import {
   createRawCaptureFeature,
@@ -16,14 +16,14 @@ import {
 } from 'models/raw-capture-feature'
 import tokenAssignedHandler from 'services/event-token-assigned-handler'
 
-const createCaptureFeatureHandler = async (message: Message) => {
+const createCaptureFeatureHandler = async (message: CaptureFeature) => {
   const newCaptureFeature = captureFeatureFromMessage({ ...message })
   const dbSession = new Session()
   const captureFeatureRepo = new CaptureFeatureRepository(dbSession)
   createCaptureFeature(captureFeatureRepo)(newCaptureFeature)
 }
 
-const createRawCaptureFeatureHandler = async (message: Message) => {
+const createRawCaptureFeatureHandler = async (message: CaptureFeature) => {
   try {
     log.warn('createRawCaptureFeatureHandler...', message)
     const newRawCaptureFeature = rawCaptureFeatureFromMessage({ ...message })

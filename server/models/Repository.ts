@@ -4,8 +4,8 @@ import {
 } from 'infra/database/pg-repositories'
 import { Knex } from 'knex'
 
-import { Message } from './capture-feature'
-import { RawCapture } from './raw-capture-feature'
+import { CaptureFeature } from './capture-feature'
+import { RawCaptureFeature } from './raw-capture-feature'
 
 export default class Repository {
   repoImpl: RawCaptureFeatureRepository | CaptureFeatureRepository
@@ -16,8 +16,8 @@ export default class Repository {
     this.repoImpl = repoImpl
   }
 
-  async add(data: Message | RawCapture) {
-    return this.repoImpl.add(data as Message)
+  async add(data: CaptureFeature | RawCaptureFeature) {
+    return this.repoImpl.add(data as CaptureFeature)
   }
 
   async update<T>(data: T & { id: string }) {
@@ -25,7 +25,7 @@ export default class Repository {
   }
 
   async getByFilter<T2>(
-    filterCriteria: Knex<RawCapture, unknown[]>,
+    filterCriteria: Knex<RawCaptureFeature, unknown[]>,
     options: T2,
   ) {
     return this.repoImpl.getByFilter(filterCriteria, options)

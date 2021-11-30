@@ -2,11 +2,22 @@ import { CaptureFeatureRepository } from 'infra/database/pg-repositories'
 import log from 'loglevel'
 import Repository from 'models/Repository'
 
-import { RawCapture } from './raw-capture-feature'
+export type Attribute = {
+  key: string
+  value: any
+}
 
-export type Message = RawCapture & {
+export type CaptureFeature = {
+  id: number | string
+  lat: number | string
+  lon: number | string
+  field_user_id: number | string
+  field_username: string
+  attributes: Attribute[]
+  device_identifier: string | number
+  created_at: string
   species_name: string
-} & { [key: string]: any }
+}
 
 export const captureFeatureFromMessage = ({
   id,
@@ -15,14 +26,10 @@ export const captureFeatureFromMessage = ({
   field_user_id,
   field_username,
   device_identifier,
-  attributes = [],
+  attributes,
   species_name,
   created_at,
-  ...additionalParameters
-}: Message): Readonly<Message> => {
-  Object.keys(additionalParameters).forEach((key) => {
-    attributes.push(`${key}: ${additionalParameters[key]}`)
-  })
+}: CaptureFeature): Readonly<CaptureFeature> => {
   return {
     id,
     lat,
@@ -33,12 +40,12 @@ export const captureFeatureFromMessage = ({
     attributes,
     species_name,
     created_at,
-  } as Readonly<Message>
+  } as Readonly<CaptureFeature>
 }
 
 export const createCaptureFeature =
   (captureFeatureRepo: CaptureFeatureRepository) =>
-  async (captureFeature: Message) => {
+  async (captureFeature: CaptureFeature) => {
     const repository = new Repository(captureFeatureRepo)
     repository.add(captureFeature)
   }
