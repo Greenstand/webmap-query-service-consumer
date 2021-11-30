@@ -36,10 +36,6 @@
     "decrypt": "nodecipher decrypt env.secret .env",
     "encrypt": "nodecipher encrypt .env env.secret"
   },
-  "mocha": {
-    "env": "dotenv_config_path=.env.test",
-    "require": "dotenv/config"
-  },
   "dependencies": {
     "@sentry/node": "^5.1.0",
     "body-parser": "^1.18.2",
