@@ -1,3 +1,11 @@
+## [1.3.4](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.3.3...v1.3.4) (2021-11-30)
+
+
+### Bug Fixes
+
+* only deploy one replice in dev ([a6c3f26](https://github.com/Greenstand/webmap-query-service-consumer/commit/a6c3f26caab4f59d9f2b952e6f3869bf42790b68))
+* reseal the secret using the namespace for the rabbitmq cluster ([e23ff42](https://github.com/Greenstand/webmap-query-service-consumer/commit/e23ff4220125e04b2794b59928a5543a3f80be79))
+
 ## [1.3.3](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.3.2...v1.3.3) (2021-11-30)
 
 
