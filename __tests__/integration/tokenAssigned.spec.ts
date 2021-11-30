@@ -37,7 +37,9 @@ describe('tokenAssigned', () => {
       wallet_name: wallet_name_new,
       entries: [{ capture_id: capture_id, token_id: token_id }],
     }
-    publish('token-assigned', '', message, (e) => console.log('result:', e))
+    await publish('token-assigned', '', message, (e) =>
+      console.log('result:', e),
+    )
     await new Promise((r) => setTimeout(() => r(''), 2000))
     const result = await knex('capture_feature')
       .select()
