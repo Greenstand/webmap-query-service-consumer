@@ -16,36 +16,36 @@ spec:
     spec:
       # initContainers definition only needed if microservice contains db migrations
       initContainers:
-      - name: "webmap-query-consumer-db-migration-job-init"
-        image: "groundnuty/k8s-wait-for:1.3"
-        imagePullPolicy: Always
-        args: 
-        - "job"
-        - "webmap-query-consumer-db-migration-job"
+        - name: 'webmap-query-consumer-db-migration-job-init'
+          image: 'groundnuty/k8s-wait-for:1.3'
+          imagePullPolicy: Always
+          args:
+            - 'job'
+            - 'webmap-query-consumer-db-migration-job'
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: doks.digitalocean.com/node-pool
-                operator: In
-                values:
-                - microservices-node-pool  
+              - matchExpressions:
+                  - key: doks.digitalocean.com/node-pool
+                    operator: In
+                    values:
+                      - microservices-node-pool
       containers:
-      - name: webmap-query-service-consumer
-        image: greenstand/webmap-query-service-consumer:latest
-        env:
-          - name: DATABASE_URL
-            valueFrom:
-              secretKeyRef:
-                name: webmap-query-database-connection
-                key: db
-          - name: DATABASE_SCHEMA
-            valueFrom:
-              secretKeyRef:
-                name: webmap-query-database-connection
-                key: schema
-          - name: NODE_LOG_LEVEL
-            value: trace
-          - name: REMOTE_LOG_URL
-            value: http://104.131.78.177:8000
+        - name: webmap-query-service-consumer
+          image: greenstand/webmap-query-service-consumer:latest
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: webmap-query-database-connection
+                  key: db
+            - name: DATABASE_SCHEMA
+              valueFrom:
+                secretKeyRef:
+                  name: webmap-query-database-connection
+                  key: schema
+            - name: NODE_LOG_LEVEL
+              value: trace
+            - name: REMOTE_LOG_URL
+              value: http://104.131.78.177:8000

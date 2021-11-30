@@ -23,11 +23,9 @@ jobs:
       - name: npm clean install
         run: npm ci
         working-directory: ${{ env.project-directory }}
-
       - name: run ESLint
         run: npm run lint
         working-directory: ${{ env.project-directory }}
-
       - name: run unit tests
         run: npm run test-unit
         working-directory: ${{ env.project-directory }}
