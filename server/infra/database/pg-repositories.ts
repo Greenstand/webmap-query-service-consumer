@@ -60,7 +60,7 @@ export class RawCaptureFeatureRepository extends BaseRepository {
     log.log(this.tableName, ' add:', rawCaptureFeature);
     const wellKnownText = `POINT(${rawCaptureFeature.lon} ${rawCaptureFeature.lat})`;
     const result = await this.session.getDB().raw(
-      `insert into map_features.raw_capture_feature (
+      `insert into raw_capture_feature (
              id, lat, lon, location, field_user_id, field_username, 
              device_identifier, attributes, created_at, updated_at) 
              values(?, ?, ?, ST_PointFromText(?, 4326), ?, ?, ?, ?, ?, ?)
