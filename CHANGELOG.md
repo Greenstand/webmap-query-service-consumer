@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.4.0...v1.5.0) (2021-11-30)
+
+
+### Features
+
+* update dockerfile for typescript ([28fb27a](https://github.com/Greenstand/webmap-query-service-consumer/commit/28fb27a9a2521493d7329905aa122c2c755ae79c))
+
 # [1.4.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.3.3...v1.4.0) (2021-11-30)
 
 
