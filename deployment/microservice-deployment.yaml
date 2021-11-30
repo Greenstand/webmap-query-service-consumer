@@ -15,13 +15,13 @@ spec:
         app: webmap-query-service-consumer
     spec:
       # initContainers definition only needed if microservice contains db migrations
-      initContainers:
-        - name: 'webmap-query-consumer-db-migration-job-init'
-          image: 'groundnuty/k8s-wait-for:1.3'
-          imagePullPolicy: Always
-          args:
-            - 'job'
-            - 'webmap-query-consumer-db-migration-job'
+#      initContainers:
+#        - name: 'webmap-query-consumer-db-migration-job-init'
+#          image: 'groundnuty/k8s-wait-for:1.3'
+#          imagePullPolicy: Always
+#          args:
+#            - 'job'
+#            - 'webmap-query-consumer-db-migration-job'
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
