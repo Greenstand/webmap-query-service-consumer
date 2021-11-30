@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.3.2...v1.3.3) (2021-11-30)
+
+
+### Bug Fixes
+
+* add rabbitmq sealed secret and env var ([ba5f79d](https://github.com/Greenstand/webmap-query-service-consumer/commit/ba5f79ddda205dd30e09b1e11ffab323a45a85ba))
+
 ## [1.3.2](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.3.1...v1.3.2) (2021-11-30)
 
 
