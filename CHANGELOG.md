@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.5.0...v1.5.1) (2021-12-01)
+
+
+### Bug Fixes
+
+* imagePullPolicy: IfNotPresent ([3cec3e1](https://github.com/Greenstand/webmap-query-service-consumer/commit/3cec3e1c9d386dd89962dc2a58071aebf5adbf91))
+
 # [1.5.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.4.0...v1.5.0) (2021-11-30)
 
 
