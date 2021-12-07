@@ -33,6 +33,7 @@
     "test-unit": "jest './server/' --testPathIgnorePatterns './server/infra/database/'",
     "test-repo": "jest ./server/infra/database/",
     "db-migrate": "db-migrate up -v -m database/migrations/",
+    "db-migrate-ci": "cd database; db-migrate up",
     "decrypt": "nodecipher decrypt env.secret .env",
     "encrypt": "nodecipher encrypt .env env.secret"
   },
