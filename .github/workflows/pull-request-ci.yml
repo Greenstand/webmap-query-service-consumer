@@ -1,19 +1,38 @@
-name: CI for New Pull Requests
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: API CI for New Pull Requests
 
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 env:
   project-directory: ./
 
 jobs:
-  build:
+  test:
     name: Run all tests
     runs-on: ubuntu-latest
     container: node:16.12.0
 
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgis/postgis
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x
@@ -23,9 +42,19 @@ jobs:
       - name: npm clean install
         run: npm ci
         working-directory: ${{ env.project-directory }}
+
       - name: run ESLint
         run: npm run lint
         working-directory: ${{ env.project-directory }}
-      - name: run unit tests
-        run: npm run test-unit
+
+      - name: run db-migrate
+        run: npm run db-migrate-ci
         working-directory: ${{ env.project-directory }}
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
+
+      - name: run api tests
+        run: npm run test
+        working-directory: ${{ env.project-directory }}
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
