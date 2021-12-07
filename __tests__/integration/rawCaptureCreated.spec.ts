@@ -42,7 +42,10 @@ describe('rawCaptureFeature', () => {
     await publish('raw-capture-created', '', message, (e) =>
       log.warn('result:', e),
     )
+
+    // wait for message to be consumed
     await new Promise((r) => setTimeout(() => r(''), 2000))
+
     let result = await knex('raw_capture_feature')
       .select()
       .where('id', capture_in_kenya.id)

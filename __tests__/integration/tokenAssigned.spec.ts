@@ -44,6 +44,9 @@ describe('tokenAssigned', () => {
       console.log('result:', e),
     )
 
+    // wait for message to be consumed
+    await new Promise((r) => setTimeout(() => r(''), 2000))
+
     const result = await knex('capture_feature')
       .select()
       .where('wallet_name', wallet_name_new)
