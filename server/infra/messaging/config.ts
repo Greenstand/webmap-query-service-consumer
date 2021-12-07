@@ -2,7 +2,7 @@ const config = {
   vhosts: {
     v1: {
       connection: {
-        url: process.env.RABBIT_MQ_URL,
+        url: process.env.RABBITMQ_URL,
         socketOptions: {
           timeout: 3000,
         },
