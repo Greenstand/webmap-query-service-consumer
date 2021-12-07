@@ -5,7 +5,7 @@ import registerEventHandlers from 'services/event-handlers'
 describe('tokenAssigned', () => {
   beforeEach(async () => {
     //load server
-    registerEventHandlers()
+    await registerEventHandlers()
     await knex('capture_feature').del()
   })
 

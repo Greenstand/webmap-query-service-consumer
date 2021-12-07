@@ -39,7 +39,9 @@ const createRawCaptureFeatureHandler = async (message: CaptureFeature) => {
 }
 
 export default function registerEventHandlers() {
-  subscribe('capture-created', createCaptureFeatureHandler)
-  subscribe('raw-capture-created', createRawCaptureFeatureHandler)
-  subscribe('token-assigned', tokenAssignedHandler)
+  return Promise.all([
+    subscribe('capture-created', createCaptureFeatureHandler),
+    subscribe('raw-capture-created', createRawCaptureFeatureHandler),
+    subscribe('token-assigned', tokenAssignedHandler),
+  ])
 }

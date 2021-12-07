@@ -9,7 +9,7 @@ import capture_in_kenya from '../mock/capture_in_kenya.json'
 describe('rawCaptureFeature', () => {
   beforeEach(async () => {
     //load server
-    registerEventHandlers()
+    await registerEventHandlers()
     await knex('capture_feature').del()
     await knex('raw_capture_feature').del()
     await knex('region_assignment').del()
@@ -39,7 +39,9 @@ describe('rawCaptureFeature', () => {
 
     //prepare the capture before the wallet event
     const message = capture_in_kenya
-    publish('raw-capture-created', '', message, (e) => log.warn('result:', e))
+    await publish('raw-capture-created', '', message, (e) =>
+      log.warn('result:', e),
+    )
     await new Promise((r) => setTimeout(() => r(''), 2000))
     let result = await knex('raw_capture_feature')
       .select()
