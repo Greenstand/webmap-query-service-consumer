@@ -57,7 +57,7 @@ jobs:
         working-directory: ${{ env.project-directory }}
         env:
           DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
-          RABBIT_MQ_URL=amqp://rabbitmq:rabbitmq@rabbitmq
+          RABBIT_MQ_URL: amqp://rabbitmq:rabbitmq@rabbitmq
 
 
   release:
