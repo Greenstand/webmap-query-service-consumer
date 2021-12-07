@@ -32,6 +32,14 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    
+      rabbitmq:
+        image: rabbitmq
+        env:
+          RABBITMQ_DEFAULT_USER: rabbitmq
+          RABBITMQ_DEFAULT_PASS: rabbitmq
+        ports:
+          - 5672:5672
           
     steps:
       - uses: actions/checkout@v2
@@ -58,3 +66,4 @@ jobs:
         working-directory: ${{ env.project-directory }}
         env:
           DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
+          RABBITMQ_URL: amqp://rabbitmq:rabbitmq@rabbitmq
