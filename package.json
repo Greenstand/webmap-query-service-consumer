@@ -48,7 +48,7 @@
     "knex": "^0.95.12",
     "loglevel": "^1.6.8",
     "pg": "^8.7.1",
-    "rascal": "^13.0.0",
+    "rascal": "^14.4.0",
     "uuid": "^8.2.0"
   },
   "devDependencies": {
