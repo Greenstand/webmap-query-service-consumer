@@ -5,4 +5,5 @@ module.exports = {
   globalSetup: '<rootDir>/.jest/globalSetup.ts',
   modulePaths: ['server/'],
   maxConcurrency: 1,
+  forceExit: true,
 }
