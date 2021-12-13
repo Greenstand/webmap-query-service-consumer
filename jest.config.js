@@ -4,4 +4,5 @@ module.exports = {
   testEnvironment: 'node',
   globalSetup: '<rootDir>/.jest/globalSetup.ts',
   modulePaths: ['server/'],
+  maxConcurrency: 2,
 }
