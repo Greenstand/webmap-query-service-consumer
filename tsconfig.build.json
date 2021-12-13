@@ -2,5 +2,5 @@
   "extends": "./tsconfig.base.json",
   "files": ["./server/server.ts"],
   "include": ["server/**/*.ts"],
-  "exclude": ["**/*.spec.*.ts", "**/*.test.*.ts"]
+  "exclude": ["**/*.spec.*", "**/*.test.*"]
 }
