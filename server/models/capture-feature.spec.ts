@@ -1,3 +1,4 @@
+import knex from 'infra/database/knex'
 import { CaptureFeatureRepository } from 'infra/database/pg-repositories'
 import Session from 'infra/database/session'
 
@@ -15,16 +16,21 @@ const exampleData: CaptureFeature = {
   field_username: 'joeplanter',
   attributes: [],
   species_name: 'neem',
-  created_at: Date(),
+  created_at: new Date().toISOString(),
   device_identifier: '1',
 }
 
 describe('Creating CaptureFeature', () => {
+  beforeEach(async () => {
+    // clear db
+    await knex('capture_feature').del()
+  })
+
   const session = new Session()
-  const captureRepository = new CaptureFeatureRepository(session)
-  const stub = jest.spyOn(captureRepository, 'add')
+  const captureFeatureRepo = new CaptureFeatureRepository(session)
+  const stub = jest.spyOn(captureFeatureRepo, 'add')
   const captureFeature = captureFeatureFromMessage(exampleData)
-  const saveCaptureFeature = createCaptureFeature(captureRepository)
+  const saveCaptureFeature = createCaptureFeature(captureFeatureRepo)
 
   it('should add the object to the repository', async () => {
     await saveCaptureFeature(captureFeature)
