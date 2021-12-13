@@ -28,7 +28,7 @@
     "format": "prettier ./ --write",
     "server": "nodemon server/server.js",
     "server-test": "DEBUG=express:* NODE_LOG_LEVEL=debug nodemon server/serverTest.js",
-    "test": "npm run test-unit; npm run test-integration;npm run test-repository",
+    "test": "jest server/ __tests__/",
     "test-integration": "jest '__tests__/integration/'",
     "test-unit": "jest './server/' --testPathIgnorePatterns './server/infra/database/'",
     "test-repo": "jest ./server/infra/database/",
