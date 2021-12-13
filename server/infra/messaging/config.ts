@@ -1,4 +1,6 @@
-const config = {
+import { BrokerConfig } from 'rascal'
+
+const config: BrokerConfig = {
   vhosts: {
     v1: {
       connection: {
