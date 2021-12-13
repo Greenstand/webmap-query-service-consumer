@@ -12,34 +12,32 @@ import {
   createRawCaptureFeature,
   rawCaptureFeatureFromMessage,
 } from 'models/raw-capture-feature'
+import { BrokerAsPromised } from 'rascal'
 import tokenAssignedHandler from 'services/event-token-assigned-handler'
 
-const createCaptureFeatureHandler = async (message: CaptureFeature) => {
+const captureFeatureCreatedHandler = async (message: CaptureFeature) => {
   const newCaptureFeature = captureFeatureFromMessage({ ...message })
   const dbSession = new Session()
   const captureFeatureRepo = new CaptureFeatureRepository(dbSession)
   createCaptureFeature(captureFeatureRepo)(newCaptureFeature)
 }
 
-const createRawCaptureFeatureHandler = async (message: CaptureFeature) => {
+const rawCaptureCreatedHandler = async (message: CaptureFeature) => {
   try {
-    log.warn('createRawCaptureFeatureHandler...', message)
     const newRawCaptureFeature = rawCaptureFeatureFromMessage({ ...message })
     const dbSession = new Session()
     const rawCaptureFeatureRepo = new RawCaptureFeatureRepository(dbSession)
-    const executeRawCreateCaptureFeature = createRawCaptureFeature(
+    const executeCreateRawCaptureFeature = createRawCaptureFeature(
       rawCaptureFeatureRepo,
     )
-    await executeRawCreateCaptureFeature(newRawCaptureFeature)
+    await executeCreateRawCaptureFeature(newRawCaptureFeature)
   } catch (e) {
     log.error('Get error when handling message:', e)
   }
 }
 
-export default function registerEventHandlers() {
-  return Promise.all([
-    subscribe('capture-created', createCaptureFeatureHandler),
-    subscribe('raw-capture-created', createRawCaptureFeatureHandler),
-    subscribe('token-assigned', tokenAssignedHandler),
-  ])
+export default async function registerEventHandlers(broker: BrokerAsPromised) {
+  await subscribe(broker, 'capture-created', captureFeatureCreatedHandler)
+  await subscribe(broker, 'raw-capture-created', rawCaptureCreatedHandler)
+  await subscribe(broker, 'token-assigned', tokenAssignedHandler)
 }

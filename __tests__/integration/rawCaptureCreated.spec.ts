@@ -1,23 +1,43 @@
 import knex from 'infra/database/knex'
+import config from 'infra/messaging/config'
 import { publish } from 'infra/messaging/rabbit-mq-messaging'
-import { unsubscribeAll } from 'infra/messaging/rabbit-mq-messaging'
 import log from 'loglevel'
+import { BrokerAsPromised, withTestConfig } from 'rascal'
 import registerEventHandlers from 'services/event-handlers'
 
 import capture_in_kenya from '../mock/capture_in_kenya.json'
 
 describe('rawCaptureFeature', () => {
-  beforeEach(async () => {
-    //load server
-    await registerEventHandlers()
-    await knex('capture_feature').del()
-    await knex('raw_capture_feature').del()
-    await knex('region_assignment').del()
-    await knex('raw_capture_cluster').del()
+  let broker: BrokerAsPromised
+
+  beforeAll(async () => {
+    try {
+      broker = await BrokerAsPromised.create(withTestConfig(config))
+      await registerEventHandlers(broker)
+    } catch (err) {
+      return console.error(err)
+    }
   })
 
-  afterEach(async () => {
-    await unsubscribeAll()
+  beforeEach(async () => {
+    try {
+      await knex('capture_feature').del()
+      await knex('raw_capture_feature').del()
+      await knex('region_assignment').del()
+      await knex('raw_capture_cluster').del()
+      await broker.purge()
+    } catch (err) {
+      return console.error(err)
+    }
+  })
+
+  afterAll(async () => {
+    if (!broker) return
+    try {
+      await broker.nuke()
+    } catch (err) {
+      return console.error(err)
+    }
   })
 
   it('Successfully handle raw capture created event', async () => {
@@ -39,7 +59,7 @@ describe('rawCaptureFeature', () => {
 
     //prepare the capture before the wallet event
     const message = capture_in_kenya
-    await publish('raw-capture-created', '', message, (e) =>
+    await publish(broker, 'raw-capture-created', '', message, (e) =>
       log.warn('result:', e),
     )
 

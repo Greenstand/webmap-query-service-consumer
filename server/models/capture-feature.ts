@@ -50,13 +50,15 @@ export const createCaptureFeature =
     await repository.add(captureFeature)
   }
 
-export const updateCaptureFeature =
-  <T>(captureFeatureRepo: CaptureFeatureRepository) =>
-  async (captureFeatureIds: string[], captureFeatureUpdateObject: T) => {
-    log.warn('repo:', captureFeatureRepo)
+export function updateCaptureFeature<T>(
+  captureFeatureRepo: CaptureFeatureRepository,
+) {
+  return async (captureFeatureIds: string[], captureFeatureUpdateObject: T) => {
+    log.log('repo:', captureFeatureRepo)
     // Because here is using a special fn to update db, so didn't use Repository
     await captureFeatureRepo.batchUpdate(
       captureFeatureIds,
       captureFeatureUpdateObject,
     )
   }
+}

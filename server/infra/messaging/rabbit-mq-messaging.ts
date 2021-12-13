@@ -1,37 +1,39 @@
 import log from 'loglevel'
-import rascal from 'rascal'
+import { BrokerAsPromised as Broker } from 'rascal'
 
 import config from './config'
 
-const Broker = rascal.BrokerAsPromised
+export function initBroker() {
+  return Broker.create(config)
+}
 
-export async function publish<T1>(
+export async function publish<T>(
+  broker: Broker,
   publicationName: string,
   routingKey: string,
-  payload: T1,
+  payload: T,
   resultHandler: (messageId: string) => void,
 ) {
   try {
-    const broker = await Broker.create(config)
     const publication = await broker.publish(
       publicationName,
       payload,
       routingKey,
     )
     publication.on('success', resultHandler).on('error', (err, messageId) => {
-      console.error(`Error with id ${messageId} ${err.message}`)
+      log.error(`Error with id ${messageId} ${err.message}`)
       throw err
     })
   } catch (err) {
-    console.error(`Error publishing message ${err}`, err)
+    log.error(`Error publishing message ${err}`, err)
   }
 }
 
 export async function subscribe<T>(
+  broker: Broker,
   subscriptionName: string,
-  eventHandler: (event: T) => void,
+  eventHandler: (content: T) => void,
 ) {
-  const broker = await Broker.create(config)
   try {
     const subscription = await broker.subscribe(subscriptionName)
     subscription
@@ -39,18 +41,8 @@ export async function subscribe<T>(
         eventHandler(content)
         ackOrNack()
       })
-      .on('error', console.error)
+      .on('error', log.error)
   } catch (err) {
-    console.error(`Error subscribing to ${subscriptionName}, error: ${err}`)
-  }
-}
-
-export const unsubscribeAll = async () => {
-  log.warn('unsubscribeAll')
-  try {
-    const broker = await Broker.create(config)
-    await broker.unsubscribeAll()
-  } catch (err) {
-    console.error(`Error unsubscribeAll , error: ${err}`)
+    log.error(`Error subscribing to ${subscriptionName}, error: ${err}`)
   }
 }
