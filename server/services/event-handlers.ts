@@ -1,7 +1,5 @@
-import {
-  CaptureFeatureRepository,
-  RawCaptureFeatureRepository,
-} from 'infra/database/pg-repositories'
+import CaptureFeatureRepository from 'infra/database/CaptureFeatureRepository'
+import RawCaptureFeatureRepository from 'infra/database/RawCaptureFeatureRepository'
 import Session from 'infra/database/session'
 import { subscribe } from 'infra/messaging/rabbit-mq-messaging'
 import log from 'loglevel'

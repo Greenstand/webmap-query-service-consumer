@@ -1,7 +1,5 @@
-import {
-  CaptureFeatureRepository,
-  RawCaptureFeatureRepository,
-} from 'infra/database/pg-repositories'
+import CaptureFeatureRepository from 'infra/database/CaptureFeatureRepository'
+import RawCaptureFeatureRepository from 'infra/database/RawCaptureFeatureRepository'
 import { Knex } from 'knex'
 
 import { CaptureFeature } from './capture-feature'

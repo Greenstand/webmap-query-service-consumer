@@ -1,4 +1,4 @@
-import { RawCaptureFeatureRepository } from 'infra/database/pg-repositories'
+import RawCaptureFeatureRepository from 'infra/database/RawCaptureFeatureRepository'
 
 import { Attribute } from './capture-feature'
 import Repository from './Repository'

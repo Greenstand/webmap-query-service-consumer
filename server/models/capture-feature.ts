@@ -1,4 +1,4 @@
-import { CaptureFeatureRepository } from 'infra/database/pg-repositories'
+import CaptureFeatureRepository from 'infra/database/CaptureFeatureRepository'
 import log from 'loglevel'
 import Repository from 'models/Repository'
 

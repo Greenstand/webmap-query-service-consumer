@@ -1,5 +1,5 @@
+import CaptureFeatureRepository from 'infra/database/CaptureFeatureRepository'
 import knex from 'infra/database/knex'
-import { CaptureFeatureRepository } from 'infra/database/pg-repositories'
 import Session from 'infra/database/session'
 
 import {
