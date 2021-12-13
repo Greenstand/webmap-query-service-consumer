@@ -6,7 +6,10 @@ describe('Example rascal test', function () {
   beforeAll(function (done) {
     const config: any = {
       vhosts: {
-        '/': {
+        v1: {
+          connection: {
+            url: process.env.RABBITMQ_URL,
+          },
           exchanges: ['demo_ex'],
           queues: ['demo_q'],
           bindings: ['demo_ex[a.b.c] -> demo_q'],
