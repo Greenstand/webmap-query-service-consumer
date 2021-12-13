@@ -32,7 +32,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-    
+
       rabbitmq:
         image: rabbitmq
         env:
@@ -40,7 +40,7 @@ jobs:
           RABBITMQ_DEFAULT_PASS: rabbitmq
         ports:
           - 5672:5672
-          
+
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x
@@ -62,7 +62,7 @@ jobs:
           DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
 
       - name: run api tests
-        run: npm run test
+        run: npm run test -- --ci --globalSetup=''
         working-directory: ${{ env.project-directory }}
         env:
           DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
