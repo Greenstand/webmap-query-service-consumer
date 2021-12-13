@@ -47,7 +47,7 @@ export const createCaptureFeature =
   (captureFeatureRepo: CaptureFeatureRepository) =>
   async (captureFeature: CaptureFeature) => {
     const repository = new Repository(captureFeatureRepo)
-    repository.add(captureFeature)
+    await repository.add(captureFeature)
   }
 
 export const updateCaptureFeature =
