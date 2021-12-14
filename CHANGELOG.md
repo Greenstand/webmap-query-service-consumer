@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.6.4...v1.7.0) (2021-12-14)
+
+
+### Features
+
+* implement standard deployment ([4bfa80e](https://github.com/Greenstand/webmap-query-service-consumer/commit/4bfa80e35ed2b0fa4957e0f67067d227185120f6))
+
 ## [1.6.4](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.6.3...v1.6.4) (2021-12-14)
 
 
