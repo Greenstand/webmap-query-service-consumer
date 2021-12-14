@@ -1,3 +1,10 @@
+## [1.6.4](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.6.3...v1.6.4) (2021-12-14)
+
+
+### Bug Fixes
+
+* remove dockerignore file, skipping node_modules ([c19b462](https://github.com/Greenstand/webmap-query-service-consumer/commit/c19b462ac93c4d15ac2a42d155d8fe2b223baa23))
+
 ## [1.6.3](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.6.2...v1.6.3) (2021-12-14)
 
 
