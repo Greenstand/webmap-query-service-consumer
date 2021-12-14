@@ -15,6 +15,7 @@ describe('rawCaptureFeatureFromMessage function', () => {
     field_username: 'planter',
     attributes: [],
     created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
     device_identifier: 1,
   })
 
@@ -28,6 +29,7 @@ describe('rawCaptureFeatureFromMessage function', () => {
       'attributes',
       'device_identifier',
       'created_at',
+      'updated_at',
     ])
   })
 })
@@ -41,6 +43,7 @@ describe('calling createRawCaptureFeature function', () => {
     field_username: 'planter',
     attributes: [],
     created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
     device_identifier: 1,
   })
 
