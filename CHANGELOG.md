@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.7.0...v1.7.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* dev should be development ([a2171db](https://github.com/Greenstand/webmap-query-service-consumer/commit/a2171db94f5daad39bf7790a6c3f4e5a59635eeb))
+
 # [1.7.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.6.4...v1.7.0) (2021-12-14)
 
 
