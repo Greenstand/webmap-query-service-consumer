@@ -41,10 +41,7 @@ spec:
                   name: database-connection
                   key: db
             - name: DATABASE_SCHEMA
-              valueFrom:
-                secretKeyRef:
-                  name: database-connection
-                  key: schema
+              value: webmap
             - name: RABBITMQ_URL
               valueFrom:
                 secretKeyRef:
