@@ -53,7 +53,7 @@ describe('rawCaptureFeature', () => {
     )
 
     // wait for message to be consumed
-    await new Promise((r) => setTimeout(() => r(''), 2000))
+    await new Promise((r) => setTimeout(() => r(''), 4000))
 
     let result = await knex('raw_capture_feature')
       .select()
