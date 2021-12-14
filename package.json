@@ -34,6 +34,8 @@
     "test-repo": "jest ./server/infra/database/",
     "db-migrate": "db-migrate up -v -m database/migrations/",
     "db-migrate-ci": "cd database; db-migrate up",
+    "db-seed-region": "cat ./__tests__/mock/region.copy | psql $DATABASE_URL -c 'COPY region FROM STDIN'",
+    "db-seed-region-zoom": "cat ./__tests__/mock/region_zoom.copy | psql $DATABASE_URL -c 'COPY region_zoom FROM STDIN'",
     "decrypt": "nodecipher decrypt env.secret .env",
     "encrypt": "nodecipher encrypt .env env.secret"
   },
@@ -45,7 +47,7 @@
     "express": "^4.16.2",
     "express-async-handler": "^1.1.4",
     "express-validator": "^6.4.0",
-    "knex": "^0.95.12",
+    "knex": "^0.95.14",
     "loglevel": "^1.6.8",
     "pg": "^8.7.1",
     "rascal": "^14.4.0",
