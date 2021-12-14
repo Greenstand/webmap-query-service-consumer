@@ -12,11 +12,14 @@ const exampleData: CaptureFeature = {
   id: 'd13f0b9e-d067-48b4-a5da-46d5655c54dd',
   lat: 11.43,
   lon: 30.56,
+  location: '',
   field_user_id: 12315,
+  token_id: '12315',
+  wallet_name: '12315',
   field_username: 'joeplanter',
   attributes: [],
-  species_name: 'neem',
   created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString(),
   device_identifier: '1',
 }
 

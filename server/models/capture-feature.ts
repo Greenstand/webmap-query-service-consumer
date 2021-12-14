@@ -9,14 +9,17 @@ export type Attribute = {
 
 export type CaptureFeature = {
   id: number | string
-  lat: number | string
-  lon: number | string
+  lat: number
+  lon: number
+  location: string
   field_user_id: number | string
   field_username: string
   attributes: Attribute[]
   device_identifier: string | number
   created_at: string
-  species_name: string
+  updated_at: string
+  token_id: string
+  wallet_name: string
 }
 
 export const captureFeatureFromMessage = ({
@@ -27,7 +30,6 @@ export const captureFeatureFromMessage = ({
   field_username,
   device_identifier,
   attributes,
-  species_name,
   created_at,
 }: CaptureFeature): Readonly<CaptureFeature> => {
   return {
@@ -38,7 +40,6 @@ export const captureFeatureFromMessage = ({
     field_username,
     device_identifier,
     attributes,
-    species_name,
     created_at,
   } as Readonly<CaptureFeature>
 }
