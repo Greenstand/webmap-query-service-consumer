@@ -1,6 +1,7 @@
 import knex from 'infra/database/knex'
 import config from 'infra/messaging/config'
 import { publish, subscribe } from 'infra/messaging/rabbit-mq-messaging'
+import { CaptureFeature } from 'models/capture-feature'
 import { BrokerAsPromised } from 'rascal'
 import tokenAssignedHandler from 'services/event-token-assigned-handler'
 
@@ -33,7 +34,7 @@ describe('tokenAssigned', () => {
     const capture_id = '63e00bca-8eb0-11eb-8dcd-0242ac130003'
     const token_id = '9d7abad8-8eb0-11eb-8dcd-0242ac130003'
     const wallet_name = 'oldone'
-    const capture = {
+    const capture: CaptureFeature = {
       id: capture_id,
       lat: 0,
       lon: 0,
@@ -42,9 +43,10 @@ describe('tokenAssigned', () => {
       field_username: 'fake_name',
       token_id,
       wallet_name,
-      capture_taken_at: new Date(),
-      created_at: new Date(),
-      updated_at: new Date(),
+      attributes: [],
+      device_identifier: 'x',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     }
     await knex('capture_feature').insert(capture)
     const wallet_name_new = 'newone'
