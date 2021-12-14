@@ -1,8 +1,8 @@
 FROM node:16-alpine
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
-COPY node_modules ./node_modules
-COPY package.json ./package.json
-COPY package-lock.json ./package-lock.json
-COPY dist ./dist
+COPY node_modules ./
+COPY package.json ./
+COPY package-lock.json ./
+COPY dist ./
 CMD [ "npm", "start" ]
