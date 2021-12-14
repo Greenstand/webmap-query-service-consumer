@@ -29,7 +29,7 @@ describe('BaseRepository', () => {
       query.response([{ id: 1 }])
     })
     const entity = await baseRepository.getById(1)
-    expect(entity).toHaveProperty('id' , 1)
+    expect(entity).toHaveProperty('id', 1)
   })
 
   //TODO
@@ -74,7 +74,9 @@ describe('BaseRepository', () => {
         tracker.uninstall()
         tracker.install()
         tracker.on('query', (query) => {
-          expect(query.sql).toMatch(/select.*testTable.*where.*c1.*=.*and.*c2.*=.*/)
+          expect(query.sql).toMatch(
+            /select.*testTable.*where.*c1.*=.*and.*c2.*=.*/,
+          )
           query.response([{ id: 1 }])
         })
         const result = await baseRepository.getByFilter({
@@ -95,7 +97,9 @@ describe('BaseRepository', () => {
         tracker.uninstall()
         tracker.install()
         tracker.on('query', (query) => {
-          expect(query.sql).toMatch(/select.*testTable.*where.*c1.*=.*or.*c2.*=.*/)
+          expect(query.sql).toMatch(
+            /select.*testTable.*where.*c1.*=.*or.*c2.*=.*/,
+          )
           query.response([{ id: 1 }])
         })
         const result = await baseRepository.getByFilter({
@@ -116,7 +120,9 @@ describe('BaseRepository', () => {
         tracker.uninstall()
         tracker.install()
         tracker.on('query', (query) => {
-          expect(query.sql).toMatch(/select.*testTable.*where.*c1.*=.*and.*c2.*=.*and.*c3.*or.*c4.*/)
+          expect(query.sql).toMatch(
+            /select.*testTable.*where.*c1.*=.*and.*c2.*=.*and.*c3.*or.*c4.*/,
+          )
           query.response([{ id: 1 }])
         })
         const result = await baseRepository.getByFilter({
@@ -148,7 +154,9 @@ describe('BaseRepository', () => {
         tracker.install()
         tracker.on('query', (query) => {
           console.log('sql:', query.sql)
-          expect(query.sql).toMatch(/select.*testTable.*where.*c1.*=.*or.*c2.*=.*or.*c3.*and.*c4.*/)
+          expect(query.sql).toMatch(
+            /select.*testTable.*where.*c1.*=.*or.*c2.*=.*or.*c3.*and.*c4.*/,
+          )
           query.response([{ id: 1 }])
         })
         const result = await baseRepository.getByFilter({
@@ -180,7 +188,9 @@ describe('BaseRepository', () => {
         tracker.install()
         tracker.on('query', (query) => {
           console.log('sql:', query.sql)
-          expect(query.sql).toMatch(/select.*testTable.*where.*c3.*=.*and.*c4.*=.*or.*c3.*and.*c4.*/)
+          expect(query.sql).toMatch(
+            /select.*testTable.*where.*c3.*=.*and.*c4.*=.*or.*c3.*and.*c4.*/,
+          )
           query.response([{ id: 1 }])
         })
         const result = await baseRepository.getByFilter({

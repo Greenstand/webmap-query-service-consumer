@@ -117,7 +117,7 @@ docker run -d --hostname my-rabbit --name rabbit -p 5672:5672 -p 15672:15672  ra
 This would run the RabbitMQ on:
 
 ```
-RABBIT_MQ_URL=amqp://guest:guest@localhost
+RABBITMQ_URL=amqp://guest:guest@localhost
 ```
 
 (The port might be 5672 as the default value)

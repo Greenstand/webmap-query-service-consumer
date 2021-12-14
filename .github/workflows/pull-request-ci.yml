@@ -32,7 +32,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-    
+
       rabbitmq:
         image: rabbitmq
         env:
@@ -40,7 +40,7 @@ jobs:
           RABBITMQ_DEFAULT_PASS: rabbitmq
         ports:
           - 5672:5672
-          
+
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x
@@ -57,6 +57,17 @@ jobs:
 
       - name: run db-migrate
         run: npm run db-migrate-ci
+        working-directory: ${{ env.project-directory }}
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
+
+      - name: install psql
+        run: |
+          apt-get update
+          apt-get install --yes --no-install-recommends postgresql-client
+
+      - name: run db-copy-region-data
+        run: npm run db-seed-region ; npm run db-seed-region-zoom
         working-directory: ${{ env.project-directory }}
         env:
           DATABASE_URL: postgresql://postgres:postgres@postgres/postgres

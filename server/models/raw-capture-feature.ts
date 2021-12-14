@@ -1,17 +1,18 @@
-import { RawCaptureFeatureRepository } from 'infra/database/pg-repositories'
+import RawCaptureFeatureRepository from 'infra/database/RawCaptureFeatureRepository'
 
 import { Attribute } from './capture-feature'
 import Repository from './Repository'
 
 export type RawCaptureFeature = {
   id: number | string
-  lat: number | string
-  lon: number | string
+  lat: number
+  lon: number
   field_user_id: number | string
   field_username: string
   attributes: Attribute[]
   device_identifier: string | number
   created_at: string
+  updated_at: string
 }
 
 export const rawCaptureFeatureFromMessage = ({
@@ -23,6 +24,7 @@ export const rawCaptureFeatureFromMessage = ({
   attributes,
   device_identifier = '',
   created_at,
+  updated_at,
 }: RawCaptureFeature) => {
   return Object.freeze({
     id,
@@ -33,6 +35,7 @@ export const rawCaptureFeatureFromMessage = ({
     attributes,
     device_identifier,
     created_at,
+    updated_at,
   })
 }
 

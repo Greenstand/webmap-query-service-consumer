@@ -1,4 +1,4 @@
-import { Knex, knex as knexApp } from 'knex'
+import { Knex, knex } from 'knex'
 import log from 'loglevel'
 
 const connection = process.env.DATABASE_URL
@@ -17,5 +17,4 @@ if (process.env.DATABASE_SCHEMA) {
 }
 log.debug(knexConfig.searchPath)
 
-const knex = knexApp(knexConfig)
-export default knex
+export default knex(knexConfig)

@@ -1,23 +1,32 @@
 import knex from 'infra/database/knex'
+import config from 'infra/messaging/config'
 import { publish } from 'infra/messaging/rabbit-mq-messaging'
-import { unsubscribeAll } from 'infra/messaging/rabbit-mq-messaging'
 import log from 'loglevel'
+import { BrokerAsPromised, withTestConfig } from 'rascal'
 import registerEventHandlers from 'services/event-handlers'
 
 import capture_in_kenya from '../mock/capture_in_kenya.json'
 
 describe('rawCaptureFeature', () => {
+  let broker: BrokerAsPromised
+
+  beforeAll(async () => {
+    broker = await BrokerAsPromised.create(withTestConfig(config))
+    await registerEventHandlers(broker)
+  })
+
   beforeEach(async () => {
-    //load server
-    registerEventHandlers()
     await knex('capture_feature').del()
     await knex('raw_capture_feature').del()
     await knex('region_assignment').del()
     await knex('raw_capture_cluster').del()
+    await broker.purge()
   })
 
-  afterEach(async () => {
-    await unsubscribeAll()
+  afterAll(async () => {
+    if (!broker) return
+    await broker.unsubscribeAll()
+    await broker.nuke()
   })
 
   it('Successfully handle raw capture created event', async () => {
@@ -39,15 +48,48 @@ describe('rawCaptureFeature', () => {
 
     //prepare the capture before the wallet event
     const message = capture_in_kenya
-    publish('raw-capture-created', '', message, (e) => log.warn('result:', e))
-    await new Promise((r) => setTimeout(() => r(''), 2000))
+    await publish(broker, 'raw-capture-created', '', message, (e) =>
+      log.warn('result:', e),
+    )
+
+    // wait for message to be consumed
+    await new Promise((r) => setTimeout(() => r(''), 4000))
+
     let result = await knex('raw_capture_feature')
       .select()
       .where('id', capture_in_kenya.id)
+    console.log(
+      '------------------------------RESULT1----------------------',
+      result,
+    )
     expect(result).toHaveLength(1)
 
-    //check the region data, make sure the sample data has been imported from mock/xxx.copy
-    /*
+    result = await knex('region_assignment').select().where({
+      map_feature_id: capture_in_kenya.id,
+      zoom_level: 9,
+      region_id: 2281072,
+    })
+    console.log(
+      '------------------------------RESULT2----------------------',
+      result,
+    )
+    expect(result).toHaveLength(1)
+
+    result = await knex('region_assignment').select().where({
+      map_feature_id: capture_in_kenya.id,
+    })
+    expect(result).toHaveLength(15)
+
+    //the cluster closer should be updated, and it's count is 2 now
+    result = await knex('raw_capture_cluster').select().where({
+      count: 2,
+    })
+    expect(result).toHaveLength(1)
+  })
+})
+
+//check the region data, make sure the sample data has been imported from mock/xxx.copy
+/*
      * the result from dev DB
      *
         treetracker_dev=> select DISTINCT ON (tree_id, zoom_level) trees.id as tree_id, zoom_level, region.id from (
@@ -75,24 +117,3 @@ describe('rawCaptureFeature', () => {
           928260 |         15 | 5447363
       (15 rows)
       */
-    result = await knex('region_assignment').select().where({
-      map_feature_id: capture_in_kenya.id,
-      zoom_level: 9,
-      region_id: 2281072,
-    })
-    expect(result).toHaveLength(1)
-
-    result = await knex('region_assignment').select().where({
-      map_feature_id: capture_in_kenya.id,
-    })
-    log.warn('inserted:', result)
-    expect(result).toHaveLength(15)
-
-    //the cluster closer should be updated, and it's count is 2 now
-    result = await knex('raw_capture_cluster').select().where({
-      count: 2,
-    })
-    log.warn('cluster:', result)
-    expect(result).toHaveLength(1)
-  })
-})

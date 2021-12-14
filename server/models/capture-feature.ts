@@ -1,4 +1,4 @@
-import { CaptureFeatureRepository } from 'infra/database/pg-repositories'
+import CaptureFeatureRepository from 'infra/database/CaptureFeatureRepository'
 import log from 'loglevel'
 import Repository from 'models/Repository'
 
@@ -9,14 +9,17 @@ export type Attribute = {
 
 export type CaptureFeature = {
   id: number | string
-  lat: number | string
-  lon: number | string
+  lat: number
+  lon: number
+  location: string
   field_user_id: number | string
   field_username: string
   attributes: Attribute[]
   device_identifier: string | number
   created_at: string
-  species_name: string
+  updated_at: string
+  token_id: string
+  wallet_name: string
 }
 
 export const captureFeatureFromMessage = ({
@@ -27,7 +30,6 @@ export const captureFeatureFromMessage = ({
   field_username,
   device_identifier,
   attributes,
-  species_name,
   created_at,
 }: CaptureFeature): Readonly<CaptureFeature> => {
   return {
@@ -38,7 +40,6 @@ export const captureFeatureFromMessage = ({
     field_username,
     device_identifier,
     attributes,
-    species_name,
     created_at,
   } as Readonly<CaptureFeature>
 }
@@ -47,16 +48,18 @@ export const createCaptureFeature =
   (captureFeatureRepo: CaptureFeatureRepository) =>
   async (captureFeature: CaptureFeature) => {
     const repository = new Repository(captureFeatureRepo)
-    repository.add(captureFeature)
+    await repository.add(captureFeature)
   }
 
-export const updateCaptureFeature =
-  <T>(captureFeatureRepo: CaptureFeatureRepository) =>
-  async (captureFeatureIds: string[], captureFeatureUpdateObject: T) => {
-    log.warn('repo:', captureFeatureRepo)
+export function updateCaptureFeature<T>(
+  captureFeatureRepo: CaptureFeatureRepository,
+) {
+  return async (captureFeatureIds: string[], captureFeatureUpdateObject: T) => {
+    log.log('repo:', captureFeatureRepo)
     // Because here is using a special fn to update db, so didn't use Repository
     await captureFeatureRepo.batchUpdate(
       captureFeatureIds,
       captureFeatureUpdateObject,
     )
   }
+}

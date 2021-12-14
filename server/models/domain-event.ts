@@ -1,4 +1,4 @@
-import { RawCaptureFeatureRepository } from 'infra/database/pg-repositories'
+import RawCaptureFeatureRepository from 'infra/database/RawCaptureFeatureRepository'
 import { v4 as uuidv4 } from 'uuid'
 
 import Repository from './Repository'
