@@ -1,3 +1,46 @@
+# [1.6.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.5.1...v1.6.0) (2021-12-14)
+
+
+### Bug Fixes
+
+* add data seed to deployment CI ([09e7654](https://github.com/Greenstand/webmap-query-service-consumer/commit/09e76546346edfdf1ed4326c1acde5dc7fdc4031))
+* add db-migrate-ci job ([ca5ad0c](https://github.com/Greenstand/webmap-query-service-consumer/commit/ca5ad0c74b998132aa304ecc16200c88956e7fff))
+* add forceExit=true to jest config ([e8ede6b](https://github.com/Greenstand/webmap-query-service-consumer/commit/e8ede6b8cd320a40e64400a577cb7d6c9aea8689))
+* add rabbitmq service container ([88a8aaa](https://github.com/Greenstand/webmap-query-service-consumer/commit/88a8aaac9906fa7ac42cf3fdc93973e22e7c373c))
+* add timeout to tokenAssigned spec ([fbd4c43](https://github.com/Greenstand/webmap-query-service-consumer/commit/fbd4c433f51a257352d436286b81efdab8a274c8))
+* add updated workflow ([8663183](https://github.com/Greenstand/webmap-query-service-consumer/commit/8663183fa070a9c35f58f74b8134c06ad4d91954))
+* capture featur spec passes ([fe1ab83](https://github.com/Greenstand/webmap-query-service-consumer/commit/fe1ab8367793f04fca4aa70a1f02827eaff5895e))
+* capture feature insert string ([c2011f4](https://github.com/Greenstand/webmap-query-service-consumer/commit/c2011f4716a002470b8a5cacd62f2c132fa3090c))
+* capture feature interface ([cbde477](https://github.com/Greenstand/webmap-query-service-consumer/commit/cbde4779678b518bbc225a0a6db208bc298c4976))
+* config for service containers ([81fea89](https://github.com/Greenstand/webmap-query-service-consumer/commit/81fea89e60079b16cca53f4885f8c53f34c5101b))
+* delete workflow ([dd95ef7](https://github.com/Greenstand/webmap-query-service-consumer/commit/dd95ef7edfd337e115070bb99d3891105ff3934d))
+* dev build ci/cd out of date ([985d737](https://github.com/Greenstand/webmap-query-service-consumer/commit/985d7375009d385c107cecec020609cf8271d1e9))
+* example data ([63db27f](https://github.com/Greenstand/webmap-query-service-consumer/commit/63db27f889b31d586a1ae2d2cba7bf75a39d82f9))
+* jest env assignment logic ([7b7de7f](https://github.com/Greenstand/webmap-query-service-consumer/commit/7b7de7fea57d539bb3f2d46999930d9a80d91bd0))
+* make registerEventHandlers return promise ([920cdea](https://github.com/Greenstand/webmap-query-service-consumer/commit/920cdea943d0523d115cefe554bb99ab172e271c))
+* max concurrency = 1 ([17d89af](https://github.com/Greenstand/webmap-query-service-consumer/commit/17d89af14772270bb65041d3ca20d3823be50f81))
+* no space in RABBITMQ ([2c89b97](https://github.com/Greenstand/webmap-query-service-consumer/commit/2c89b97b3441713bdcd35fe0d2722899ba5284cb))
+* only use one broker ([812bae5](https://github.com/Greenstand/webmap-query-service-consumer/commit/812bae5e316001f1a8c6b1a17ae5ed7c18a60d90))
+* raw capture feature interface ([e2b0dcf](https://github.com/Greenstand/webmap-query-service-consumer/commit/e2b0dcfbdafb27b49ab23b515ef20a2f4b827178))
+* remove container line for debugging ([77c2a1e](https://github.com/Greenstand/webmap-query-service-consumer/commit/77c2a1ed739dbd905f6b6ea132553bcb7f579028))
+* remove jest config from CI ([d9abbb2](https://github.com/Greenstand/webmap-query-service-consumer/commit/d9abbb29f7e72e66155345a6a00eb19318f7c196))
+* remove old rabbitmq config ([fd63bf5](https://github.com/Greenstand/webmap-query-service-consumer/commit/fd63bf59dfbeb77a48f723807826141473308a87))
+* run db-migrate-ci ([fa5a6f2](https://github.com/Greenstand/webmap-query-service-consumer/commit/fa5a6f28cb79f02ec4a81d030b5243765804e7b8))
+* selectively use local env for jest ([ca61944](https://github.com/Greenstand/webmap-query-service-consumer/commit/ca61944211b991e2be3bc5961eb3bbe526e92783))
+* set test max concurrency ([9e68b4f](https://github.com/Greenstand/webmap-query-service-consumer/commit/9e68b4fe75d3f6e0898b1367c32077b7e223cc64))
+* set up rabbitmq service container ([5b11d50](https://github.com/Greenstand/webmap-query-service-consumer/commit/5b11d5066e0629ebc4aab419131c375b5fa2e9d7))
+* switch container back to node:10.18-jessie ([c8289d2](https://github.com/Greenstand/webmap-query-service-consumer/commit/c8289d28b5e52f95df4bb7db21dc63d28f6d27f5))
+* tsconfig build excludes tests ([58bcd4c](https://github.com/Greenstand/webmap-query-service-consumer/commit/58bcd4c8064b5e4fc6b8a1f76d4743cb5929c88d))
+* typo ([6ddfcab](https://github.com/Greenstand/webmap-query-service-consumer/commit/6ddfcab0e2ec1ce48b63d62815e1a5185a64363d))
+* typo ([1f08779](https://github.com/Greenstand/webmap-query-service-consumer/commit/1f08779581dec6596dc7025274d433695e4c5b64))
+* update semantic release to use main branch ([a81acb9](https://github.com/Greenstand/webmap-query-service-consumer/commit/a81acb9b17b94b88663518e9f8ffbfa55d9adb54))
+* update workflow to create postgis service container ([2f4acee](https://github.com/Greenstand/webmap-query-service-consumer/commit/2f4acee6edafca7b6059dbaedd9201988a4c9289))
+
+
+### Features
+
+* db seed region scripts ([ee44b5d](https://github.com/Greenstand/webmap-query-service-consumer/commit/ee44b5dc8aba83619a81e09882393424c098cd07))
+
 ## [1.5.1](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.5.0...v1.5.1) (2021-12-01)
 
 ### Bug Fixes
