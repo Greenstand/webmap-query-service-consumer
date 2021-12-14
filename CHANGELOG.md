@@ -1,3 +1,10 @@
+## [1.7.3](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.7.2...v1.7.3) (2021-12-14)
+
+
+### Bug Fixes
+
+* correct implementation of ackOrNack logic ([f63322a](https://github.com/Greenstand/webmap-query-service-consumer/commit/f63322ae223b8da451aeef9749b9ebfb5e3f9363))
+
 ## [1.7.2](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.7.1...v1.7.2) (2021-12-14)
 
 
