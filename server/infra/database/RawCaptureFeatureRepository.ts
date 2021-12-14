@@ -1,4 +1,3 @@
-import log from 'loglevel';
 import { RawCaptureFeature } from 'models/raw-capture-feature';
 
 import BaseRepository from './BaseRepository';
@@ -13,7 +12,6 @@ export default class RawCaptureFeatureRepository extends BaseRepository {
   }
 
   async add(rawCaptureFeature: RawCaptureFeature) {
-    log.log(this.tableName, ' add:', rawCaptureFeature);
     const wellKnownText = `POINT(${rawCaptureFeature.lon} ${rawCaptureFeature.lat})`;
     const result = await this.session.getDB().raw(
       `insert into raw_capture_feature (
@@ -40,8 +38,7 @@ export default class RawCaptureFeatureRepository extends BaseRepository {
   }
 
   async assignRegion(rawCaptureFeature:RawCaptureFeature) {
-    log.warn(this.tableName, ' assign region:', rawCaptureFeature);
-    const result = await this.session.getDB().raw(
+    await this.session.getDB().raw(
       `
       INSERT INTO region_assignment
         (map_feature_id, zoom_level, region_id)
@@ -59,7 +56,6 @@ export default class RawCaptureFeatureRepository extends BaseRepository {
     `,
       [rawCaptureFeature.id, rawCaptureFeature.lon, rawCaptureFeature.lat],
     );
-    log.warn(this.tableName, 'inserted:', result);
     return true;
   }
 
@@ -69,9 +65,7 @@ export default class RawCaptureFeatureRepository extends BaseRepository {
    * For performance, just update the count that this capture belongs to, so just find the nearest cluster and add +1, we still need a periodically task to refresh these cluster
    */
   async updateCluster(rawCaptureFeature:RawCaptureFeature) {
-    log.warn(this.tableName, ' updateCluster');
-
-    const result = await this.session.getDB().raw(
+    await this.session.getDB().raw(
       `
       UPDATE raw_capture_cluster 
       SET count = count + 1 
@@ -85,7 +79,6 @@ export default class RawCaptureFeatureRepository extends BaseRepository {
       `,
       [rawCaptureFeature.lon, rawCaptureFeature.lat],
     );
-    log.warn(this.tableName, ' updated:', result);
   }
 }
 
