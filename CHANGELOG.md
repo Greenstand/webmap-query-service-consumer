@@ -1,3 +1,10 @@
+## [1.7.5](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.7.4...v1.7.5) (2021-12-14)
+
+
+### Bug Fixes
+
+* correct the name of the secret ([7291725](https://github.com/Greenstand/webmap-query-service-consumer/commit/72917254b5ea7e9266834ff6e8db19b3fa393421))
+
 ## [1.7.4](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.7.3...v1.7.4) (2021-12-14)
 
 
