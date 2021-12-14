@@ -32,14 +32,17 @@ export async function publish<T>(
 export async function subscribe<T>(
   broker: Broker,
   subscriptionName: string,
-  eventHandler: (content: T) => void,
+  eventHandler: (content: T) => Promise<void>,
 ) {
   try {
     const subscription = await broker.subscribe(subscriptionName)
     subscription
-      .on('message', (_message, content: T, ackOrNack) => {
-        eventHandler(content)
-        ackOrNack()
+      .on('message', async (_message, content: T, ackOrNack) => {
+        try {
+          await eventHandler(content)
+        } catch (err) {
+          ackOrNack(err as Error)
+        }
       })
       .on('error', log.error)
   } catch (err) {
