@@ -57,6 +57,15 @@ jobs:
         working-directory: ${{ env.project-directory }}
         env:
           DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
+      - name: install psql
+        run: |
+          apt-get update
+          apt-get install --yes --no-install-recommends postgresql-client
+      - name: run db-copy-region-data
+        run: npm run db-seed-region ; npm run db-seed-region-zoom
+        working-directory: ${{ env.project-directory }}
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
       - name: run api tests
         run: npm run test
         working-directory: ${{ env.project-directory }}
