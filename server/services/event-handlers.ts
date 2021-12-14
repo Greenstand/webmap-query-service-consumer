@@ -22,22 +22,23 @@ const captureFeatureCreatedHandler = async (message: CaptureFeature) => {
   createCaptureFeature(captureFeatureRepo)(newCaptureFeature)
 }
 
-const rawCaptureCreatedHandler = async (message: CaptureFeature) => {
-  try {
-    const newRawCaptureFeature = rawCaptureFeatureFromMessage({ ...message })
-    const dbSession = new Session()
-    const rawCaptureFeatureRepo = new RawCaptureFeatureRepository(dbSession)
-    const executeCreateRawCaptureFeature = createRawCaptureFeature(
-      rawCaptureFeatureRepo,
-    )
-    await executeCreateRawCaptureFeature(newRawCaptureFeature)
-  } catch (e) {
-    log.error('Get error when handling message:', e)
-  }
+const rawCaptureCreatedHandler = (message: CaptureFeature) => {
+  console.log('received message', message)
+  const newRawCaptureFeature = rawCaptureFeatureFromMessage({ ...message })
+  const dbSession = new Session()
+  const rawCaptureFeatureRepo = new RawCaptureFeatureRepository(dbSession)
+  const executeCreateRawCaptureFeature = createRawCaptureFeature(
+    rawCaptureFeatureRepo,
+  )
+  return executeCreateRawCaptureFeature(newRawCaptureFeature)
 }
 
 export default async function registerEventHandlers(broker: BrokerAsPromised) {
-  await subscribe(broker, 'capture-created', captureFeatureCreatedHandler)
-  await subscribe(broker, 'raw-capture-created', rawCaptureCreatedHandler)
-  await subscribe(broker, 'token-assigned', tokenAssignedHandler)
+  try {
+    await subscribe(broker, 'capture-created', captureFeatureCreatedHandler)
+    await subscribe(broker, 'raw-capture-created', rawCaptureCreatedHandler)
+    await subscribe(broker, 'token-assigned', tokenAssignedHandler)
+  } catch (e) {
+    log.error('Get error when handling message:', e)
+  }
 }
