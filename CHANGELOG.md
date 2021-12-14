@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.6.0...v1.6.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* add tsconfigs to Dockerfile ([ee65abd](https://github.com/Greenstand/webmap-query-service-consumer/commit/ee65abd6739e364a8f7f4fbc0aba80edb6fc6973))
+
 # [1.6.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.5.1...v1.6.0) (2021-12-14)
 
 
