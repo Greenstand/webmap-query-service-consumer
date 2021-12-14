@@ -1,3 +1,11 @@
+## [1.6.3](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.6.2...v1.6.3) (2021-12-14)
+
+
+### Bug Fixes
+
+* correct paths in dockerfile ([ce14d25](https://github.com/Greenstand/webmap-query-service-consumer/commit/ce14d25435e401b6de2b6ea34ed1d84d184a1137))
+* update sealed secret ([0cfd1c9](https://github.com/Greenstand/webmap-query-service-consumer/commit/0cfd1c92f80eb7dd5bcfddd20fa2827677f260f2))
+
 ## [1.6.2](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.6.1...v1.6.2) (2021-12-14)
 
 
