@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.6.1...v1.6.2) (2021-12-14)
+
+
+### Bug Fixes
+
+* update Dockerfile to build a typescript project ([e0581b5](https://github.com/Greenstand/webmap-query-service-consumer/commit/e0581b5c8fd1eb573266ac5fc985c6460e6d7c9d))
+
 ## [1.6.1](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.6.0...v1.6.1) (2021-12-14)
 
 
