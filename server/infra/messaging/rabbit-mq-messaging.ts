@@ -40,8 +40,10 @@ export async function subscribe<T>(
       .on('message', async (_message, content: T, ackOrNack) => {
         try {
           await eventHandler(content)
+          ackOrNack()
         } catch (err) {
-          ackOrNack(err as Error)
+          log.error(err)
+          ackOrNack(new Error(err as string))
         }
       })
       .on('error', log.error)
