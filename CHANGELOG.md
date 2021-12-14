@@ -1,3 +1,10 @@
+## [1.7.6](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.7.5...v1.7.6) (2021-12-14)
+
+
+### Bug Fixes
+
+* correct secrets in deployment ([883b16a](https://github.com/Greenstand/webmap-query-service-consumer/commit/883b16a2fb1a44767885cddca845fb4d62a5871f))
+
 ## [1.7.5](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.7.4...v1.7.5) (2021-12-14)
 
 
