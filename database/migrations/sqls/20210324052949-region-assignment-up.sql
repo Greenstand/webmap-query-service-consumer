@@ -1,7 +1,7 @@
 CREATE TABLE region_assignment
 (
 	id serial NOT NULL PRIMARY KEY,
-    map_feature_id uuid NOT NULL,
+  map_feature_id uuid NOT NULL,
 	zoom_level int4 NOT NULL,
 	region_id int4 NOT NULL
 );

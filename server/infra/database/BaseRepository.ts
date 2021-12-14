@@ -38,7 +38,7 @@ export default class BaseRepository {
       let result = builder
       if (object.and) {
         expect(Object.keys(object)).toHaveLength(1)
-        expect(Array.isArray( object.and )).toBe(true)
+        expect(Array.isArray(object.and)).toBe(true)
         for (const one of object.and) {
           if (one.or) {
             result = result.andWhere((subBuilder) =>
@@ -54,7 +54,7 @@ export default class BaseRepository {
         }
       } else if (object.or) {
         expect(Object.keys(object)).toHaveLength(1)
-        expect(Array.isArray( object.or )).toBe(true)
+        expect(Array.isArray(object.or)).toBe(true)
         for (const one of object.or) {
           if (one.and) {
             result = result.orWhere((subBuilder) =>
