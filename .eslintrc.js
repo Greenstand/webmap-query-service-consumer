@@ -7,6 +7,7 @@ module.exports = {
   parserOptions: { project: 'tsconfig.json' },
   reportUnusedDisableDirectives: true,
   rules: {
+    'no-redeclare': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     '@typescript-eslint/naming-convention': 'off',

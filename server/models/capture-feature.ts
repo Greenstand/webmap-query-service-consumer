@@ -1,6 +1,7 @@
-import CaptureFeatureRepository from 'infra/database/CaptureFeatureRepository'
+import CaptureFeatureRepository, {
+  addCaptureFeature,
+} from 'infra/database/CaptureFeatureRepository'
 import log from 'loglevel'
-import Repository from 'models/Repository'
 
 export type Attribute = {
   key: string
@@ -44,12 +45,9 @@ export const captureFeatureFromMessage = ({
   } as Readonly<CaptureFeature>
 }
 
-export const createCaptureFeature =
-  (captureFeatureRepo: CaptureFeatureRepository) =>
-  async (captureFeature: CaptureFeature) => {
-    const repository = new Repository(captureFeatureRepo)
-    await repository.add(captureFeature)
-  }
+export async function createCaptureFeature(captureFeature: CaptureFeature) {
+  await addCaptureFeature(captureFeature)
+}
 
 export function updateCaptureFeature<T>(
   captureFeatureRepo: CaptureFeatureRepository,

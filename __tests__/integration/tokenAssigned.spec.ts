@@ -1,9 +1,9 @@
 import knex from 'infra/database/knex'
 import config from 'infra/messaging/config'
-import { publish, subscribe } from 'infra/messaging/rabbit-mq-messaging'
+import { publish } from 'infra/messaging/rabbit-mq-messaging'
 import { CaptureFeature } from 'models/capture-feature'
 import { BrokerAsPromised } from 'rascal'
-import tokenAssignedHandler from 'services/event-token-assigned-handler'
+import registerEventHandlers from 'services/event-handlers'
 
 describe('tokenAssigned', () => {
   let broker: BrokerAsPromised
@@ -12,7 +12,7 @@ describe('tokenAssigned', () => {
     try {
       broker = await BrokerAsPromised.create(config)
       broker.on('error', console.error)
-      await subscribe(broker, 'token-assigned', tokenAssignedHandler)
+      await registerEventHandlers(broker)
     } catch (err) {
       console.error(err)
     }

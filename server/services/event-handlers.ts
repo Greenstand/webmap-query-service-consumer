@@ -1,36 +1,54 @@
-import CaptureFeatureRepository from 'infra/database/CaptureFeatureRepository'
-import RawCaptureFeatureRepository from 'infra/database/RawCaptureFeatureRepository'
-import Session from 'infra/database/session'
-import { subscribe } from 'infra/messaging/rabbit-mq-messaging'
+import { batchUpdate } from 'db'
+import {
+  addRawCapture,
+  assignRegion,
+  updateCluster,
+} from 'infra/database/RawCaptureFeatureRepository'
+import { subscribe, TokenMessage } from 'infra/messaging/rabbit-mq-messaging'
 import log from 'loglevel'
 import {
   CaptureFeature,
   captureFeatureFromMessage,
   createCaptureFeature,
 } from 'models/capture-feature'
-import {
-  createRawCaptureFeature,
-  rawCaptureFeatureFromMessage,
-} from 'models/raw-capture-feature'
+import { rawCaptureFeatureFromMessage } from 'models/raw-capture-feature'
 import { BrokerAsPromised } from 'rascal'
-import tokenAssignedHandler from 'services/event-token-assigned-handler'
 
-const captureFeatureCreatedHandler = async (message: CaptureFeature) => {
-  const newCaptureFeature = captureFeatureFromMessage({ ...message })
-  const dbSession = new Session()
-  const captureFeatureRepo = new CaptureFeatureRepository(dbSession)
-  createCaptureFeature(captureFeatureRepo)(newCaptureFeature)
+async function captureFeatureCreatedHandler(message: CaptureFeature) {
+  try {
+    const captureFeature = captureFeatureFromMessage({ ...message })
+    await createCaptureFeature(captureFeature)
+  } catch (e) {
+    log.error(e)
+  }
 }
 
-const rawCaptureCreatedHandler = (message: CaptureFeature) => {
-  console.log('received message', message)
-  const newRawCaptureFeature = rawCaptureFeatureFromMessage({ ...message })
-  const dbSession = new Session()
-  const rawCaptureFeatureRepo = new RawCaptureFeatureRepository(dbSession)
-  const executeCreateRawCaptureFeature = createRawCaptureFeature(
-    rawCaptureFeatureRepo,
-  )
-  return executeCreateRawCaptureFeature(newRawCaptureFeature)
+async function rawCaptureCreatedHandler(message: CaptureFeature) {
+  try {
+    log.log('received raw capture event message', message)
+    const rawCaptureFeature = rawCaptureFeatureFromMessage({ ...message })
+    await addRawCapture(rawCaptureFeature)
+    await assignRegion(rawCaptureFeature)
+    await updateCluster(rawCaptureFeature)
+    console.log('raw capture event handler finished')
+  } catch (e) {
+    log.error(e)
+  }
+}
+
+async function tokenAssignedHandler(message: TokenMessage) {
+  try {
+    log.log('token event handler received:', message)
+    const { wallet_name, entries } = message
+    const ids = entries.map((entry) => entry.capture_id)
+    const updateObject = {
+      wallet_name,
+    }
+    await batchUpdate(ids, updateObject, 'capture_feature')
+    log.log('token event handler finished.')
+  } catch (e) {
+    log.error('Get error when handling message:', e)
+  }
 }
 
 export default async function registerEventHandlers(broker: BrokerAsPromised) {

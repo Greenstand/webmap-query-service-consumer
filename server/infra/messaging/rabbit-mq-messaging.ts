@@ -29,6 +29,18 @@ export async function publish<T>(
   }
 }
 
+export type TokenMessage = {
+  entries: {
+    capture_id: string
+  }[]
+  wallet_name: string
+}
+
+export type EventName =
+  | 'capture-created'
+  | 'raw-capture-created'
+  | 'token-assigned'
+
 export async function subscribe<T>(
   broker: Broker,
   subscriptionName: string,

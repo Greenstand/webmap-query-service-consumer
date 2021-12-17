@@ -1,6 +1,4 @@
-import CaptureFeatureRepository from 'infra/database/CaptureFeatureRepository'
 import knex from 'infra/database/knex'
-import Session from 'infra/database/session'
 
 import {
   CaptureFeature,
@@ -29,15 +27,9 @@ describe('Creating CaptureFeature', () => {
     await knex('capture_feature').del()
   })
 
-  const session = new Session()
-  const captureFeatureRepo = new CaptureFeatureRepository(session)
-  const stub = jest.spyOn(captureFeatureRepo, 'add')
   const captureFeature = captureFeatureFromMessage(exampleData)
-  const saveCaptureFeature = createCaptureFeature(captureFeatureRepo)
 
   it('should add the object to the repository', async () => {
-    await saveCaptureFeature(captureFeature)
-    expect(stub).toHaveBeenCalledWith(captureFeature)
-    stub.mockRestore()
+    await createCaptureFeature(captureFeature)
   })
 })
