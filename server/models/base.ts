@@ -3,15 +3,15 @@ import { CaptureFeature } from 'models/captureFeature'
 import knex from 'services/knex'
 
 export enum TableName {
-  CaptureFeature = 'capture_feature',
-  RawCaptureFeature = 'raw_capture_feature',
-  RegionAssignment = 'region_assignment',
+  CAPTURE_FEATURE = 'capture_feature',
+  RAW_CAPTURE_FEATRURE = 'raw_capture_feature',
+  REGION_ASSIGNMENT = 'region_assignment',
 }
 
 export async function batchUpdate(
   ids: string[],
   updateObject: Partial<CaptureFeature>,
-  tableName: TableName.CaptureFeature,
+  tableName: TableName.CAPTURE_FEATURE,
 ): Promise<void>
 
 export async function batchUpdate<T>(

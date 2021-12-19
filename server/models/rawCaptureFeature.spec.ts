@@ -21,13 +21,13 @@ const data: RawCaptureFeature = {
 
 describe('calling createRawCaptureFeature function', () => {
   beforeEach(async () => {
-    await knex(TableName.RawCaptureFeature).truncate()
-    await knex(TableName.RegionAssignment).truncate()
+    await knex(TableName.RAW_CAPTURE_FEATRURE).truncate()
+    await knex(TableName.REGION_ASSIGNMENT).truncate()
   })
 
   afterEach(async () => {
-    await knex(TableName.RawCaptureFeature).truncate()
-    await knex(TableName.RegionAssignment).truncate()
+    await knex(TableName.RAW_CAPTURE_FEATRURE).truncate()
+    await knex(TableName.REGION_ASSIGNMENT).truncate()
     await knex.destroy()
   })
 

@@ -1,23 +1,23 @@
-import { batchUpdate } from 'db'
+import log from 'loglevel'
+import { subscribe, TokenMessage } from 'messaging/broker'
+import { batchUpdate } from 'models/base'
+import {
+  addCaptureFeature,
+  CaptureFeature,
+  captureFeatureFromMessage,
+} from 'models/captureFeature'
 import {
   addRawCapture,
   assignRegion,
   updateCluster,
-} from 'infra/database/RawCaptureFeatureRepository'
-import { subscribe, TokenMessage } from 'infra/messaging/rabbit-mq-messaging'
-import log from 'loglevel'
-import {
-  CaptureFeature,
-  captureFeatureFromMessage,
-  createCaptureFeature,
-} from 'models/capture-feature'
-import { rawCaptureFeatureFromMessage } from 'models/raw-capture-feature'
+} from 'models/rawCaptureFeature'
+import { rawCaptureFeatureFromMessage } from 'models/rawCaptureFeature'
 import { BrokerAsPromised } from 'rascal'
 
 async function captureFeatureCreatedHandler(message: CaptureFeature) {
   try {
     const captureFeature = captureFeatureFromMessage({ ...message })
-    await createCaptureFeature(captureFeature)
+    await addCaptureFeature(captureFeature)
   } catch (e) {
     log.error(e)
   }

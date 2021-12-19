@@ -1,7 +1,8 @@
 module.exports = {
   extends: [
     'airbnb-typescript/base',
-    'prettier', // disable eslint formatting rules to prevent inconsistencies with prettier, should be last
+    // disable eslint formatting rules to prevent inconsistencies with prettier, should be last
+    'prettier',
   ],
   plugins: ['import', 'simple-import-sort'],
   parserOptions: { project: 'tsconfig.json' },
