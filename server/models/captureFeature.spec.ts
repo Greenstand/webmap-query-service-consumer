@@ -1,10 +1,6 @@
-import knex from 'infra/database/knex'
+import knex from 'services/knex'
 
-import {
-  CaptureFeature,
-  captureFeatureFromMessage,
-  createCaptureFeature,
-} from './capture-feature'
+import { addCaptureFeature, CaptureFeature } from './captureFeature'
 
 const exampleData: CaptureFeature = {
   id: 'd13f0b9e-d067-48b4-a5da-46d5655c54dd',
@@ -27,9 +23,12 @@ describe('Creating CaptureFeature', () => {
     await knex('capture_feature').del()
   })
 
-  const captureFeature = captureFeatureFromMessage(exampleData)
-
-  it('should add the object to the repository', async () => {
-    await createCaptureFeature(captureFeature)
+  it('should add the object to the db', async () => {
+    const x = await addCaptureFeature(exampleData)
+    console.log(x)
+    let result = await knex('capture_feature')
+      .select()
+      .where('id', exampleData.id)
+    expect(result).toHaveLength(1)
   })
 })

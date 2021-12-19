@@ -1,9 +1,9 @@
-import knex from 'infra/database/knex'
-import config from 'infra/messaging/config'
-import { publish } from 'infra/messaging/rabbit-mq-messaging'
-import { CaptureFeature } from 'models/capture-feature'
+import { publish } from 'messaging/broker'
+import config from 'messaging/config'
+import { CaptureFeature } from 'models/captureFeature'
 import { BrokerAsPromised } from 'rascal'
-import registerEventHandlers from 'services/event-handlers'
+import registerEventHandlers from 'services/eventHandlers'
+import knex from 'services/knex'
 
 describe('tokenAssigned', () => {
   let broker: BrokerAsPromised
@@ -19,19 +19,27 @@ describe('tokenAssigned', () => {
   })
 
   beforeEach(async () => {
-    await knex('capture_feature').del()
-    await broker.purge()
+    try {
+      await broker.purge()
+      await knex('capture_feature').truncate()
+    } catch (err) {
+      console.error(err)
+    }
   })
 
   afterAll(async () => {
-    if (!broker) return
-    await broker.unsubscribeAll()
-    await broker.nuke()
+    try {
+      if (!broker) return
+      await broker.unsubscribeAll()
+      await broker.nuke()
+    } catch (err) {
+      console.error(err)
+    }
   })
 
   it('Successfully handle tokenAssigned event', async () => {
     //prepare the capture before the wallet event
-    const capture_id = '63e00bca-8eb0-11eb-8dcd-0242ac130003'
+    const capture_id = '3501b525-a932-4b41-9a5d-73e89feeb7e3'
     const token_id = '9d7abad8-8eb0-11eb-8dcd-0242ac130003'
     const wallet_name = 'oldone'
     const capture: CaptureFeature = {

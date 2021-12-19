@@ -1,9 +1,9 @@
-import knex from 'infra/database/knex'
-import config from 'infra/messaging/config'
-import { publish } from 'infra/messaging/rabbit-mq-messaging'
 import log from 'loglevel'
+import { publish } from 'messaging/broker'
+import config from 'messaging/config'
 import { BrokerAsPromised, withTestConfig } from 'rascal'
-import registerEventHandlers from 'services/event-handlers'
+import registerEventHandlers from 'services/eventHandlers'
+import knex from 'services/knex'
 
 import capture_in_kenya from '../mock/capture_in_kenya.json'
 
@@ -16,10 +16,10 @@ describe('rawCaptureFeature', () => {
   })
 
   beforeEach(async () => {
-    await knex('capture_feature').del()
-    await knex('raw_capture_feature').del()
-    await knex('region_assignment').del()
-    await knex('raw_capture_cluster').del()
+    await knex('capture_feature').truncate()
+    await knex('raw_capture_feature').truncate()
+    await knex('region_assignment').truncate()
+    await knex('raw_capture_cluster').truncate()
     await broker.purge()
   })
 

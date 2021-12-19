@@ -1,8 +1,11 @@
-import knex from 'infra/database/knex'
-import { RawCaptureFeature } from 'models/raw-capture-feature'
+import knex from 'services/knex'
 
-import RawCaptureFeatureRepository from './RawCaptureFeatureRepository'
-import Session from './session'
+import { TableName } from './base'
+import {
+  addRawCapture,
+  assignRegion,
+  RawCaptureFeature,
+} from './rawCaptureFeature'
 
 const data: RawCaptureFeature = {
   id: '63e00bca-8eb0-11eb-8dcd-0242ac130003',
@@ -16,33 +19,32 @@ const data: RawCaptureFeature = {
   updated_at: '2021-07-09T03:58:07.814Z',
 }
 
-describe('Capture Feature Repo', () => {
-  let repo: RawCaptureFeatureRepository | undefined
-
-  beforeAll(() => {
-    const session = new Session()
-    repo = new RawCaptureFeatureRepository(session)
+describe('calling createRawCaptureFeature function', () => {
+  beforeEach(async () => {
+    await knex(TableName.RawCaptureFeature).truncate()
+    await knex(TableName.RegionAssignment).truncate()
   })
 
-  beforeEach(async () => {
-    await knex('raw_capture_feature').del()
-    await knex('region_assignment').del()
+  afterEach(async () => {
+    await knex(TableName.RawCaptureFeature).truncate()
+    await knex(TableName.RegionAssignment).truncate()
+    await knex.destroy()
   })
 
   it('add and assign region', async () => {
-    if (!repo) return
-    await repo.add(data)
+    await addRawCapture(data)
     const addResult = await knex('raw_capture_feature')
       .select()
       .where('id', data.id)
     expect(addResult).toHaveLength(1)
 
-    await repo.assignRegion(data)
+    await assignRegion(data)
     const assignRegionResult = await knex('region_assignment').select().where({
       map_feature_id: data.id,
       zoom_level: 9,
       region_id: 2281072,
     })
     expect(assignRegionResult).toHaveLength(1)
+    expect(true).toBe(true)
   })
 })
