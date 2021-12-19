@@ -1,6 +1,6 @@
 import log from 'loglevel'
 import { subscribe, TokenMessage } from 'messaging/broker'
-import { batchUpdate } from 'models/base'
+import { batchUpdate, TableName } from 'models/base'
 import {
   addCaptureFeature,
   CaptureFeature,
@@ -44,7 +44,7 @@ async function tokenAssignedHandler(message: TokenMessage) {
     const updateObject = {
       wallet_name,
     }
-    await batchUpdate(ids, updateObject, 'capture_feature')
+    await batchUpdate(ids, updateObject, TableName.CAPTURE_FEATURE)
     log.log('token event handler finished.')
   } catch (e) {
     log.error('Get error when handling message:', e)

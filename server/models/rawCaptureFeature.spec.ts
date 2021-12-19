@@ -1,4 +1,4 @@
-import knex from 'services/knex'
+import knex, { truncateTables } from 'services/knex'
 
 import { TableName } from './base'
 import {
@@ -19,15 +19,13 @@ const data: RawCaptureFeature = {
   updated_at: '2021-07-09T03:58:07.814Z',
 }
 
+const tables = [TableName.RAW_CAPTURE_FEATRURE, TableName.REGION_ASSIGNMENT]
+
 describe('calling createRawCaptureFeature function', () => {
   beforeEach(async () => {
-    await knex(TableName.RAW_CAPTURE_FEATRURE).truncate()
-    await knex(TableName.REGION_ASSIGNMENT).truncate()
+    await truncateTables(tables)
   })
-
-  afterEach(async () => {
-    await knex(TableName.RAW_CAPTURE_FEATRURE).truncate()
-    await knex(TableName.REGION_ASSIGNMENT).truncate()
+  afterAll(async () => {
     await knex.destroy()
   })
 
@@ -37,7 +35,6 @@ describe('calling createRawCaptureFeature function', () => {
       .select()
       .where('id', data.id)
     expect(addResult).toHaveLength(1)
-
     await assignRegion(data)
     const assignRegionResult = await knex('region_assignment').select().where({
       map_feature_id: data.id,

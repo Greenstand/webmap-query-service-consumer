@@ -1,9 +1,10 @@
 import log from 'loglevel'
 import { publish } from 'messaging/broker'
 import config from 'messaging/config'
+import { TableName } from 'models/base'
 import { BrokerAsPromised, withTestConfig } from 'rascal'
 import registerEventHandlers from 'services/eventHandlers'
-import knex from 'services/knex'
+import knex, { truncateTables } from 'services/knex'
 
 import capture_in_kenya from '../mock/capture_in_kenya.json'
 
@@ -16,17 +17,19 @@ describe('rawCaptureFeature', () => {
   })
 
   beforeEach(async () => {
-    await knex('capture_feature').truncate()
-    await knex('raw_capture_feature').truncate()
-    await knex('region_assignment').truncate()
-    await knex('raw_capture_cluster').truncate()
     await broker.purge()
+    await truncateTables([
+      TableName.CAPTURE_FEATURE,
+      TableName.RAW_CAPTURE_FEATRURE,
+      TableName.REGION_ASSIGNMENT,
+      TableName.RAW_CAPTURE_CLUSTER,
+    ])
   })
-
   afterAll(async () => {
     if (!broker) return
     await broker.unsubscribeAll()
     await broker.nuke()
+    await knex.destroy()
   })
 
   it('Successfully handle raw capture created event', async () => {

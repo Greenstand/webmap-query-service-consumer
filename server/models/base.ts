@@ -5,6 +5,7 @@ import knex from 'services/knex'
 export enum TableName {
   CAPTURE_FEATURE = 'capture_feature',
   RAW_CAPTURE_FEATRURE = 'raw_capture_feature',
+  RAW_CAPTURE_CLUSTER = 'raw_capture_cluster',
   REGION_ASSIGNMENT = 'region_assignment',
 }
 

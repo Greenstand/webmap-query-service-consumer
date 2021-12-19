@@ -1,8 +1,9 @@
-import knex from 'services/knex'
+import knex, { truncateTables } from 'services/knex'
 
+import { TableName } from './base'
 import { addCaptureFeature, CaptureFeature } from './captureFeature'
 
-const exampleData: CaptureFeature = {
+const data: CaptureFeature = {
   id: 'd13f0b9e-d067-48b4-a5da-46d5655c54dd',
   lat: 11.43,
   lon: 30.56,
@@ -19,16 +20,16 @@ const exampleData: CaptureFeature = {
 
 describe('Creating CaptureFeature', () => {
   beforeEach(async () => {
-    // clear db
-    await knex('capture_feature').del()
+    await truncateTables([TableName.CAPTURE_FEATURE])
+  })
+  afterAll(async () => {
+    await knex.destroy()
   })
 
   it('should add the object to the db', async () => {
-    const x = await addCaptureFeature(exampleData)
+    const x = await addCaptureFeature(data)
     console.log(x)
-    let result = await knex('capture_feature')
-      .select()
-      .where('id', exampleData.id)
+    let result = await knex('capture_feature').select().where('id', data.id)
     expect(result).toHaveLength(1)
   })
 })

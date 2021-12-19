@@ -1,9 +1,10 @@
 import { publish } from 'messaging/broker'
 import config from 'messaging/config'
+import { TableName } from 'models/base'
 import { CaptureFeature } from 'models/captureFeature'
 import { BrokerAsPromised } from 'rascal'
 import registerEventHandlers from 'services/eventHandlers'
-import knex from 'services/knex'
+import knex, { truncateTables } from 'services/knex'
 
 describe('tokenAssigned', () => {
   let broker: BrokerAsPromised
@@ -19,22 +20,14 @@ describe('tokenAssigned', () => {
   })
 
   beforeEach(async () => {
-    try {
-      await broker.purge()
-      await knex('capture_feature').truncate()
-    } catch (err) {
-      console.error(err)
-    }
+    await broker.purge()
+    await truncateTables([TableName.CAPTURE_FEATURE])
   })
-
   afterAll(async () => {
-    try {
-      if (!broker) return
-      await broker.unsubscribeAll()
-      await broker.nuke()
-    } catch (err) {
-      console.error(err)
-    }
+    if (!broker) return
+    await broker.unsubscribeAll()
+    await broker.nuke()
+    await knex.destroy()
   })
 
   it('Successfully handle tokenAssigned event', async () => {

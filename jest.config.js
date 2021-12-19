@@ -2,8 +2,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  globalSetup: '<rootDir>/.jest/globalSetup.ts',
   modulePaths: ['server/'],
-  maxConcurrency: 1,
-  forceExit: true,
+  globalSetup: '<rootDir>/.jest/globalSetup.ts',
+  maxConcurrency: 2,
 }
