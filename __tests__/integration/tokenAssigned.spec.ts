@@ -1,8 +1,8 @@
-import { publish } from 'messaging/broker'
+import { initBroker, publish } from 'messaging/broker'
 import brokerConfig from 'messaging/brokerConfig'
 import { truncateTables } from 'models/base'
 import { CaptureFeature } from 'models/captureFeature'
-import { BrokerAsPromised } from 'rascal'
+import { BrokerAsPromised, withTestConfig } from 'rascal'
 import registerEventHandlers from 'services/eventHandlers'
 import knex, { TableNames } from 'services/knex'
 
@@ -26,7 +26,7 @@ describe('tokenAssigned', () => {
 
   beforeAll(async () => {
     try {
-      broker = await BrokerAsPromised.create(brokerConfig)
+      broker = await initBroker(withTestConfig(brokerConfig))
       broker.on('error', console.error)
       await registerEventHandlers(broker)
     } catch (err) {

@@ -1,6 +1,8 @@
-import * as Rascal from 'rascal'
+import { BrokerAsPromised, BrokerConfig, withTestConfig } from 'rascal'
 
-const config: Rascal.BrokerConfig = {
+import { initBroker, subscribe } from './broker'
+
+const config: BrokerConfig = {
   vhosts: {
     v1: {
       connection: {
@@ -28,89 +30,63 @@ const config: Rascal.BrokerConfig = {
 }
 
 describe('Example rascal test', function () {
-  let broker: Rascal.Broker
+  let broker: BrokerAsPromised
 
   function testPublish() {
-    broker.publish(
-      'test_pub',
-      'Hello Test',
-      'a.b.c',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      function (err, _publication) {
-        expect(err).toBeFalsy()
-      },
-    )
+    return broker.publish('test_pub', 'Hello Test', 'a.b.c')
   }
 
-  beforeAll(function (done) {
-    Rascal.Broker.create(config, (err, _broker) => {
-      if (err) return done(err)
-      broker = _broker
-      done()
+  beforeAll(async () => {
+    broker = await initBroker(withTestConfig(config))
+  })
+
+  beforeEach(async () => {
+    await broker.purge()
+  })
+
+  afterEach(async () => {
+    await broker.unsubscribeAll()
+  })
+
+  afterAll(async () => {
+    await broker.nuke()
+  })
+
+  it('should demonstrate tests', async () => {
+    await subscribe(broker, 'demo_sub', async () => {})
+    await testPublish()
+  })
+
+  it('should handle async subscription', async () => {
+    const subscription = await broker.subscribe('demo_sub')
+    subscription.on('message', async function (message, content, ackOrNack) {
+      await new Promise((r) => setTimeout(() => r(''), 10))
+      ackOrNack()
     })
+    await testPublish()
   })
 
-  beforeEach(function (done) {
-    broker.purge(done)
-  })
-
-  afterAll(function (done) {
-    if (!broker) return done()
-    broker.nuke(done)
-  })
-
-  it('should demonstrate tests', function (done) {
-    broker.subscribe('demo_sub', function (err, subscription) {
-      expect(err).toBeFalsy()
-      subscription.on('message', function (message, content, ackOrNack) {
-        subscription.cancel(() => {})
-        ackOrNack()
-        done()
-      })
-    })
-
-    testPublish()
-  })
-
-  it('should handle async subscription', function (done) {
-    broker.subscribe('demo_sub', function (err, subscription) {
-      expect(err).toBeFalsy()
-      subscription.on('message', async function (message, content, ackOrNack) {
-        await new Promise((r) => setTimeout(() => r(''), 10))
-        subscription.cancel(() => {})
-        ackOrNack()
-        done()
-      })
-    })
-
-    testPublish()
-  })
-
-  it('should handle error', function (done) {
+  it('should handle error', async () => {
     let attempts = 0
-    broker.subscribe('demo_sub', {}, function (err, subscription) {
-      expect(err).toBeFalsy()
-      subscription.on('message', async function (message, content, ackOrNack) {
-        try {
-          console.log('attempts:', attempts)
-          await new Promise((r) => setTimeout(() => r(''), 100))
-          if (!attempts) {
-            attempts++
-            throw new Error('error')
-          }
-          subscription.cancel(() => {})
-          ackOrNack()
-          done()
-        } catch (error) {
-          console.log('received error', error)
-          ackOrNack(error as Error, {
-            strategy: 'nack',
-            requeue: true,
-          })
+    const subscription = await broker.subscribe('demo_sub', {})
+    subscription.on('message', async function (message, content, ackOrNack) {
+      try {
+        console.log('attempts:', attempts)
+        await new Promise((r) => setTimeout(() => r(''), 100))
+        if (!attempts) {
+          attempts++
+          throw new Error('error')
         }
-      })
+        ackOrNack()
+        expect(attempts).toEqual(1)
+      } catch (error) {
+        console.log('received error', error)
+        ackOrNack(error as Error, {
+          strategy: 'nack',
+          requeue: true,
+        })
+      }
     })
-
-    testPublish()
+    await testPublish()
   })
 })

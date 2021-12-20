@@ -1,7 +1,7 @@
 import log from 'loglevel'
 import { BrokerAsPromised as Broker } from 'rascal'
 
-import config from './config'
+import brokerConfig from './brokerConfig'
 
 export type TokenMessage = {
   entries: {
@@ -15,7 +15,7 @@ export type EventName =
   | 'raw-capture-created'
   | 'token-assigned'
 
-export function initBroker() {
+export function initBroker(config = brokerConfig) {
   return Broker.create(config)
 }
 

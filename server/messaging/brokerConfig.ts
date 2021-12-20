@@ -1,6 +1,6 @@
 import { BrokerConfig } from 'rascal'
 
-const config: BrokerConfig = {
+const brokerConfig: BrokerConfig = {
   vhosts: {
     v1: {
       connection: {
@@ -46,4 +46,4 @@ const config: BrokerConfig = {
   },
 }
 
-export default config
+export default brokerConfig

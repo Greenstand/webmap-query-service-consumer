@@ -1,5 +1,5 @@
 import log from 'loglevel'
-import { publish } from 'messaging/broker'
+import { initBroker, publish } from 'messaging/broker'
 import brokerConfig from 'messaging/brokerConfig'
 import { truncateTables } from 'models/base'
 import { BrokerAsPromised, withTestConfig } from 'rascal'
@@ -12,7 +12,7 @@ describe('rawCaptureFeature', () => {
   let broker: BrokerAsPromised
 
   beforeAll(async () => {
-    broker = await BrokerAsPromised.create(withTestConfig(brokerConfig))
+    broker = await initBroker(withTestConfig(brokerConfig))
     await registerEventHandlers(broker)
   })
 
