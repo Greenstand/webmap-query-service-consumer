@@ -1,10 +1,10 @@
 import { publish } from 'messaging/broker'
-import config from 'messaging/config'
-import { TableNames } from 'models/base'
+import brokerConfig from 'messaging/brokerConfig'
+import { truncateTables } from 'models/base'
 import { CaptureFeature } from 'models/captureFeature'
 import { BrokerAsPromised } from 'rascal'
 import registerEventHandlers from 'services/eventHandlers'
-import knex, { truncateTables } from 'services/knex'
+import knex, { TableNames } from 'services/knex'
 
 const data: CaptureFeature = {
   id: '3501b525-a932-4b41-9a5d-73e89feeb7e3',
@@ -26,7 +26,7 @@ describe('tokenAssigned', () => {
 
   beforeAll(async () => {
     try {
-      broker = await BrokerAsPromised.create(config)
+      broker = await BrokerAsPromised.create(brokerConfig)
       broker.on('error', console.error)
       await registerEventHandlers(broker)
     } catch (err) {
@@ -48,7 +48,7 @@ describe('tokenAssigned', () => {
   it('Successfully handle tokenAssigned event', async () => {
     //prepare the capture before the wallet event
 
-    await knex('capture_feature').insert(data)
+    await knex(TableNames.CAPTURE_FEATURE).insert(data)
     const newWalletName = 'newone'
     const message = {
       type: 'TokensAssigned',
@@ -62,7 +62,7 @@ describe('tokenAssigned', () => {
     )
 
     // wait for message to be consumed
-    await new Promise((r) => setTimeout(() => r(''), 2000))
+    await new Promise((r) => setTimeout(() => r(''), 3000))
 
     // check if message was consumed and handled
     const result = await knex(TableNames.CAPTURE_FEATURE)

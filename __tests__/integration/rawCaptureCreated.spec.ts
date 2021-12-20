@@ -1,10 +1,10 @@
 import log from 'loglevel'
 import { publish } from 'messaging/broker'
-import config from 'messaging/config'
-import { TableNames } from 'models/base'
+import brokerConfig from 'messaging/brokerConfig'
+import { truncateTables } from 'models/base'
 import { BrokerAsPromised, withTestConfig } from 'rascal'
 import registerEventHandlers from 'services/eventHandlers'
-import knex, { truncateTables } from 'services/knex'
+import knex, { TableNames } from 'services/knex'
 
 import capture_in_kenya from '../mock/capture_in_kenya.json'
 
@@ -12,7 +12,7 @@ describe('rawCaptureFeature', () => {
   let broker: BrokerAsPromised
 
   beforeAll(async () => {
-    broker = await BrokerAsPromised.create(withTestConfig(config))
+    broker = await BrokerAsPromised.create(withTestConfig(brokerConfig))
     await registerEventHandlers(broker)
   })
 

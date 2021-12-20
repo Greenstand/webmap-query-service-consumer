@@ -1,6 +1,6 @@
-import knex, { truncateTables } from 'services/knex'
+import knex, { TableNames } from 'services/knex'
 
-import { TableNames } from './base'
+import { truncateTables } from './base'
 import { addCaptureFeature, CaptureFeature } from './captureFeature'
 
 const data: CaptureFeature = {
@@ -25,8 +25,11 @@ describe('Creating CaptureFeature', () => {
 
   it('should add the object to the db', async () => {
     const x = await addCaptureFeature(data)
+    expect(x?.id).toEqual(data.id)
     console.log(x)
-    let result = await knex('capture_feature').select().where('id', data.id)
+    let result = await knex(TableNames.CAPTURE_FEATURE)
+      .select()
+      .where('id', data.id)
     expect(result).toHaveLength(1)
   })
 })

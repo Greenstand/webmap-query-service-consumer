@@ -20,7 +20,9 @@ export type CaptureFeature = {
   wallet_name: string
 }
 
-export async function addCaptureFeature(captureFeature: CaptureFeature) {
+export async function addCaptureFeature(
+  captureFeature: CaptureFeature,
+): Promise<{ id: string } | undefined> {
   // Since the query uses postgres function ST_PointFromText, knex's raw function is used
   const wellKnownText = `POINT(${captureFeature.lon} ${captureFeature.lat})`
   const result = await knex.raw(

@@ -1,14 +1,16 @@
 import log from 'loglevel'
 import { subscribe, TokenMessage } from 'messaging/broker'
-import { batchUpdate, TableNames } from 'models/base'
+import { batchUpdate } from 'models/base'
 import { addCaptureFeature, CaptureFeature } from 'models/captureFeature'
 import {
   addRawCapture,
   assignRegion,
+  rawCaptureFeatureFromMessage,
   updateCluster,
 } from 'models/rawCaptureFeature'
-import { rawCaptureFeatureFromMessage } from 'models/rawCaptureFeature'
 import { BrokerAsPromised } from 'rascal'
+
+import { TableNames } from './knex'
 
 async function captureFeatureCreatedHandler(message: CaptureFeature) {
   try {
