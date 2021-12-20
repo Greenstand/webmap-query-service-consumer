@@ -1,5 +1,5 @@
 import log from 'loglevel'
-import { initBroker, publish } from 'messaging/broker'
+import { createBroker, publish } from 'messaging/broker'
 import brokerConfig from 'messaging/brokerConfig'
 import { truncateTables } from 'models/base'
 import { BrokerAsPromised, withTestConfig } from 'rascal'
@@ -12,8 +12,8 @@ describe('rawCaptureFeature', () => {
   let broker: BrokerAsPromised
 
   beforeAll(async () => {
-    broker = await initBroker(withTestConfig(brokerConfig))
-    await registerEventHandlers(broker)
+    broker = await createBroker(withTestConfig(brokerConfig))
+    await registerEventHandlers()
   })
 
   beforeEach(async () => {
@@ -50,7 +50,7 @@ describe('rawCaptureFeature', () => {
 
     //prepare the capture before the wallet event
     const message = capture_in_kenya
-    await publish(broker, 'raw-capture-created', '', message, () =>
+    await publish('raw-capture-created', '', message, () =>
       log.log('message received'),
     )
 

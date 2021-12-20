@@ -2,8 +2,7 @@ import { Knex, knex as initDb } from 'knex'
 
 import knexConfig from './knexConfig'
 
-// move this to different file if exported
-export type Global = { __DB_CONNECTION?: Knex<any, unknown[]> }
+type Global = { __DB_CONNECTION?: Knex<any, unknown[]> }
 
 export enum TableNames {
   CAPTURE_FEATURE = 'capture_feature',
@@ -18,10 +17,8 @@ function connectToDb() {
   ;(global as Global).__DB_CONNECTION = connection
   return connection
 }
-
 function getDbConnection() {
   return (global as Global).__DB_CONNECTION ?? connectToDb()
 }
-
 const knex = getDbConnection()
 export default knex

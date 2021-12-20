@@ -8,7 +8,6 @@ import {
   rawCaptureFeatureFromMessage,
   updateCluster,
 } from 'models/rawCaptureFeature'
-import { BrokerAsPromised } from 'rascal'
 
 import { TableNames } from './knex'
 
@@ -48,11 +47,11 @@ async function tokenAssignedHandler(message: TokenMessage) {
   }
 }
 
-export default async function registerEventHandlers(broker: BrokerAsPromised) {
+export default async function registerEventHandlers() {
   try {
-    await subscribe(broker, 'capture-created', captureFeatureCreatedHandler)
-    await subscribe(broker, 'raw-capture-created', rawCaptureCreatedHandler)
-    await subscribe(broker, 'token-assigned', tokenAssignedHandler)
+    await subscribe('capture-created', captureFeatureCreatedHandler)
+    await subscribe('raw-capture-created', rawCaptureCreatedHandler)
+    await subscribe('token-assigned', tokenAssignedHandler)
   } catch (e) {
     log.error('Get error when handling message:', e)
   }

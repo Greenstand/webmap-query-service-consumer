@@ -3,6 +3,8 @@ import { BrokerAsPromised as Broker } from 'rascal'
 
 import brokerConfig from './brokerConfig'
 
+type Global = { __BROKER?: Broker }
+
 export type TokenMessage = {
   entries: {
     capture_id: string
@@ -15,18 +17,25 @@ export type EventName =
   | 'raw-capture-created'
   | 'token-assigned'
 
-export function initBroker(config = brokerConfig) {
-  return Broker.create(config)
+export async function createBroker(config = brokerConfig) {
+  console.log('creating broker...')
+  const broker = await Broker.create(config)
+  ;(global as Global).__BROKER = broker
+  return broker
+}
+
+export async function getBroker() {
+  return (global as Global).__BROKER ?? (await createBroker())
 }
 
 export async function publish<T>(
-  broker: Broker,
   publicationName: string,
   routingKey: string,
   payload: T,
   resultHandler: (messageId: string) => void,
 ) {
   try {
+    const broker = await getBroker()
     const publication = await broker.publish(
       publicationName,
       payload,
@@ -42,11 +51,11 @@ export async function publish<T>(
 }
 
 export async function subscribe<T>(
-  broker: Broker,
   subscriptionName: string,
   eventHandler: (content: T) => Promise<void>,
 ) {
   try {
+    const broker = await getBroker()
     const subscription = await broker.subscribe(subscriptionName)
     subscription
       .on('message', async (_message, content: T, ackOrNack) => {

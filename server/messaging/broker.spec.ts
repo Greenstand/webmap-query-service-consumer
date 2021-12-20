@@ -1,6 +1,6 @@
 import { BrokerAsPromised, BrokerConfig, withTestConfig } from 'rascal'
 
-import { initBroker, subscribe } from './broker'
+import { createBroker, subscribe } from './broker'
 
 const config: BrokerConfig = {
   vhosts: {
@@ -37,7 +37,7 @@ describe('Example rascal test', function () {
   }
 
   beforeAll(async () => {
-    broker = await initBroker(withTestConfig(config))
+    broker = await createBroker(withTestConfig(config))
   })
 
   beforeEach(async () => {
@@ -53,7 +53,7 @@ describe('Example rascal test', function () {
   })
 
   it('should demonstrate tests', async () => {
-    await subscribe(broker, 'demo_sub', async () => {})
+    await subscribe('demo_sub', async () => {})
     await testPublish()
   })
 

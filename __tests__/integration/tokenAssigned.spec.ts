@@ -1,4 +1,4 @@
-import { initBroker, publish } from 'messaging/broker'
+import { createBroker, publish } from 'messaging/broker'
 import brokerConfig from 'messaging/brokerConfig'
 import { truncateTables } from 'models/base'
 import { CaptureFeature } from 'models/captureFeature'
@@ -26,9 +26,9 @@ describe('tokenAssigned', () => {
 
   beforeAll(async () => {
     try {
-      broker = await initBroker(withTestConfig(brokerConfig))
+      broker = await createBroker(withTestConfig(brokerConfig))
       broker.on('error', console.error)
-      await registerEventHandlers(broker)
+      await registerEventHandlers()
     } catch (err) {
       console.error(err)
     }
@@ -57,7 +57,7 @@ describe('tokenAssigned', () => {
     }
 
     // publish the capture
-    await publish(broker, 'token-assigned', 'token.transfer', message, (e) =>
+    await publish('token-assigned', 'token.transfer', message, (e) =>
       console.log('result:', e),
     )
 
