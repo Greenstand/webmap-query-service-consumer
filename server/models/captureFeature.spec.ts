@@ -1,6 +1,6 @@
 import knex, { truncateTables } from 'services/knex'
 
-import { TableName } from './base'
+import { TableNames } from './base'
 import { addCaptureFeature, CaptureFeature } from './captureFeature'
 
 const data: CaptureFeature = {
@@ -20,10 +20,7 @@ const data: CaptureFeature = {
 
 describe('Creating CaptureFeature', () => {
   beforeEach(async () => {
-    await truncateTables([TableName.CAPTURE_FEATURE])
-  })
-  afterAll(async () => {
-    await knex.destroy()
+    await truncateTables([TableNames.CAPTURE_FEATURE])
   })
 
   it('should add the object to the db', async () => {

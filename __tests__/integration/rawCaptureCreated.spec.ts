@@ -1,7 +1,7 @@
 import log from 'loglevel'
 import { publish } from 'messaging/broker'
 import config from 'messaging/config'
-import { TableName } from 'models/base'
+import { TableNames } from 'models/base'
 import { BrokerAsPromised, withTestConfig } from 'rascal'
 import registerEventHandlers from 'services/eventHandlers'
 import knex, { truncateTables } from 'services/knex'
@@ -19,31 +19,30 @@ describe('rawCaptureFeature', () => {
   beforeEach(async () => {
     await broker.purge()
     await truncateTables([
-      TableName.CAPTURE_FEATURE,
-      TableName.RAW_CAPTURE_FEATRURE,
-      TableName.REGION_ASSIGNMENT,
-      TableName.RAW_CAPTURE_CLUSTER,
+      TableNames.CAPTURE_FEATURE,
+      TableNames.RAW_CAPTURE_FEATRURE,
+      TableNames.REGION_ASSIGNMENT,
+      TableNames.RAW_CAPTURE_CLUSTER,
     ])
   })
   afterAll(async () => {
     if (!broker) return
     await broker.unsubscribeAll()
     await broker.nuke()
-    await knex.destroy()
   })
 
   it('Successfully handle raw capture created event', async () => {
     //just care about the 14 zoom level
     const cluster_zoom_level = 14
     //prepare two clusters, the new capture will find the nearest to update
-    await knex('raw_capture_cluster').insert({
+    await knex(TableNames.RAW_CAPTURE_CLUSTER).insert({
       zoom_level: cluster_zoom_level,
       location: `POINT(${capture_in_kenya.lon + 1} ${capture_in_kenya.lat})`,
       count: 1,
     })
 
     //a farther cluster
-    await knex('raw_capture_cluster').insert({
+    await knex(TableNames.RAW_CAPTURE_CLUSTER).insert({
       zoom_level: cluster_zoom_level,
       location: `POINT(${capture_in_kenya.lon + 2} ${capture_in_kenya.lat})`,
       count: 5,
@@ -51,40 +50,32 @@ describe('rawCaptureFeature', () => {
 
     //prepare the capture before the wallet event
     const message = capture_in_kenya
-    await publish(broker, 'raw-capture-created', '', message, (e) =>
-      log.warn('result:', e),
+    await publish(broker, 'raw-capture-created', '', message, () =>
+      log.log('message received'),
     )
 
     // wait for message to be consumed
     await new Promise((r) => setTimeout(() => r(''), 4000))
 
-    let result = await knex('raw_capture_feature')
+    let result = await knex(TableNames.RAW_CAPTURE_FEATRURE)
       .select()
       .where('id', capture_in_kenya.id)
-    console.log(
-      '------------------------------RESULT1----------------------',
-      result,
-    )
     expect(result).toHaveLength(1)
 
-    result = await knex('region_assignment').select().where({
+    result = await knex(TableNames.REGION_ASSIGNMENT).select().where({
       map_feature_id: capture_in_kenya.id,
       zoom_level: 9,
       region_id: 2281072,
     })
-    console.log(
-      '------------------------------RESULT2----------------------',
-      result,
-    )
     expect(result).toHaveLength(1)
 
-    result = await knex('region_assignment').select().where({
+    result = await knex(TableNames.REGION_ASSIGNMENT).select().where({
       map_feature_id: capture_in_kenya.id,
     })
     expect(result).toHaveLength(15)
 
     //the cluster closer should be updated, and it's count is 2 now
-    result = await knex('raw_capture_cluster').select().where({
+    result = await knex(TableNames.RAW_CAPTURE_CLUSTER).select().where({
       count: 2,
     })
     expect(result).toHaveLength(1)

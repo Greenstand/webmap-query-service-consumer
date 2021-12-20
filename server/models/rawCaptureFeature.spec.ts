@@ -1,6 +1,6 @@
 import knex, { truncateTables } from 'services/knex'
 
-import { TableName } from './base'
+import { TableNames } from './base'
 import {
   addRawCapture,
   assignRegion,
@@ -19,14 +19,11 @@ const data: RawCaptureFeature = {
   updated_at: '2021-07-09T03:58:07.814Z',
 }
 
-const tables = [TableName.RAW_CAPTURE_FEATRURE, TableName.REGION_ASSIGNMENT]
+const tables = [TableNames.RAW_CAPTURE_FEATRURE, TableNames.REGION_ASSIGNMENT]
 
 describe('calling createRawCaptureFeature function', () => {
   beforeEach(async () => {
     await truncateTables(tables)
-  })
-  afterAll(async () => {
-    await knex.destroy()
   })
 
   it('add and assign region', async () => {
