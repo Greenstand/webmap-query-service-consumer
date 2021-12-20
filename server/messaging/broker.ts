@@ -3,6 +3,18 @@ import { BrokerAsPromised as Broker } from 'rascal'
 
 import config from './config'
 
+export type TokenMessage = {
+  entries: {
+    capture_id: string
+  }[]
+  wallet_name: string
+}
+
+export type EventName =
+  | 'capture-created'
+  | 'raw-capture-created'
+  | 'token-assigned'
+
 export function initBroker() {
   return Broker.create(config)
 }
@@ -28,18 +40,6 @@ export async function publish<T>(
     log.error(`Error publishing message ${err}`, err)
   }
 }
-
-export type TokenMessage = {
-  entries: {
-    capture_id: string
-  }[]
-  wallet_name: string
-}
-
-export type EventName =
-  | 'capture-created'
-  | 'raw-capture-created'
-  | 'token-assigned'
 
 export async function subscribe<T>(
   broker: Broker,

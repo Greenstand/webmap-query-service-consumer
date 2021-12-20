@@ -1,22 +1,20 @@
-import log from 'loglevel'
+import { error, log } from 'loglevel'
 import { initBroker } from 'messaging/broker'
+import { setupLoglevel } from 'utils/log'
 
 import registerEventHandlers from './services/eventHandlers'
 
 async function main() {
-  if (process.env.NODE_LOG_LEVEL) {
-    log.setDefaultLevel(process.env.NODE_LOG_LEVEL as log.LogLevelDesc)
-  } else {
-    log.setDefaultLevel('info')
-  }
+  setupLoglevel()
+  log('registering event handlers')
   const broker = await initBroker()
   await registerEventHandlers(broker)
 }
 
 main()
   .then(() => {
-    console.log('server is listening...')
+    log('server is listening...')
   })
   .catch((err) => {
-    console.error(err)
+    error(err)
   })

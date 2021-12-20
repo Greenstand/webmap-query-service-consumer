@@ -1,11 +1,7 @@
 import log from 'loglevel'
 import { subscribe, TokenMessage } from 'messaging/broker'
-import { batchUpdate, TableName } from 'models/base'
-import {
-  addCaptureFeature,
-  CaptureFeature,
-  captureFeatureFromMessage,
-} from 'models/captureFeature'
+import { batchUpdate, TableNames } from 'models/base'
+import { addCaptureFeature, CaptureFeature } from 'models/captureFeature'
 import {
   addRawCapture,
   assignRegion,
@@ -16,8 +12,7 @@ import { BrokerAsPromised } from 'rascal'
 
 async function captureFeatureCreatedHandler(message: CaptureFeature) {
   try {
-    const captureFeature = captureFeatureFromMessage({ ...message })
-    await addCaptureFeature(captureFeature)
+    await addCaptureFeature(message)
   } catch (e) {
     log.error(e)
   }
@@ -44,7 +39,7 @@ async function tokenAssignedHandler(message: TokenMessage) {
     const updateObject = {
       wallet_name,
     }
-    await batchUpdate(ids, updateObject, TableName.CAPTURE_FEATURE)
+    await batchUpdate(ids, updateObject, TableNames.CAPTURE_FEATURE)
     log.log('token event handler finished.')
   } catch (e) {
     log.error('Get error when handling message:', e)

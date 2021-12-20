@@ -20,28 +20,6 @@ export type CaptureFeature = {
   wallet_name: string
 }
 
-export const captureFeatureFromMessage = ({
-  id,
-  lat,
-  lon,
-  field_user_id,
-  field_username,
-  device_identifier,
-  attributes,
-  created_at,
-}: CaptureFeature): Readonly<CaptureFeature> => {
-  return {
-    id,
-    lat,
-    lon,
-    field_user_id,
-    field_username,
-    device_identifier,
-    attributes,
-    created_at,
-  } as Readonly<CaptureFeature>
-}
-
 export async function addCaptureFeature(captureFeature: CaptureFeature) {
   // Since the query uses postgres function ST_PointFromText, knex's raw function is used
   const wellKnownText = `POINT(${captureFeature.lon} ${captureFeature.lat})`
