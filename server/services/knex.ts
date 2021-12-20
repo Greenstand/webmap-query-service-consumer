@@ -1,8 +1,7 @@
-import { Knex, knex as initDb } from 'knex'
+import { Global } from 'interfaces/global'
+import { knex as initDb } from 'knex'
 
 import knexConfig from './knexConfig'
-
-type Global = { __DB_CONNECTION?: Knex<any, unknown[]> }
 
 export enum TableNames {
   CAPTURE_FEATURE = 'capture_feature',

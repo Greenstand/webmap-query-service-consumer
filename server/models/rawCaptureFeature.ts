@@ -14,30 +14,6 @@ export type RawCaptureFeature = {
   updated_at: string
 }
 
-export const rawCaptureFeatureFromMessage = ({
-  id,
-  lat,
-  lon,
-  field_user_id,
-  field_username,
-  attributes,
-  device_identifier = '',
-  created_at,
-  updated_at,
-}: RawCaptureFeature) => {
-  return Object.freeze({
-    id,
-    lat,
-    lon,
-    field_user_id,
-    field_username,
-    attributes,
-    device_identifier,
-    created_at,
-    updated_at,
-  })
-}
-
 export async function addRawCapture(rawCaptureFeature: RawCaptureFeature) {
   const wellKnownText = `POINT(${rawCaptureFeature.lon} ${rawCaptureFeature.lat})`
   const result = await knex.raw(

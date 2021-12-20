@@ -1,20 +1,18 @@
-import { error, log } from 'loglevel'
-import { initBroker } from 'messaging/broker'
+import log from 'loglevel'
 import { setupLoglevel } from 'utils/log'
 
 import registerEventHandlers from './services/eventHandlers'
 
 async function main() {
   setupLoglevel()
-  log('registering event handlers')
-  const broker = await initBroker()
-  await registerEventHandlers(broker)
+  log.log('registering event handlers')
+  await registerEventHandlers()
 }
 
 main()
   .then(() => {
-    log('server is listening...')
+    log.log('server is listening...')
   })
   .catch((err) => {
-    error(err)
+    log.error(err)
   })

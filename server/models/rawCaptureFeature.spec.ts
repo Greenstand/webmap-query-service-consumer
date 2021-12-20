@@ -39,6 +39,5 @@ describe('calling createRawCaptureFeature function', () => {
       region_id: 2281072,
     })
     expect(assignRegionResult).toHaveLength(1)
-    expect(true).toBe(true)
   })
 })

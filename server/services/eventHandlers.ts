@@ -1,11 +1,10 @@
 import log from 'loglevel'
-import { subscribe, TokenMessage } from 'messaging/broker'
+import { subscribe } from 'messaging/broker'
 import { batchUpdate } from 'models/base'
 import { addCaptureFeature, CaptureFeature } from 'models/captureFeature'
 import {
   addRawCapture,
   assignRegion,
-  rawCaptureFeatureFromMessage,
   updateCluster,
 } from 'models/rawCaptureFeature'
 
@@ -13,6 +12,7 @@ import { TableNames } from './knex'
 
 async function captureFeatureCreatedHandler(message: CaptureFeature) {
   try {
+    log.log('received capture feature event message', message)
     await addCaptureFeature(message)
   } catch (e) {
     log.error(e)
@@ -22,7 +22,7 @@ async function captureFeatureCreatedHandler(message: CaptureFeature) {
 async function rawCaptureCreatedHandler(message: CaptureFeature) {
   try {
     log.log('received raw capture event message', message)
-    const rawCaptureFeature = rawCaptureFeatureFromMessage({ ...message })
+    const rawCaptureFeature = { ...message }
     await addRawCapture(rawCaptureFeature)
     await assignRegion(rawCaptureFeature)
     await updateCluster(rawCaptureFeature)
@@ -30,6 +30,13 @@ async function rawCaptureCreatedHandler(message: CaptureFeature) {
   } catch (e) {
     log.error(e)
   }
+}
+
+export type TokenMessage = {
+  entries: {
+    capture_id: string
+  }[]
+  wallet_name: string
 }
 
 async function tokenAssignedHandler(message: TokenMessage) {

@@ -1,16 +1,8 @@
+import { Global } from 'interfaces/global'
 import log from 'loglevel'
 import { BrokerAsPromised as Broker } from 'rascal'
 
 import brokerConfig from './brokerConfig'
-
-type Global = { __BROKER?: Broker }
-
-export type TokenMessage = {
-  entries: {
-    capture_id: string
-  }[]
-  wallet_name: string
-}
 
 export type EventName =
   | 'capture-created'
@@ -29,7 +21,7 @@ export async function getBroker() {
 }
 
 export async function publish<T>(
-  publicationName: string,
+  publicationName: EventName,
   routingKey: string,
   payload: T,
   resultHandler: (messageId: string) => void,
@@ -51,7 +43,7 @@ export async function publish<T>(
 }
 
 export async function subscribe<T>(
-  subscriptionName: string,
+  subscriptionName: EventName,
   eventHandler: (content: T) => Promise<void>,
 ) {
   try {
