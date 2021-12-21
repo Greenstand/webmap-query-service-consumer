@@ -1,5 +1,5 @@
+import knex, { TableNames } from 'db/knex'
 import { log } from 'loglevel'
-import knex, { TableNames } from 'services/knex'
 
 export async function batchUpdate<T>(
   ids: string[],

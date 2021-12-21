@@ -1,4 +1,4 @@
-import knex from 'services/knex'
+import knex from 'db/knex'
 
 export type Attribute = {
   key: string

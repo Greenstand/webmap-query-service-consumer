@@ -1,4 +1,4 @@
-import knex, { TableNames } from 'services/knex'
+import knex, { TableNames } from 'db/knex'
 
 import { truncateTables } from './base'
 import { addCaptureFeature, CaptureFeature } from './captureFeature'

@@ -1,10 +1,10 @@
+import knex, { TableNames } from 'db/knex'
 import { createBroker, publish } from 'messaging/broker'
 import brokerConfig from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
 import { CaptureFeature } from 'models/captureFeature'
 import { BrokerAsPromised, withTestConfig } from 'rascal'
-import knex, { TableNames } from 'services/knex'
 
 const data: CaptureFeature = {
   id: '3501b525-a932-4b41-9a5d-73e89feeb7e3',

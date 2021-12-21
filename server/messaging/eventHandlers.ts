@@ -8,7 +8,7 @@ import {
   updateCluster,
 } from 'models/rawCaptureFeature'
 
-import { TableNames } from '../services/knex'
+import { TableNames } from '../db/knex'
 
 async function captureFeatureCreatedHandler(message: CaptureFeature) {
   try {

@@ -1,10 +1,10 @@
+import knex, { TableNames } from 'db/knex'
 import log from 'loglevel'
 import { createBroker, publish } from 'messaging/broker'
 import brokerConfig from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
 import { BrokerAsPromised, withTestConfig } from 'rascal'
-import knex, { TableNames } from 'services/knex'
 
 import capture_in_kenya from '../mock/capture_in_kenya.json'
 

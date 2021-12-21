@@ -1,4 +1,4 @@
-import knex from 'services/knex'
+import knex from 'db/knex'
 
 import { Attribute } from './captureFeature'
 
