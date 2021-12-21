@@ -1,5 +1,5 @@
 import { Global } from 'interfaces/global'
-import { knex as initDb } from 'knex'
+import { knex as initKnex } from 'knex'
 
 import knexConfig from './knexConfig'
 
@@ -12,12 +12,14 @@ export enum TableNames {
 
 function connectToDb() {
   console.log('connecting to db')
-  const connection = initDb(knexConfig)
+  const connection = initKnex(knexConfig)
   ;(global as Global).__DB_CONNECTION = connection
   return connection
 }
+
 function getDbConnection() {
   return (global as Global).__DB_CONNECTION ?? connectToDb()
 }
+
 const knex = getDbConnection()
 export default knex

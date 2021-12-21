@@ -1,5 +1,4 @@
 import { Global } from 'interfaces/global'
-import log from 'loglevel'
 import { BrokerAsPromised as Broker } from 'rascal'
 
 import brokerConfig from './brokerConfig'
@@ -34,11 +33,11 @@ export async function publish<T>(
       routingKey,
     )
     publication.on('success', resultHandler).on('error', (err, messageId) => {
-      log.error(`Error with id ${messageId} ${err.message}`)
+      console.error(`Error with id ${messageId} ${err.message}`)
       throw err
     })
   } catch (err) {
-    log.error(`Error publishing message ${err}`, err)
+    console.error(`Error publishing message ${err}`, err)
   }
 }
 
@@ -55,12 +54,12 @@ export async function subscribe<T>(
           await eventHandler(content)
           ackOrNack()
         } catch (err) {
-          log.error(err)
+          console.error(err)
           ackOrNack(new Error(err as string))
         }
       })
-      .on('error', log.error)
+      .on('error', console.error)
   } catch (err) {
-    log.error(`Error subscribing to ${subscriptionName}, error: ${err}`)
+    console.error(`Error subscribing to ${subscriptionName}, error: ${err}`)
   }
 }
