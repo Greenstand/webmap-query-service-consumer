@@ -56,6 +56,7 @@ export async function subscribe<T>(
         } catch (err) {
           console.error(err)
           ackOrNack(err as Error, [
+            // republish until attempts limit then dead-letter
             {
               strategy: 'republish',
               defer: 1000,
