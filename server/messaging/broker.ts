@@ -55,7 +55,16 @@ export async function subscribe<T>(
           ackOrNack()
         } catch (err) {
           console.error(err)
-          ackOrNack(new Error(err as string))
+          ackOrNack(err as Error, [
+            {
+              strategy: 'republish',
+              defer: 1000,
+              attempts: 10,
+            },
+            {
+              strategy: 'nack',
+            },
+          ])
         }
       })
       .on('error', console.error)

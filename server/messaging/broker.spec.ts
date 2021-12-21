@@ -65,10 +65,16 @@ describe('Example rascal test', function () {
         expect(attempts).toEqual(1)
       } catch (error) {
         console.log('received error', error)
-        ackOrNack(error as Error, {
-          strategy: 'nack',
-          requeue: true,
-        })
+        ackOrNack(error as Error, [
+          {
+            strategy: 'republish',
+            defer: 100,
+            attempts: 10,
+          },
+          {
+            strategy: 'nack',
+          },
+        ])
       }
     })
     await testPublish()
