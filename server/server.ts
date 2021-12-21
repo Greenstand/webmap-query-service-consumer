@@ -1,7 +1,7 @@
 import log from 'loglevel'
 import { setupLoglevel } from 'utils/log'
 
-import registerEventHandlers from './services/eventHandlers'
+import registerEventHandlers from './messaging/eventHandlers'
 
 async function main() {
   setupLoglevel()

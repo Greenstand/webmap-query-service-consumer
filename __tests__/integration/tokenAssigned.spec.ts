@@ -1,9 +1,9 @@
 import { createBroker, publish } from 'messaging/broker'
 import brokerConfig from 'messaging/brokerConfig'
+import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
 import { CaptureFeature } from 'models/captureFeature'
 import { BrokerAsPromised, withTestConfig } from 'rascal'
-import registerEventHandlers from 'services/eventHandlers'
 import knex, { TableNames } from 'services/knex'
 
 const data: CaptureFeature = {
