@@ -1,10 +1,8 @@
 import knex, { TableNames } from 'db/knex'
-import { publish } from 'messaging/broker'
-import brokerConfig from 'messaging/brokerConfig'
+import { getBroker, publish } from 'messaging/broker'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
 import { CaptureFeature } from 'models/captureFeature'
-import { BrokerAsPromised, withTestConfig } from 'rascal'
 
 const data: CaptureFeature = {
   id: '3501b525-a932-4b41-9a5d-73e89feeb7e3',
@@ -22,25 +20,18 @@ const data: CaptureFeature = {
 }
 
 describe('tokenAssigned', () => {
-  let broker: BrokerAsPromised
-
   beforeAll(async () => {
-    try {
-      broker = await BrokerAsPromised.create(withTestConfig(brokerConfig))
-      broker.on('error', console.error)
-      await registerEventHandlers()
-    } catch (err) {
-      console.error(err)
-    }
+    await registerEventHandlers()
   })
 
   beforeEach(async () => {
+    const broker = await getBroker()
     await broker.purge()
     await truncateTables([TableNames.CAPTURE_FEATURE])
   })
 
   afterAll(async () => {
-    if (!broker) return
+    const broker = await getBroker()
     await broker.unsubscribeAll()
     await broker.nuke()
   })

@@ -1,21 +1,17 @@
 import knex, { TableNames } from 'db/knex'
-import { publish } from 'messaging/broker'
-import brokerConfig from 'messaging/brokerConfig'
+import { getBroker, publish } from 'messaging/broker'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
-import { BrokerAsPromised, withTestConfig } from 'rascal'
 
 import capture_in_kenya from '../mock/capture_in_kenya.json'
 
 describe('rawCaptureFeature', () => {
-  let broker: BrokerAsPromised
-
   beforeAll(async () => {
-    broker = await BrokerAsPromised.create(withTestConfig(brokerConfig))
     await registerEventHandlers()
   })
 
   beforeEach(async () => {
+    const broker = await getBroker()
     await broker.purge()
     await truncateTables([
       TableNames.CAPTURE_FEATURE,
@@ -25,7 +21,7 @@ describe('rawCaptureFeature', () => {
     ])
   })
   afterAll(async () => {
-    if (!broker) return
+    const broker = await getBroker()
     await broker.unsubscribeAll()
     await broker.nuke()
   })
