@@ -9,8 +9,8 @@ export type EventName =
   | 'raw-capture-created'
   | 'token-assigned'
 
-export async function createBroker(config = brokerConfig) {
-  console.log('creating broker...')
+async function createBroker(config = brokerConfig) {
+  console.log('creating broker')
   const broker = await Broker.create(config)
   ;(global as Global).__BROKER = broker
   return broker

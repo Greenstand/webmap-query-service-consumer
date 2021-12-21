@@ -1,6 +1,6 @@
 import knex, { TableNames } from 'db/knex'
 import log from 'loglevel'
-import { createBroker, publish } from 'messaging/broker'
+import { publish } from 'messaging/broker'
 import brokerConfig from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
@@ -12,7 +12,7 @@ describe('rawCaptureFeature', () => {
   let broker: BrokerAsPromised
 
   beforeAll(async () => {
-    broker = await createBroker(withTestConfig(brokerConfig))
+    broker = await BrokerAsPromised.create(withTestConfig(brokerConfig))
     await registerEventHandlers()
   })
 

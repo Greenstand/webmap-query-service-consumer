@@ -1,7 +1,5 @@
 import { BrokerAsPromised, BrokerConfig, withTestConfig } from 'rascal'
 
-import { createBroker, subscribe } from './broker'
-
 const config: BrokerConfig = {
   vhosts: {
     v1: {
@@ -37,7 +35,7 @@ describe('Example rascal test', function () {
   }
 
   beforeAll(async () => {
-    broker = await createBroker(withTestConfig(config))
+    broker = await BrokerAsPromised.create(withTestConfig(config))
   })
 
   beforeEach(async () => {
@@ -50,20 +48,6 @@ describe('Example rascal test', function () {
 
   afterAll(async () => {
     await broker.nuke()
-  })
-
-  it('should demonstrate tests', async () => {
-    await subscribe('demo_sub', async () => {})
-    await testPublish()
-  })
-
-  it('should handle async subscription', async () => {
-    const subscription = await broker.subscribe('demo_sub')
-    subscription.on('message', async function (message, content, ackOrNack) {
-      await new Promise((r) => setTimeout(() => r(''), 10))
-      ackOrNack()
-    })
-    await testPublish()
   })
 
   it('should handle error', async () => {
