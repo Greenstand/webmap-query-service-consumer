@@ -2,7 +2,7 @@ import knex from 'db/knex'
 
 export type Attribute = {
   key: string
-  value: any
+  value: string | number
 }
 
 export type CaptureFeature = {

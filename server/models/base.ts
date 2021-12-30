@@ -13,6 +13,6 @@ export async function batchUpdate<T>(
 
 export function truncateTables(tables: TableNames[]) {
   return Promise.all(
-    tables.map((table) => knex.raw('truncate table ' + table + ' cascade')),
+    tables.map((table) => knex.raw(`truncate table ${table} cascade`)),
   )
 }

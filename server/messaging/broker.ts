@@ -11,12 +11,12 @@ export type EventName =
 async function createBroker(config = brokerConfig) {
   console.log('creating broker')
   const broker = await Broker.create(config)
-  ;(global as Global).__BROKER = broker
+  ;(global as Global).broker = broker
   return broker
 }
 
 export async function getBroker() {
-  return (global as Global).__BROKER ?? (await createBroker())
+  return (global as Global).broker ?? createBroker()
 }
 
 export async function publish<T>(

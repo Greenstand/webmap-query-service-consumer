@@ -13,12 +13,12 @@ export enum TableNames {
 function connectToDb() {
   console.log('connecting to db')
   const connection = initKnex(knexConfig)
-  ;(global as Global).__DB_CONNECTION = connection
+  ;(global as Global).dbConnection = connection
   return connection
 }
 
 function getDbConnection() {
-  return (global as Global).__DB_CONNECTION ?? connectToDb()
+  return (global as Global).dbConnection ?? connectToDb()
 }
 
 const knex = getDbConnection()

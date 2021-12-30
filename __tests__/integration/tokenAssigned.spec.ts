@@ -37,7 +37,7 @@ describe('tokenAssigned', () => {
   })
 
   it('Successfully handle tokenAssigned event', async () => {
-    //prepare the capture before the wallet event
+    // prepare the capture before the wallet event
 
     await knex(TableNames.CAPTURE_FEATURE).insert(data)
     const newWalletName = 'newone'

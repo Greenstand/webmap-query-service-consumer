@@ -27,23 +27,23 @@ describe('rawCaptureFeature', () => {
   })
 
   it('Successfully handle raw capture created event', async () => {
-    //just care about the 14 zoom level
+    // just care about the 14 zoom level
     const cluster_zoom_level = 14
-    //prepare two clusters, the new capture will find the nearest to update
+    // prepare two clusters, the new capture will find the nearest to update
     await knex(TableNames.RAW_CAPTURE_CLUSTER).insert({
       zoom_level: cluster_zoom_level,
       location: `POINT(${capture_in_kenya.lon + 1} ${capture_in_kenya.lat})`,
       count: 1,
     })
 
-    //a farther cluster
+    // a farther cluster
     await knex(TableNames.RAW_CAPTURE_CLUSTER).insert({
       zoom_level: cluster_zoom_level,
       location: `POINT(${capture_in_kenya.lon + 2} ${capture_in_kenya.lat})`,
       count: 5,
     })
 
-    //prepare the capture before the wallet event
+    // prepare the capture before the wallet event
     const message = capture_in_kenya
     await publish('raw-capture-created', '', message, () =>
       console.log('message received'),
@@ -69,7 +69,7 @@ describe('rawCaptureFeature', () => {
     })
     expect(result).toHaveLength(15)
 
-    //the cluster closer should be updated, and it's count is 2 now
+    // the cluster closer should be updated, and it's count is 2 now
     result = await knex(TableNames.RAW_CAPTURE_CLUSTER).select().where({
       count: 2,
     })
@@ -77,7 +77,7 @@ describe('rawCaptureFeature', () => {
   })
 })
 
-//check the region data, make sure the sample data has been imported from mock/xxx.copy
+// check the region data, make sure the sample data has been imported from mock/xxx.copy
 /*
      * the result from dev DB
      *

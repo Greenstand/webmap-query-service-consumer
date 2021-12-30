@@ -27,7 +27,7 @@ const config: BrokerConfig = {
   },
 }
 
-describe('Example rascal test', function () {
+describe('Example rascal test', () => {
   let broker: BrokerAsPromised
 
   function testPublish() {
@@ -53,12 +53,12 @@ describe('Example rascal test', function () {
   it('should handle error', async () => {
     let attempts = 0
     const subscription = await broker.subscribe('demo_sub', {})
-    subscription.on('message', async function (message, content, ackOrNack) {
+    subscription.on('message', async (message, content, ackOrNack) => {
       try {
         console.log('attempts:', attempts)
         await new Promise((r) => setTimeout(() => r(''), 100))
         if (!attempts) {
-          attempts++
+          attempts += 1
           throw new Error('error')
         }
         ackOrNack()

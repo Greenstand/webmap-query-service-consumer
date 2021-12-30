@@ -27,7 +27,7 @@ describe('Creating CaptureFeature', () => {
     const x = await addCaptureFeature(data)
     expect(x?.id).toEqual(data.id)
     console.log(x)
-    let result = await knex(TableNames.CAPTURE_FEATURE)
+    const result = await knex(TableNames.CAPTURE_FEATURE)
       .select()
       .where('id', data.id)
     expect(result).toHaveLength(1)
