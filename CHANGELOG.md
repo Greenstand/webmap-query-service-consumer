@@ -1,3 +1,22 @@
+# [1.8.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.7.6...v1.8.0) (2021-12-30)
+
+
+### Bug Fixes
+
+* ackornack config ([acf1484](https://github.com/Greenstand/webmap-query-service-consumer/commit/acf14848d0a123af8ac512e06aa4d2f17be47cf8))
+* add .jest to default tsconfig ([f603e93](https://github.com/Greenstand/webmap-query-service-consumer/commit/f603e93aae4497a6687fa13630b5ecf4c07e35f5))
+* add dotenv to cli scripts ([5361c43](https://github.com/Greenstand/webmap-query-service-consumer/commit/5361c43a4dd8830a8e4ffd88db1929d587413731))
+* integration tests ([c0a8ac1](https://github.com/Greenstand/webmap-query-service-consumer/commit/c0a8ac1e284eedf8f05f65ace038e5d2c5ac4973))
+* run tests one at a time ([dde5a33](https://github.com/Greenstand/webmap-query-service-consumer/commit/dde5a331b4f77fcfeba989e0e8e579a9ea2bd057))
+* security warning ([ba322f7](https://github.com/Greenstand/webmap-query-service-consumer/commit/ba322f78f437e19d438b0b3d2be623e54b045aad))
+* setupfile import ([966bc9a](https://github.com/Greenstand/webmap-query-service-consumer/commit/966bc9a63c247758e9dbe648ba9bbeb137439fb3))
+* tests teardown properly ([756a697](https://github.com/Greenstand/webmap-query-service-consumer/commit/756a6974e3a61c4c606fba13cf6b433ac38db7c6))
+
+
+### Features
+
+* package json sorting ([a2ed326](https://github.com/Greenstand/webmap-query-service-consumer/commit/a2ed326f4f6723ec0cfedb5c3a380e7cee6e1c10))
+
 ## [1.7.6](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.7.5...v1.7.6) (2021-12-14)
 
 ### Bug Fixes
