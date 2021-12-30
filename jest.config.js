@@ -2,8 +2,8 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  globalSetup: '<rootDir>/.jest/globalSetup.ts',
   modulePaths: ['server/'],
+  globalSetup: '<rootDir>/.jest/globalSetup.ts',
+  setupFilesAfterEnv: ['<rootDir>/.jest/setupFile.ts'],
   maxConcurrency: 1,
-  forceExit: true,
 }

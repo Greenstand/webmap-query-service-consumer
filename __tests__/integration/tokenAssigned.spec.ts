@@ -1,73 +1,64 @@
-import knex from 'infra/database/knex'
-import config from 'infra/messaging/config'
-import { publish, subscribe } from 'infra/messaging/rabbit-mq-messaging'
-import { CaptureFeature } from 'models/capture-feature'
-import { BrokerAsPromised } from 'rascal'
-import tokenAssignedHandler from 'services/event-token-assigned-handler'
+import knex, { TableNames } from 'db/knex'
+import { getBroker, publish } from 'messaging/broker'
+import registerEventHandlers from 'messaging/eventHandlers'
+import { truncateTables } from 'models/base'
+import { CaptureFeature } from 'models/captureFeature'
+
+const data: CaptureFeature = {
+  id: '3501b525-a932-4b41-9a5d-73e89feeb7e3',
+  lat: 0,
+  lon: 0,
+  location: `POINT(0 0)`,
+  field_user_id: 0,
+  field_username: 'fake_name',
+  token_id: '9d7abad8-8eb0-11eb-8dcd-0242ac130003',
+  wallet_name: 'oldone',
+  attributes: [],
+  device_identifier: 'x',
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString(),
+}
 
 describe('tokenAssigned', () => {
-  let broker: BrokerAsPromised
-
   beforeAll(async () => {
-    try {
-      broker = await BrokerAsPromised.create(config)
-      broker.on('error', console.error)
-      await subscribe(broker, 'token-assigned', tokenAssignedHandler)
-    } catch (err) {
-      console.error(err)
-    }
+    await registerEventHandlers()
   })
 
   beforeEach(async () => {
-    await knex('capture_feature').del()
+    const broker = await getBroker()
     await broker.purge()
+    await truncateTables([TableNames.CAPTURE_FEATURE])
   })
 
   afterAll(async () => {
-    if (!broker) return
+    const broker = await getBroker()
     await broker.unsubscribeAll()
     await broker.nuke()
   })
 
   it('Successfully handle tokenAssigned event', async () => {
-    //prepare the capture before the wallet event
-    const capture_id = '63e00bca-8eb0-11eb-8dcd-0242ac130003'
-    const token_id = '9d7abad8-8eb0-11eb-8dcd-0242ac130003'
-    const wallet_name = 'oldone'
-    const capture: CaptureFeature = {
-      id: capture_id,
-      lat: 0,
-      lon: 0,
-      location: `POINT(0 0)`,
-      field_user_id: 0,
-      field_username: 'fake_name',
-      token_id,
-      wallet_name,
-      attributes: [],
-      device_identifier: 'x',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    }
-    await knex('capture_feature').insert(capture)
-    const wallet_name_new = 'newone'
+    // prepare the capture before the wallet event
+
+    await knex(TableNames.CAPTURE_FEATURE).insert(data)
+    const newWalletName = 'newone'
     const message = {
       type: 'TokensAssigned',
-      wallet_name: wallet_name_new,
-      entries: [{ capture_id: capture_id, token_id: token_id }],
+      wallet_name: newWalletName,
+      entries: [{ capture_id: data.id, token_id: data.token_id }],
     }
 
     // publish the capture
-    await publish(broker, 'token-assigned', 'token.transfer', message, (e) =>
+    await publish('token-assigned', 'token.transfer', message, (e) =>
       console.log('result:', e),
     )
 
     // wait for message to be consumed
-    await new Promise((r) => setTimeout(() => r(''), 2000))
+    await new Promise((r) => setTimeout(() => r(''), 3000))
 
     // check if message was consumed and handled
-    const result = await knex('capture_feature')
+    const result = await knex(TableNames.CAPTURE_FEATURE)
       .select()
-      .where('wallet_name', wallet_name_new)
+      .where('wallet_name', newWalletName)
     expect(result).toHaveLength(1)
   })
 })

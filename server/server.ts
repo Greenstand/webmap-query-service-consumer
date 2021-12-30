@@ -1,15 +1,11 @@
-import { config as dotEnvConfig } from 'dotenv'
-dotEnvConfig()
-// set up log level
-import './setup'
+import { setupLoglevel } from 'utils/log'
 
-import { initBroker } from 'infra/messaging/rabbit-mq-messaging'
-
-import registerEventHandlers from './services/event-handlers'
+import registerEventHandlers from './messaging/eventHandlers'
 
 async function main() {
-  const broker = await initBroker()
-  await registerEventHandlers(broker)
+  setupLoglevel()
+  console.log('registering event handlers')
+  await registerEventHandlers()
 }
 
 main()

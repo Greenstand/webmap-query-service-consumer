@@ -4,3 +4,4 @@ dist/
 coverage/
 
 **/*.js
+./knexfile.ts
