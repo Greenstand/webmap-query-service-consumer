@@ -1,5 +1,11 @@
 import { BrokerConfig } from 'rascal'
 
+export enum SubscriptionNames {
+  CAPTURE_FEATURE = 'capture-created',
+  RAW_CAPTURE_CREATED = 'raw-capture-created',
+  TOKEN_ASSIGNED = 'token-assigned',
+}
+
 const brokerConfig: BrokerConfig = {
   vhosts: {
     v1: {
@@ -21,24 +27,27 @@ const brokerConfig: BrokerConfig = {
         'field-data -> field-data-events',
       ],
       publications: {
-        'token-assigned': {
+        [SubscriptionNames.TOKEN_ASSIGNED]: {
           exchange: 'wallet-service-ex',
           routingKey: 'token.transfer',
         },
-        'raw-capture-created': {
+        [SubscriptionNames.RAW_CAPTURE_CREATED]: {
           exchange: 'field-data',
+        },
+        [SubscriptionNames.CAPTURE_FEATURE]: {
+          exchange: 'capture-data-ex',
         },
       },
       subscriptions: {
-        'capture-created': {
+        [SubscriptionNames.CAPTURE_FEATURE]: {
           queue: 'capture-data:events',
           contentType: 'application/json',
         },
-        'raw-capture-created': {
+        [SubscriptionNames.RAW_CAPTURE_CREATED]: {
           queue: 'field-data-events',
           contentType: 'application/json',
         },
-        'token-assigned': {
+        [SubscriptionNames.TOKEN_ASSIGNED]: {
           queue: 'token-transfer:events',
         },
       },

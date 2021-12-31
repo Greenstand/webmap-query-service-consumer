@@ -1,5 +1,6 @@
 import knex, { TableNames } from 'db/knex'
 import { getBroker, publish } from 'messaging/broker'
+import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
 
@@ -45,7 +46,7 @@ describe('rawCaptureFeature', () => {
 
     // prepare the capture before the wallet event
     const message = capture_in_kenya
-    await publish('raw-capture-created', '', message, () =>
+    await publish(SubscriptionNames.RAW_CAPTURE_CREATED, '', message, () =>
       console.log('message received'),
     )
 

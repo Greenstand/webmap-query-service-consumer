@@ -8,6 +8,7 @@ import {
 } from 'models/rawCaptureFeature'
 
 import { TableNames } from '../db/knex'
+import { SubscriptionNames } from './brokerConfig'
 
 async function captureFeatureCreatedHandler(message: CaptureFeature) {
   try {
@@ -55,9 +56,15 @@ async function tokenAssignedHandler(message: TokenMessage) {
 
 export default async function registerEventHandlers() {
   try {
-    await subscribe('capture-created', captureFeatureCreatedHandler)
-    await subscribe('raw-capture-created', rawCaptureCreatedHandler)
-    await subscribe('token-assigned', tokenAssignedHandler)
+    await subscribe(
+      SubscriptionNames.CAPTURE_FEATURE,
+      captureFeatureCreatedHandler,
+    )
+    await subscribe(
+      SubscriptionNames.RAW_CAPTURE_CREATED,
+      rawCaptureCreatedHandler,
+    )
+    await subscribe(SubscriptionNames.TOKEN_ASSIGNED, tokenAssignedHandler)
   } catch (e) {
     console.error('Get error when handling message:', e)
   }
