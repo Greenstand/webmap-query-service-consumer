@@ -1,5 +1,5 @@
-import { Global } from 'interfaces/global'
 import { BrokerAsPromised } from 'rascal'
+import { Global } from 'interfaces/global'
 import brokerConfig, { SubscriptionNames } from './brokerConfig'
 
 async function createBroker(config = brokerConfig) {

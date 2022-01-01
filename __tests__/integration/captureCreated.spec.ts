@@ -1,9 +1,9 @@
+import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
 import { CaptureFeature } from 'models/captureFeature'
-import waitForExpect from 'wait-for-expect'
 import { publishMessage } from '../../.jest/utils'
 
 const data: CaptureFeature = {

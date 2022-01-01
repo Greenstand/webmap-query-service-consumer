@@ -1,5 +1,5 @@
-import { Global } from 'interfaces/global'
 import { knex as initKnex } from 'knex'
+import { Global } from 'interfaces/global'
 
 import knexConfig from './knexConfig'
 

@@ -1,3 +1,4 @@
+import { TableNames } from 'db/knex'
 import { subscribe } from 'messaging/broker'
 import { batchUpdate } from 'models/base'
 import { addCaptureFeature, CaptureFeature } from 'models/captureFeature'
@@ -6,8 +7,6 @@ import {
   assignRegion,
   updateCluster,
 } from 'models/rawCaptureFeature'
-
-import { TableNames } from '../db/knex'
 import { SubscriptionNames } from './brokerConfig'
 
 async function captureFeatureCreatedHandler(message: CaptureFeature) {

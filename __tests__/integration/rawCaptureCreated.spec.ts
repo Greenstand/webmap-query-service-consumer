@@ -1,8 +1,8 @@
+import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
-import waitForExpect from 'wait-for-expect'
 import { publishMessage } from '../../.jest/utils'
 import capture_in_kenya from '../mock/capture_in_kenya.json'
 
