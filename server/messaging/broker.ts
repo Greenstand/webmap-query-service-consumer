@@ -1,26 +1,19 @@
 import { Global } from 'interfaces/global'
-import { BrokerAsPromised as Broker } from 'rascal'
-
-import brokerConfig from './brokerConfig'
-
-export type EventName =
-  | 'capture-created'
-  | 'raw-capture-created'
-  | 'token-assigned'
+import { BrokerAsPromised } from 'rascal'
+import brokerConfig, { SubscriptionNames } from './brokerConfig'
 
 async function createBroker(config = brokerConfig) {
   console.log('creating broker')
-  const broker = await Broker.create(config)
+  const broker = await BrokerAsPromised.create(config)
   ;(global as Global).broker = broker
   return broker
 }
-
-export async function getBroker() {
+export function getBroker() {
   return (global as Global).broker ?? createBroker()
 }
 
 export async function publish<T>(
-  publicationName: EventName,
+  publicationName: SubscriptionNames,
   routingKey: string,
   payload: T,
   resultHandler: (messageId: string) => void,
@@ -42,7 +35,7 @@ export async function publish<T>(
 }
 
 export async function subscribe<T>(
-  subscriptionName: EventName,
+  subscriptionName: SubscriptionNames,
   eventHandler: (content: T) => Promise<void>,
 ) {
   try {

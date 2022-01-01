@@ -32,7 +32,9 @@
     "lint": "eslint . --cache",
     "prepare": "is-ci || husky install",
     "start": "NODE_PATH=dist/ node -r dotenv/config dist/server.js",
-    "test": "jest --runInBand"
+    "test": "npm run test:unit & npm run test:int",
+    "test:int": "jest __tests__/ -i",
+    "test:unit": "jest server/"
   },
   "dependencies": {
     "@sentry/node": "^5.1.0",
@@ -46,6 +48,7 @@
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
+    "@swc/jest": "^0.2.15",
     "@types/jest": "^27.0.3",
     "@types/mock-knex": "^0.4.3",
     "@types/node": "^16.11.6",
@@ -64,16 +67,16 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^7.0.4",
     "is-ci": "^3.0.1",
-    "jest": "^27.3.1",
+    "jest": "^27.4.5",
     "lint-staged": "^11.2.6",
     "mock-knex": "^0.4.10",
     "node-cipher": "^6.3.3",
     "nodemon": "^2.0.14",
     "prettier": "^2.4.1",
     "sort-package-json": "^1.53.1",
-    "ts-jest": "^27.0.7",
     "ts-node": "^10.4.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "wait-for-expect": "^3.0.2"
   },
   "engines": {
     "node": ">=16",
