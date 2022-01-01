@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.8.0...v1.8.1) (2022-01-01)
+
+
+### Bug Fixes
+
+* jest settings ([e29d370](https://github.com/Greenstand/webmap-query-service-consumer/commit/e29d370cd2d07abaa611d6aebec296592fd3f812))
+
 # [1.8.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.7.6...v1.8.0) (2021-12-30)
 
 
