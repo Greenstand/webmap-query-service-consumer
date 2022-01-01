@@ -4,6 +4,7 @@ import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
 import { CaptureFeature } from 'models/captureFeature'
+import waitForExpect from 'wait-for-expect'
 
 const data: CaptureFeature = {
   id: '3501b525-a932-4b41-9a5d-73e89feeb7e3',
@@ -56,13 +57,12 @@ describe('tokenAssigned', () => {
       (e) => console.log('result:', e),
     )
 
-    // wait for message to be consumed
-    await new Promise((r) => setTimeout(() => r(''), 3000))
-
-    // check if message was consumed and handled
-    const result = await knex(TableNames.CAPTURE_FEATURE)
-      .select()
-      .where('wallet_name', newWalletName)
-    expect(result).toHaveLength(1)
+    await waitForExpect(async () => {
+      // check if message was consumed and handled
+      const result = await knex(TableNames.CAPTURE_FEATURE)
+        .select()
+        .where('wallet_name', newWalletName)
+      expect(result).toHaveLength(1)
+    })
   })
 })
