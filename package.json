@@ -32,7 +32,9 @@
     "lint": "eslint . --cache",
     "prepare": "is-ci || husky install",
     "start": "NODE_PATH=dist/ node -r dotenv/config dist/server.js",
-    "test": "jest --runInBand"
+    "test": "npm run test:unit & npm run test:int",
+    "test:int": "jest __tests__/ -i",
+    "test:unit": "jest server/"
   },
   "dependencies": {
     "@sentry/node": "^5.1.0",
