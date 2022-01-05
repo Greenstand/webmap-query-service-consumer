@@ -1,7 +1,7 @@
 import { BrokerConfig } from 'rascal'
 
 export enum SubscriptionNames {
-  CAPTURE_FEATURE = 'capture-data-created',
+  CAPTURE_FEATURE = 'capture-created',
   RAW_CAPTURE_CREATED = 'raw-capture-created',
   TOKEN_ASSIGNED = 'token-assigned',
 }
