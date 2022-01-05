@@ -15,40 +15,25 @@ const brokerConfig: BrokerConfig = {
           timeout: 3000,
         },
       },
-      exchanges: ['capture-data-ex', 'field-data', 'wallet-service-ex'],
+      exchanges: ['amq.direct'],
       queues: [
-        'capture-data:events',
-        'field-data-events',
-        'token-transfer:events',
+        'capture-created',
+        'raw-capture-created',
+        'token-transfer-created',
       ],
-      bindings: [
-        'wallet-service-ex[token.transfer] -> token-transfer:events',
-        'capture-data-ex -> capture-data:events',
-        'field-data -> field-data-events',
-      ],
-      publications: {
-        [SubscriptionNames.TOKEN_ASSIGNED]: {
-          exchange: 'wallet-service-ex',
-          routingKey: 'token.transfer',
-        },
-        [SubscriptionNames.RAW_CAPTURE_CREATED]: {
-          exchange: 'field-data',
-        },
-        [SubscriptionNames.CAPTURE_FEATURE]: {
-          exchange: 'capture-data-ex',
-        },
-      },
+      // default bindings should be good
+      // and consumer does not need to set up any publication resources
       subscriptions: {
         [SubscriptionNames.CAPTURE_FEATURE]: {
-          queue: 'capture-data:events',
+          queue: 'capture-data-created',
           contentType: 'application/json',
         },
         [SubscriptionNames.RAW_CAPTURE_CREATED]: {
-          queue: 'field-data-events',
+          queue: 'raw-capture-created',
           contentType: 'application/json',
         },
         [SubscriptionNames.TOKEN_ASSIGNED]: {
-          queue: 'token-transfer:events',
+          queue: 'token-transfer-created',
         },
       },
     },
