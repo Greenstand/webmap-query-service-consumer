@@ -1,3 +1,10 @@
+## [1.8.3](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.8.2...v1.8.3) (2022-01-05)
+
+
+### Bug Fixes
+
+* get database migrations working ([c1a0b8e](https://github.com/Greenstand/webmap-query-service-consumer/commit/c1a0b8e951dd20ee3c3e1969153eee4ef3946cb5))
+
 ## [1.8.2](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.8.1...v1.8.2) (2022-01-05)
 
 
