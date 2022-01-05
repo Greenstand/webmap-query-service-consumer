@@ -50,11 +50,8 @@ describe('tokenAssigned', () => {
     }
 
     // publish the capture
-    await publish(
-      SubscriptionNames.TOKEN_ASSIGNED,
-      'token.transfer',
-      message,
-      (e) => console.log('result:', e),
+    await publish(SubscriptionNames.TOKEN_ASSIGNED, '', message, (e) =>
+      console.log('result:', e),
     )
 
     await waitForExpect(async () => {
