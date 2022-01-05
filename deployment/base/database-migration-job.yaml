@@ -18,6 +18,8 @@ spec:
           command: ['node']
           args:
             [
+              'npm i db-migrate',
+              'npm i db-migrate-pg',
               'node_modules/db-migrate/bin/db-migrate',
               'up',
               '--migrations-dir',
