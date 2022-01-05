@@ -1,43 +1,59 @@
 import { BrokerConfig } from 'rascal'
 
 export enum SubscriptionNames {
-  CAPTURE_FEATURE = 'capture-created',
+  CAPTURE_FEATURE = 'capture-data-created',
   RAW_CAPTURE_CREATED = 'raw-capture-created',
   TOKEN_ASSIGNED = 'token-assigned',
 }
 
+const VHOST_NAME = 'v1'
+
 const brokerConfig: BrokerConfig = {
   vhosts: {
-    v1: {
+    [VHOST_NAME]: {
       connection: {
         url: process.env.RABBITMQ_URL,
         socketOptions: {
           timeout: 3000,
         },
       },
-      exchanges: ['amq.direct'],
       queues: [
-        'capture-created',
-        'raw-capture-created',
-        'token-transfer-created',
+        SubscriptionNames.CAPTURE_FEATURE,
+        SubscriptionNames.RAW_CAPTURE_CREATED,
+        SubscriptionNames.TOKEN_ASSIGNED,
       ],
-      // default bindings should be good
-      // and consumer does not need to set up any publication resources
       subscriptions: {
         [SubscriptionNames.CAPTURE_FEATURE]: {
-          queue: 'capture-data-created',
+          queue: SubscriptionNames.CAPTURE_FEATURE,
           contentType: 'application/json',
         },
         [SubscriptionNames.RAW_CAPTURE_CREATED]: {
-          queue: 'raw-capture-created',
+          queue: SubscriptionNames.RAW_CAPTURE_CREATED,
           contentType: 'application/json',
         },
         [SubscriptionNames.TOKEN_ASSIGNED]: {
-          queue: 'token-transfer-created',
+          queue: SubscriptionNames.TOKEN_ASSIGNED,
         },
       },
     },
   },
 }
+
+// configure publications for testing
+if (process.env.NODE_ENV === 'test')
+  brokerConfig.publications = {
+    [SubscriptionNames.CAPTURE_FEATURE]: {
+      vhost: VHOST_NAME,
+      queue: SubscriptionNames.CAPTURE_FEATURE,
+    },
+    [SubscriptionNames.RAW_CAPTURE_CREATED]: {
+      vhost: VHOST_NAME,
+      queue: SubscriptionNames.RAW_CAPTURE_CREATED,
+    },
+    [SubscriptionNames.TOKEN_ASSIGNED]: {
+      vhost: VHOST_NAME,
+      queue: SubscriptionNames.TOKEN_ASSIGNED,
+    },
+  }
 
 export default brokerConfig
