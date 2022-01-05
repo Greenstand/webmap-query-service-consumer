@@ -6,7 +6,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: webmap-query-service-consumer
+    namespace: webmap
 roleRef:
   kind: ClusterRole
   name: k8s-wait-for

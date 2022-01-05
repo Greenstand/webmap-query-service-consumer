@@ -2,5 +2,6 @@ resources:
   - microservice-deployment.yaml
   - rabbitmq-connection-sealed-secret.yaml
   - database-connection-sealed-secret.yaml
-#  - microservice-clusterrole.yaml # Only needed if microservice contains db migrations
-#  - microservice-clusterrolebinding.yaml # Only needed if microservice contains db migrations
+  - database-migration-connection-sealed-secret.yaml
+  - microservice-clusterrole.yaml
+  - microservice-clusterrolebinding.yaml
