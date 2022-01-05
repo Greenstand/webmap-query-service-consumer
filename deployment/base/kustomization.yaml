@@ -3,5 +3,6 @@ resources:
   - rabbitmq-connection-sealed-secret.yaml
   - database-connection-sealed-secret.yaml
   - database-migration-connection-sealed-secret.yaml
+  - database-migration-job.yaml
   - microservice-clusterrole.yaml
   - microservice-clusterrolebinding.yaml
