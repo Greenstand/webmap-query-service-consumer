@@ -1,3 +1,12 @@
+## [1.8.5](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.8.4...v1.8.5) (2022-01-06)
+
+
+### Bug Fixes
+
+* explicitly include .jest/ in tsconfig ([b819d47](https://github.com/Greenstand/webmap-query-service-consumer/commit/b819d47d8f7c0c3829e2e6bb96d2632e1aca5c15))
+* remove routing key from token assigned test ([3d4c59c](https://github.com/Greenstand/webmap-query-service-consumer/commit/3d4c59c9214d7bf8cb8071deecf576c63eabbe42))
+* simplify rabbitmq config ([61a8c3b](https://github.com/Greenstand/webmap-query-service-consumer/commit/61a8c3bd79a00b87f343513303080f14d7f6e049))
+
 ## [1.8.4](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.8.3...v1.8.4) (2022-01-05)
 
 
