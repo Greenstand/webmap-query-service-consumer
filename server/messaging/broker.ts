@@ -8,30 +8,9 @@ async function createBroker(config = brokerConfig) {
   ;(global as Global).broker = broker
   return broker
 }
+
 export function getBroker() {
   return (global as Global).broker ?? createBroker()
-}
-
-export async function publish<T>(
-  publicationName: SubscriptionNames,
-  routingKey: string,
-  payload: T,
-  resultHandler: (messageId: string) => void,
-) {
-  try {
-    const broker = await getBroker()
-    const publication = await broker.publish(
-      publicationName,
-      payload,
-      routingKey,
-    )
-    publication.on('success', resultHandler).on('error', (err, messageId) => {
-      console.error(`Error with id ${messageId} ${err.message}`)
-      throw err
-    })
-  } catch (err) {
-    console.error(`Error publishing message ${err}`, err)
-  }
 }
 
 export async function subscribe<T>(

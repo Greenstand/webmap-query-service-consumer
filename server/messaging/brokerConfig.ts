@@ -6,49 +6,33 @@ export enum SubscriptionNames {
   TOKEN_ASSIGNED = 'token-assigned',
 }
 
+export const VHOST_NAME = 'v1'
+
 const brokerConfig: BrokerConfig = {
   vhosts: {
-    v1: {
+    [VHOST_NAME]: {
       connection: {
         url: process.env.RABBITMQ_URL,
         socketOptions: {
           timeout: 3000,
         },
       },
-      exchanges: ['capture-data-ex', 'field-data', 'wallet-service-ex'],
       queues: [
-        'capture-data:events',
-        'field-data-events',
-        'token-transfer:events',
+        SubscriptionNames.CAPTURE_FEATURE,
+        SubscriptionNames.RAW_CAPTURE_CREATED,
+        SubscriptionNames.TOKEN_ASSIGNED,
       ],
-      bindings: [
-        'wallet-service-ex[token.transfer] -> token-transfer:events',
-        'capture-data-ex -> capture-data:events',
-        'field-data -> field-data-events',
-      ],
-      publications: {
-        [SubscriptionNames.TOKEN_ASSIGNED]: {
-          exchange: 'wallet-service-ex',
-          routingKey: 'token.transfer',
-        },
-        [SubscriptionNames.RAW_CAPTURE_CREATED]: {
-          exchange: 'field-data',
-        },
-        [SubscriptionNames.CAPTURE_FEATURE]: {
-          exchange: 'capture-data-ex',
-        },
-      },
       subscriptions: {
         [SubscriptionNames.CAPTURE_FEATURE]: {
-          queue: 'capture-data:events',
+          queue: SubscriptionNames.CAPTURE_FEATURE,
           contentType: 'application/json',
         },
         [SubscriptionNames.RAW_CAPTURE_CREATED]: {
-          queue: 'field-data-events',
+          queue: SubscriptionNames.RAW_CAPTURE_CREATED,
           contentType: 'application/json',
         },
         [SubscriptionNames.TOKEN_ASSIGNED]: {
-          queue: 'token-transfer:events',
+          queue: SubscriptionNames.TOKEN_ASSIGNED,
         },
       },
     },

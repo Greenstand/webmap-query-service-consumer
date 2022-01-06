@@ -1,10 +1,9 @@
 import knex, { TableNames } from 'db/knex'
-import { getBroker, publish } from 'messaging/broker'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
-
 import waitForExpect from 'wait-for-expect'
+import { publishMessage } from '../../.jest/utils'
 import capture_in_kenya from '../mock/capture_in_kenya.json'
 
 // check the region data, make sure the sample data has been imported from mock/xxx.copy
@@ -43,19 +42,12 @@ describe('rawCaptureFeature', () => {
   })
 
   beforeEach(async () => {
-    const broker = await getBroker()
-    await broker.purge()
     await truncateTables([
       TableNames.CAPTURE_FEATURE,
       TableNames.RAW_CAPTURE_FEATRURE,
       TableNames.REGION_ASSIGNMENT,
       TableNames.RAW_CAPTURE_CLUSTER,
     ])
-  })
-  afterAll(async () => {
-    const broker = await getBroker()
-    await broker.unsubscribeAll()
-    await broker.nuke()
   })
 
   it('Successfully handle raw capture created event', async () => {
@@ -78,8 +70,11 @@ describe('rawCaptureFeature', () => {
 
     // prepare the capture before the wallet event
     const message = capture_in_kenya
-    await publish(SubscriptionNames.RAW_CAPTURE_CREATED, '', message, () =>
-      console.log('message received'),
+    await publishMessage(
+      SubscriptionNames.RAW_CAPTURE_CREATED,
+      message,
+      '',
+      () => console.log('message received'),
     )
 
     await waitForExpect(async () => {
