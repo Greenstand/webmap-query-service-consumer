@@ -1,10 +1,10 @@
 import knex, { TableNames } from 'db/knex'
-import { getBroker, publish } from 'messaging/broker'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
 import { CaptureFeature } from 'models/captureFeature'
 import waitForExpect from 'wait-for-expect'
+import { publishMessage } from '../../.jest/utils'
 
 const data: CaptureFeature = {
   id: '3501b525-a932-4b41-9a5d-73e89feeb7e3',
@@ -27,15 +27,7 @@ describe('tokenAssigned', () => {
   })
 
   beforeEach(async () => {
-    const broker = await getBroker()
-    await broker.purge()
     await truncateTables([TableNames.CAPTURE_FEATURE])
-  })
-
-  afterAll(async () => {
-    const broker = await getBroker()
-    await broker.unsubscribeAll()
-    await broker.nuke()
   })
 
   it('Successfully handle tokenAssigned event', async () => {
@@ -50,7 +42,7 @@ describe('tokenAssigned', () => {
     }
 
     // publish the capture
-    await publish(SubscriptionNames.TOKEN_ASSIGNED, '', message, (e) =>
+    await publishMessage(SubscriptionNames.TOKEN_ASSIGNED, message, '', (e) =>
       console.log('result:', e),
     )
 

@@ -1,10 +1,10 @@
 import knex, { TableNames } from 'db/knex'
-import { getBroker, publish } from 'messaging/broker'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
 import { truncateTables } from 'models/base'
 import { CaptureFeature } from 'models/captureFeature'
 import waitForExpect from 'wait-for-expect'
+import { publishMessage } from '../../.jest/utils'
 
 const data: CaptureFeature = {
   id: '63e00bca-8eb0-11eb-8dcd-0242ac130003',
@@ -27,22 +27,13 @@ describe('tokenAssigned', () => {
   })
 
   beforeEach(async () => {
-    const broker = await getBroker()
-    await broker.purge()
     await truncateTables([TableNames.CAPTURE_FEATURE])
-  })
-
-  afterAll(async () => {
-    const broker = await getBroker()
-    await broker.unsubscribeAll()
-    await broker.nuke()
   })
 
   it('should successfully handle captureCreated event', async () => {
     // publish the capture
-    await publish(SubscriptionNames.CAPTURE_FEATURE, '', data, (e) =>
-      console.log('result:', e),
-    )
+
+    await publishMessage(SubscriptionNames.CAPTURE_FEATURE, data)
 
     // wait for message to be consumed
     await waitForExpect(async () => {
@@ -58,9 +49,11 @@ describe('tokenAssigned', () => {
     // prepare the capture before the wallet event
     await knex(TableNames.CAPTURE_FEATURE).insert(data)
     // publish the capture
-    await publish(SubscriptionNames.CAPTURE_FEATURE, '', data, (e) =>
-      console.log('result:', e),
-    )
+
+    //    await publish(SubscriptionNames.CAPTURE_FEATURE, '', data, (e) =>
+    //    console.log('result:', e),
+    // )
+
     // wait for message to be consumed
     await new Promise((r) => setTimeout(() => r(''), 3000))
     // check if message was consumed and handled

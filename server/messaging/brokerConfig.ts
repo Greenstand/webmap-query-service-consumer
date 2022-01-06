@@ -6,7 +6,7 @@ export enum SubscriptionNames {
   TOKEN_ASSIGNED = 'token-assigned',
 }
 
-const VHOST_NAME = 'v1'
+export const VHOST_NAME = 'v1'
 
 const brokerConfig: BrokerConfig = {
   vhosts: {
@@ -38,22 +38,5 @@ const brokerConfig: BrokerConfig = {
     },
   },
 }
-
-// configure publications for testing
-if (process.env.NODE_ENV === 'test')
-  brokerConfig.publications = {
-    [SubscriptionNames.CAPTURE_FEATURE]: {
-      vhost: VHOST_NAME,
-      queue: SubscriptionNames.CAPTURE_FEATURE,
-    },
-    [SubscriptionNames.RAW_CAPTURE_CREATED]: {
-      vhost: VHOST_NAME,
-      queue: SubscriptionNames.RAW_CAPTURE_CREATED,
-    },
-    [SubscriptionNames.TOKEN_ASSIGNED]: {
-      vhost: VHOST_NAME,
-      queue: SubscriptionNames.TOKEN_ASSIGNED,
-    },
-  }
 
 export default brokerConfig
