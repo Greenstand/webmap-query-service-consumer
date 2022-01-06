@@ -32,7 +32,7 @@
     "lint": "eslint . --cache",
     "prepare": "is-ci || husky install",
     "start": "NODE_PATH=dist/ node -r dotenv/config dist/server.js",
-    "test": "npm run test:unit & npm run test:int",
+    "test": "npm run test:unit -- --silent & npm run test:int -- --silent",
     "test:int": "jest __tests__/ -i",
     "test:unit": "jest server/"
   },
