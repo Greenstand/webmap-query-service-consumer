@@ -1,6 +1,5 @@
+import { truncateTables } from 'test/utils'
 import knex, { TableNames } from 'db/knex'
-
-import { truncateTables } from './base'
 import { addCaptureFeature, CaptureFeature } from './captureFeature'
 
 const data: CaptureFeature = {

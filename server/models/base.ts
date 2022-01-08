@@ -10,9 +10,3 @@ export async function batchUpdate<T>(
   const result = await knex(tableName).update(objectCopy).whereIn('id', ids)
   console.log('result of update:', result)
 }
-
-export function truncateTables(tables: TableNames[]) {
-  return Promise.all(
-    tables.map((table) => knex.raw(`truncate table ${table} cascade`)),
-  )
-}

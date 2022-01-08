@@ -1,3 +1,4 @@
+import knex, { TableNames } from 'db/knex'
 import { Global } from 'interfaces/global'
 import brokerConfig, {
   SubscriptionNames,
@@ -70,4 +71,10 @@ export async function publishMessage<T>(
   } catch (err) {
     console.error(`Error publishing message ${err}`, err)
   }
+}
+
+export function truncateTables(tables: TableNames[]) {
+  return Promise.all(
+    tables.map((table) => knex.raw(`truncate table ${table} cascade`)),
+  )
 }

@@ -1,10 +1,9 @@
 import capture_in_kenya from 'test/mock/capture_in_kenya.json'
-import { publishMessage } from 'test/utils'
+import { publishMessage , truncateTables } from 'test/utils'
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
-import { truncateTables } from 'models/base'
 
 // check the region data, make sure the sample data has been imported from mock/xxx.copy
 /*

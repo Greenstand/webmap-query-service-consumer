@@ -1,6 +1,6 @@
+import { truncateTables } from 'test/utils'
 import knex, { TableNames } from 'db/knex'
 
-import { truncateTables } from './base'
 import {
   addRawCapture,
   assignRegion,
