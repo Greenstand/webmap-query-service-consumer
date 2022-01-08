@@ -43,7 +43,7 @@ describe('rawCaptureFeature', () => {
   beforeEach(async () => {
     await truncateTables([
       TableNames.CAPTURE_FEATURE,
-      TableNames.RAW_CAPTURE_FEATRURE,
+      TableNames.RAW_CAPTURE_FEATURE,
       TableNames.REGION_ASSIGNMENT,
       TableNames.RAW_CAPTURE_CLUSTER,
     ])
@@ -77,7 +77,7 @@ describe('rawCaptureFeature', () => {
     )
 
     await waitForExpect(async () => {
-      const result = await knex(TableNames.RAW_CAPTURE_FEATRURE)
+      const result = await knex(TableNames.RAW_CAPTURE_FEATURE)
         .select()
         .where('id', capture_in_kenya.id)
       expect(result).toHaveLength(1)

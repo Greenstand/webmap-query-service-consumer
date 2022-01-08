@@ -19,7 +19,7 @@ const data: RawCaptureFeature = {
   updated_at: '2021-07-09T03:58:07.814Z',
 }
 
-const tables = [TableNames.RAW_CAPTURE_FEATRURE, TableNames.REGION_ASSIGNMENT]
+const tables = [TableNames.RAW_CAPTURE_FEATURE, TableNames.REGION_ASSIGNMENT]
 
 describe('calling createRawCaptureFeature function', () => {
   beforeEach(async () => {
