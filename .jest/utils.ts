@@ -21,8 +21,6 @@ export async function handleBrokers(
 }
 
 async function createPublisher() {
-  console.log('creating publisher')
-
   const publisher = await BrokerAsPromised.create({
     ...brokerConfig,
     publications: {
@@ -47,7 +45,7 @@ async function createPublisher() {
   return publisher
 }
 
-export function getPublisher() {
+function getPublisher() {
   return _global.publisher ?? createPublisher()
 }
 
