@@ -1,5 +1,5 @@
-import capture_in_kenya from 'test/mock/capture_in_kenya.json'
-import { publishMessage , truncateTables } from 'test/utils'
+import capture_in_kenya from '@test/mock/capture_in_kenya.json'
+import { publishMessage, truncateTables } from '@test/utils'
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'

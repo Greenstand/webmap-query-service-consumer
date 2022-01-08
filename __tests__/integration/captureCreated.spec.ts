@@ -1,4 +1,4 @@
-import { publishMessage, truncateTables } from 'test/utils'
+import { publishMessage, truncateTables } from '@test/utils'
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'

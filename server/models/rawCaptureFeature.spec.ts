@@ -1,4 +1,4 @@
-import { truncateTables } from 'test/utils'
+import { truncateTables } from '@test/utils'
 import knex, { TableNames } from 'db/knex'
 
 import {
