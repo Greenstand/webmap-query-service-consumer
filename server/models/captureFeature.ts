@@ -1,24 +1,5 @@
 import knex from 'db/knex'
-
-export type Attribute = {
-  key: string
-  value: string | number
-}
-
-export type CaptureFeature = {
-  id: number | string
-  lat: number
-  lon: number
-  location: string
-  field_user_id: number | string
-  field_username: string
-  attributes: Attribute[]
-  device_identifier: string | number
-  created_at: string
-  updated_at: string
-  token_id: string
-  wallet_name: string
-}
+import CaptureFeature from 'interfaces/CaptureFeature'
 
 export async function addCaptureFeature(
   captureFeature: CaptureFeature,

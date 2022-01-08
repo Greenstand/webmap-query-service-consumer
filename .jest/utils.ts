@@ -1,5 +1,5 @@
 import knex, { TableNames } from 'db/knex'
-import { Global } from 'interfaces/global'
+import { Global } from 'interfaces/Global'
 import brokerConfig, {
   SubscriptionNames,
   VHOST_NAME,

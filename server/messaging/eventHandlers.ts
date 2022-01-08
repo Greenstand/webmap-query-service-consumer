@@ -1,7 +1,9 @@
 import { TableNames } from 'db/knex'
+import CaptureFeature from 'interfaces/CaptureFeature'
+import { TokenMessage } from 'interfaces/TokenMessage'
 import { subscribe } from 'messaging/broker'
 import { batchUpdate } from 'models/base'
-import { addCaptureFeature, CaptureFeature } from 'models/captureFeature'
+import { addCaptureFeature } from 'models/captureFeature'
 import {
   addRawCapture,
   assignRegion,
@@ -29,13 +31,6 @@ async function rawCaptureCreatedHandler(message: CaptureFeature) {
   } catch (e) {
     console.error(e)
   }
-}
-
-export type TokenMessage = {
-  entries: {
-    capture_id: string
-  }[]
-  wallet_name: string
 }
 
 async function tokenAssignedHandler(message: TokenMessage) {
