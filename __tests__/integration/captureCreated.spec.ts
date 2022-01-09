@@ -53,22 +53,4 @@ describe('capture created', () => {
       expect(result).toHaveLength(1)
     })
   })
-
-  it.skip('Successfully reject captureCreated event', async () => {
-    // prepare the capture before the wallet event
-    await knex(TableNames.CAPTURE_FEATURE).insert(data)
-    // publish the capture
-
-    //    await publish(SubscriptionNames.CAPTURE_FEATURE, '', data, (e) =>
-    //    console.log('result:', e),
-    // )
-
-    // wait for message to be consumed
-    await new Promise((r) => setTimeout(() => r(''), 3000))
-    // check if message was consumed and handled
-    const result = await knex(TableNames.CAPTURE_FEATURE)
-      .select()
-      .where('id', data.id)
-    expect(result).toHaveLength(1)
-  })
 })
