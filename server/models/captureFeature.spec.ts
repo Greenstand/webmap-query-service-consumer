@@ -1,25 +1,14 @@
+import data from '@test/mock/capture_in_kenya.json'
 import { truncateTables } from '@test/utils'
 import knex, { TableNames } from 'db/knex'
-import { addCaptureFeature, CaptureFeature } from './captureFeature'
-
-const data: CaptureFeature = {
-  id: 'd13f0b9e-d067-48b4-a5da-46d5655c54dd',
-  lat: 11.43,
-  lon: 30.56,
-  location: '',
-  field_user_id: 12315,
-  token_id: '12315',
-  wallet_name: '12315',
-  field_username: 'joeplanter',
-  attributes: [],
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
-  device_identifier: '1',
-}
+import { addCaptureFeature, assignRegion } from './captureFeature'
 
 describe('Creating CaptureFeature', () => {
-  beforeEach(async () => {
-    await truncateTables([TableNames.CAPTURE_FEATURE])
+  beforeAll(async () => {
+    await truncateTables([
+      TableNames.CAPTURE_FEATURE,
+      TableNames.REGION_ASSIGNMENT,
+    ])
   })
 
   it('should add the object to the db', async () => {
@@ -30,5 +19,17 @@ describe('Creating CaptureFeature', () => {
       .select()
       .where('id', data.id)
     expect(result).toHaveLength(1)
+  })
+
+  it('should assign region', async () => {
+    await assignRegion(data)
+    const assignRegionResult = await knex(TableNames.REGION_ASSIGNMENT)
+      .select()
+      .where({
+        map_feature_id: data.id,
+        zoom_level: 9,
+        region_id: 2281072,
+      })
+    expect(assignRegionResult).toHaveLength(1)
   })
 })
