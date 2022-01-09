@@ -1,10 +1,9 @@
+import capture_in_kenya from '@test/mock/capture_in_kenya.json'
+import { publishMessage, truncateTables } from '@test/utils'
+import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/eventHandlers'
-import { truncateTables } from 'models/base'
-import waitForExpect from 'wait-for-expect'
-import { publishMessage } from '../../.jest/utils'
-import capture_in_kenya from '../mock/capture_in_kenya.json'
 
 // check the region data, make sure the sample data has been imported from mock/xxx.copy
 /*
@@ -44,7 +43,7 @@ describe('rawCaptureFeature', () => {
   beforeEach(async () => {
     await truncateTables([
       TableNames.CAPTURE_FEATURE,
-      TableNames.RAW_CAPTURE_FEATRURE,
+      TableNames.RAW_CAPTURE_FEATURE,
       TableNames.REGION_ASSIGNMENT,
       TableNames.RAW_CAPTURE_CLUSTER,
     ])
@@ -78,7 +77,7 @@ describe('rawCaptureFeature', () => {
     )
 
     await waitForExpect(async () => {
-      const result = await knex(TableNames.RAW_CAPTURE_FEATRURE)
+      const result = await knex(TableNames.RAW_CAPTURE_FEATURE)
         .select()
         .where('id', capture_in_kenya.id)
       expect(result).toHaveLength(1)

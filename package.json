@@ -1,5 +1,5 @@
 {
-  "name": "treetracker",
+  "name": "webmap-query-service-consumer",
   "version": "1.8.5",
   "private": true,
   "keywords": [
@@ -26,23 +26,20 @@
     "db-seed-region": "cat ./__tests__/mock/region.copy | psql $DATABASE_URL -c 'COPY region FROM STDIN'",
     "db-seed-region-zoom": "cat ./__tests__/mock/region_zoom.copy | psql $DATABASE_URL -c 'COPY region_zoom FROM STDIN'",
     "decrypt": "nodecipher decrypt env.secret .env",
-    "dev": "NODE_PATH=dist/ nodemon --watch 'server/**/*.ts' --exec 'ts-node --project tsconfig.build.json' -r dotenv/config server/server.ts",
+    "dev": "NODE_PATH=./server ts-node-dev -r dotenv/config ./server/server.ts",
     "encrypt": "nodecipher encrypt .env env.secret",
     "format": "prettier ./ --write",
     "lint": "eslint . --cache",
     "prepare": "is-ci || husky install",
     "start": "NODE_PATH=dist/ node -r dotenv/config dist/server.js",
-    "test": "npm run test:unit -- --silent & npm run test:int -- --silent",
-    "test:int": "jest __tests__/ -i",
-    "test:unit": "jest server/"
+    "test": "jest --runInBand --silent",
+    "test:int": "jest __tests__/ --runInBand",
+    "test:unit": "jest server/ --runInBand"
   },
   "dependencies": {
-    "@sentry/node": "^5.1.0",
-    "body-parser": "^1.18.2",
     "dotenv": "^10.0.0",
     "knex": "^0.95.14",
     "loglevel": "^1.6.8",
-    "pg": "^8.7.1",
     "rascal": "^14.4.0"
   },
   "devDependencies": {
@@ -50,13 +47,10 @@
     "@commitlint/config-conventional": "^11.0.0",
     "@swc/jest": "^0.2.15",
     "@types/jest": "^27.0.3",
-    "@types/mock-knex": "^0.4.3",
     "@types/node": "^16.11.6",
     "@types/rascal": "^10.0.4",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",
-    "amqplib": "^0.8.0",
-    "database-cleaner": "^1.3.0",
     "db-migrate": "^0.11.12",
     "db-migrate-pg": "^1.2.2",
     "eslint": "^8.5.0",
@@ -69,12 +63,10 @@
     "is-ci": "^3.0.1",
     "jest": "^27.4.5",
     "lint-staged": "^11.2.6",
-    "mock-knex": "^0.4.10",
     "node-cipher": "^6.3.3",
-    "nodemon": "^2.0.14",
     "prettier": "^2.4.1",
     "sort-package-json": "^1.53.1",
-    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
     "typescript": "^4.4.4",
     "wait-for-expect": "^3.0.2"
   },

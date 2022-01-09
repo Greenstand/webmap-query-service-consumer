@@ -1,11 +1,11 @@
-import { Global } from 'interfaces/global'
 import { knex as initKnex } from 'knex'
+import { Global } from 'interfaces/Global'
 
 import knexConfig from './knexConfig'
 
 export enum TableNames {
   CAPTURE_FEATURE = 'capture_feature',
-  RAW_CAPTURE_FEATRURE = 'raw_capture_feature',
+  RAW_CAPTURE_FEATURE = 'raw_capture_feature',
   RAW_CAPTURE_CLUSTER = 'raw_capture_cluster',
   REGION_ASSIGNMENT = 'region_assignment',
 }

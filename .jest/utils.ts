@@ -1,4 +1,5 @@
-import { Global } from 'interfaces/global'
+import knex, { TableNames } from 'db/knex'
+import { Global } from 'interfaces/Global'
 import brokerConfig, {
   SubscriptionNames,
   VHOST_NAME,
@@ -20,8 +21,6 @@ export async function handleBrokers(
 }
 
 async function createPublisher() {
-  console.log('creating publisher')
-
   const publisher = await BrokerAsPromised.create({
     ...brokerConfig,
     publications: {
@@ -46,7 +45,7 @@ async function createPublisher() {
   return publisher
 }
 
-export function getPublisher() {
+function getPublisher() {
   return _global.publisher ?? createPublisher()
 }
 
@@ -70,4 +69,10 @@ export async function publishMessage<T>(
   } catch (err) {
     console.error(`Error publishing message ${err}`, err)
   }
+}
+
+export function truncateTables(tables: TableNames[]) {
+  return Promise.all(
+    tables.map((table) => knex.raw(`truncate table ${table} cascade`)),
+  )
 }
