@@ -1,5 +1,5 @@
-import capture_in_kenya from '@test/mock/capture_in_kenya.json'
-import { publishMessage, truncateTables } from '@test/utils'
+import testData from '@test/mock/capture_in_kenya.json'
+import { prepareRegionData, publishMessage, truncateTables } from '@test/utils'
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
@@ -36,56 +36,39 @@ import registerEventHandlers from 'messaging/eventHandlers'
       */
 
 describe('rawCaptureFeature', () => {
-  beforeAll(async () => {
-    await registerEventHandlers()
-  })
+  const { id } = testData
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await truncateTables([
       TableNames.CAPTURE_FEATURE,
       TableNames.RAW_CAPTURE_FEATURE,
       TableNames.REGION_ASSIGNMENT,
       TableNames.RAW_CAPTURE_CLUSTER,
     ])
-  })
 
-  it('Successfully handle raw capture created event', async () => {
-    // just care about the 14 zoom level
-    const cluster_zoom_level = 14
-
-    // prepare two clusters, the new capture will find the nearest to update
-    await knex(TableNames.RAW_CAPTURE_CLUSTER).insert({
-      zoom_level: cluster_zoom_level,
-      location: `POINT(${capture_in_kenya.lon + 1} ${capture_in_kenya.lat})`,
-      count: 1,
-    })
-
-    // a farther cluster
-    await knex(TableNames.RAW_CAPTURE_CLUSTER).insert({
-      zoom_level: cluster_zoom_level,
-      location: `POINT(${capture_in_kenya.lon + 2} ${capture_in_kenya.lat})`,
-      count: 5,
-    })
-
-    // prepare the capture before the wallet event
-    const message = capture_in_kenya
+    await prepareRegionData(TableNames.RAW_CAPTURE_CLUSTER, testData)
+    await registerEventHandlers()
     await publishMessage(
       SubscriptionNames.RAW_CAPTURE_CREATED,
-      message,
+      testData,
       '',
       () => console.log('message received'),
     )
+  })
 
+  it('should add raw capture to database', async () => {
     await waitForExpect(async () => {
       const result = await knex(TableNames.RAW_CAPTURE_FEATURE)
         .select()
-        .where('id', capture_in_kenya.id)
+        .where('id', id)
       expect(result).toHaveLength(1)
     })
+  })
 
+  it('should assign region data', async () => {
     await waitForExpect(async () => {
       const result = await knex(TableNames.REGION_ASSIGNMENT).select().where({
-        map_feature_id: capture_in_kenya.id,
+        map_feature_id: id,
         zoom_level: 9,
         region_id: 2281072,
       })
@@ -94,7 +77,7 @@ describe('rawCaptureFeature', () => {
 
     await waitForExpect(async () => {
       const result = await knex(TableNames.REGION_ASSIGNMENT).select().where({
-        map_feature_id: capture_in_kenya.id,
+        map_feature_id: id,
       })
       expect(result).toHaveLength(15)
     })
