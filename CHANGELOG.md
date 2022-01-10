@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.8.5...v1.9.0) (2022-01-10)
+
+
+### Features
+
+* assign region data to new capture feature ([5537693](https://github.com/Greenstand/webmap-query-service-consumer/commit/55376936b2d0439b5b3e447fa3205d0389ce339e))
+
 ## [1.8.5](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.8.4...v1.8.5) (2022-01-06)
 
 
