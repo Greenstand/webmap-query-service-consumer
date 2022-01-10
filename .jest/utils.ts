@@ -25,9 +25,9 @@ async function createPublisher() {
   const publisher = await BrokerAsPromised.create({
     ...brokerConfig,
     publications: {
-      [SubscriptionNames.CAPTURE_FEATURE]: {
+      [SubscriptionNames.CAPTURE_CREATED]: {
         vhost: VHOST_NAME,
-        queue: SubscriptionNames.CAPTURE_FEATURE,
+        queue: SubscriptionNames.CAPTURE_CREATED,
       },
 
       [SubscriptionNames.TOKEN_ASSIGNED]: {

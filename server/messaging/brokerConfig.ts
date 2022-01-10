@@ -1,7 +1,7 @@
 import { BrokerConfig } from 'rascal'
 
 export enum SubscriptionNames {
-  CAPTURE_FEATURE = 'capture-created',
+  CAPTURE_CREATED = 'capture-created',
   RAW_CAPTURE_CREATED = 'raw-capture-created',
   TOKEN_ASSIGNED = 'token-assigned',
 }
@@ -18,13 +18,13 @@ const brokerConfig: BrokerConfig = {
         },
       },
       queues: [
-        SubscriptionNames.CAPTURE_FEATURE,
+        SubscriptionNames.CAPTURE_CREATED,
         SubscriptionNames.RAW_CAPTURE_CREATED,
         SubscriptionNames.TOKEN_ASSIGNED,
       ],
       subscriptions: {
-        [SubscriptionNames.CAPTURE_FEATURE]: {
-          queue: SubscriptionNames.CAPTURE_FEATURE,
+        [SubscriptionNames.CAPTURE_CREATED]: {
+          queue: SubscriptionNames.CAPTURE_CREATED,
           contentType: 'application/json',
         },
         [SubscriptionNames.RAW_CAPTURE_CREATED]: {

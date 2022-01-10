@@ -45,7 +45,7 @@ async function tokenAssignedHandler(message: TokenMessage) {
 export default async function registerEventHandlers() {
   try {
     await subscribe(
-      SubscriptionNames.CAPTURE_FEATURE,
+      SubscriptionNames.CAPTURE_CREATED,
       captureFeatureCreatedHandler,
     )
     await subscribe(

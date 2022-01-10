@@ -17,7 +17,7 @@ describe('capture created', () => {
     ])
     await prepareRegionData(TableNames.CAPTURE_CLUSTER, data)
     await registerEventHandlers()
-    await publishMessage(SubscriptionNames.CAPTURE_FEATURE, data)
+    await publishMessage(SubscriptionNames.CAPTURE_CREATED, data)
   })
 
   it('should successfully handle captureCreated event', async () => {
