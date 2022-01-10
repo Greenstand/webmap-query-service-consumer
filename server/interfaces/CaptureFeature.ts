@@ -1,4 +1,4 @@
-import Attribute from './Attribute'
+import Attributes from './Attribute'
 
 export default interface CaptureFeature {
   id: number | string
@@ -7,7 +7,7 @@ export default interface CaptureFeature {
   location: string
   field_user_id: number | string
   field_username: string
-  attributes: Attribute[]
+  attributes: Attributes
   device_identifier: string | number
   created_at: string
   updated_at: string

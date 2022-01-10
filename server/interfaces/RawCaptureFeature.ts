@@ -1,4 +1,4 @@
-import Attribute from './Attribute'
+import Attributes from './Attribute'
 
 export type RawCaptureFeature = {
   id: number | string
@@ -6,7 +6,7 @@ export type RawCaptureFeature = {
   lon: number
   field_user_id: number | string
   field_username: string
-  attributes: Attribute[]
+  attributes: Attributes
   device_identifier: string | number
   created_at: string
   updated_at: string

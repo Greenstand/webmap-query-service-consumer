@@ -1,43 +1,34 @@
+import data from '@test/mock/capture_in_kenya.json'
 import { truncateTables } from '@test/utils'
 import knex, { TableNames } from 'db/knex'
-
-import {
-  addRawCapture,
-  assignRegion,
-  RawCaptureFeature,
-} from './rawCaptureFeature'
-
-const data: RawCaptureFeature = {
-  id: '63e00bca-8eb0-11eb-8dcd-0242ac130003',
-  lat: 0.6383533333333336,
-  lon: 37.663318333333336,
-  field_user_id: 0,
-  field_username: 'fake_name',
-  device_identifier: 'x',
-  attributes: [],
-  created_at: '2021-07-09T03:58:07.814Z',
-  updated_at: '2021-07-09T03:58:07.814Z',
-}
+import { addRawCapture, assignRegion } from './rawCaptureFeature'
 
 const tables = [TableNames.RAW_CAPTURE_FEATURE, TableNames.REGION_ASSIGNMENT]
 
 describe('calling createRawCaptureFeature function', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await truncateTables(tables)
   })
 
-  it('add and assign region', async () => {
-    await addRawCapture(data)
-    const addResult = await knex('raw_capture_feature')
+  it('should add the object to the db', async () => {
+    const x = await addRawCapture(data)
+    expect(x?.id).toEqual(data.id)
+    console.log(x)
+    const result = await knex(TableNames.RAW_CAPTURE_FEATURE)
       .select()
       .where('id', data.id)
-    expect(addResult).toHaveLength(1)
+    expect(result).toHaveLength(1)
+  })
+
+  it('should assign region', async () => {
     await assignRegion(data)
-    const assignRegionResult = await knex('region_assignment').select().where({
-      map_feature_id: data.id,
-      zoom_level: 9,
-      region_id: 2281072,
-    })
+    const assignRegionResult = await knex(TableNames.REGION_ASSIGNMENT)
+      .select()
+      .where({
+        map_feature_id: data.id,
+        zoom_level: 9,
+        region_id: 2281072,
+      })
     expect(assignRegionResult).toHaveLength(1)
   })
 })

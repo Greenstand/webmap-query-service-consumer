@@ -1,8 +1,8 @@
 import knex from 'db/knex'
 import { RawCaptureFeature } from 'interfaces/RawCaptureFeature'
 
-export async function addRawCapture(rawCaptureFeature: RawCaptureFeature) {
-  const wellKnownText = `POINT(${rawCaptureFeature.lon} ${rawCaptureFeature.lat})`
+export async function addRawCapture(data: RawCaptureFeature) {
+  const wellKnownText = `POINT(${data.lon} ${data.lat})`
   const result = await knex.raw(
     `insert into raw_capture_feature (
              id, lat, lon, location, field_user_id, field_username, 
@@ -10,22 +10,23 @@ export async function addRawCapture(rawCaptureFeature: RawCaptureFeature) {
              values(?, ?, ?, ST_PointFromText(?, 4326), ?, ?, ?, ?, ?, ?)
              returning id`,
     [
-      rawCaptureFeature.id,
-      rawCaptureFeature.lat,
-      rawCaptureFeature.lon,
+      data.id,
+      data.lat,
+      data.lon,
       wellKnownText,
-      rawCaptureFeature.field_user_id,
-      rawCaptureFeature.field_username,
-      rawCaptureFeature.device_identifier,
-      JSON.stringify(rawCaptureFeature.attributes),
-      rawCaptureFeature.created_at,
-      rawCaptureFeature.created_at,
+      data.field_user_id,
+      data.field_username,
+      data.device_identifier,
+      JSON.stringify(data.attributes),
+      data.created_at,
+      data.created_at,
     ],
   )
   return result.rows[0]
 }
 
-export async function assignRegion(rawCaptureFeature: RawCaptureFeature) {
+export async function assignRegion(data: RawCaptureFeature) {
+  const { id, lat, lon } = data
   const res = await knex.raw(
     `
       INSERT INTO region_assignment
@@ -42,13 +43,13 @@ export async function assignRegion(rawCaptureFeature: RawCaptureFeature) {
         ON region_zoom.region_id = region.id
         ORDER BY captures.id, zoom_level, region_zoom.priority DESC
     `,
-    [rawCaptureFeature.id, rawCaptureFeature.lon, rawCaptureFeature.lat],
+    [id, lon, lat],
   )
   console.log('assign region result: ', res)
   return true
 }
 
-export async function updateCluster(rawCaptureFeature: RawCaptureFeature) {
+export async function updateCluster(data: RawCaptureFeature) {
   await knex.raw(
     `
       UPDATE raw_capture_cluster 
@@ -61,6 +62,13 @@ export async function updateCluster(rawCaptureFeature: RawCaptureFeature) {
           LIMIT 1) dissql
       )
       `,
-    [rawCaptureFeature.lon, rawCaptureFeature.lat],
+    [data.lon, data.lat],
   )
 }
+
+async function rawCaptureFeature(data: RawCaptureFeature) {
+  await addRawCapture(data)
+  await assignRegion(data)
+  await updateCluster(data)
+}
+export default rawCaptureFeature

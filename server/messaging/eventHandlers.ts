@@ -1,32 +1,26 @@
 import { TableNames } from 'db/knex'
 import CaptureFeature from 'interfaces/CaptureFeature'
+import { RawCaptureFeature } from 'interfaces/RawCaptureFeature'
 import { TokenMessage } from 'interfaces/TokenMessage'
 import { subscribe } from 'messaging/broker'
 import { batchUpdate } from 'models/base'
-import { addCaptureFeature } from 'models/captureFeature'
-import {
-  addRawCapture,
-  assignRegion,
-  updateCluster,
-} from 'models/rawCaptureFeature'
+import captureFeature from 'models/captureFeature'
+import rawCaptureFeature from 'models/rawCaptureFeature'
 import { SubscriptionNames } from './brokerConfig'
 
 async function captureFeatureCreatedHandler(message: CaptureFeature) {
   try {
     console.log('received capture feature event message', message)
-    await addCaptureFeature(message)
+    await captureFeature(message)
   } catch (e) {
     console.error(e)
   }
 }
 
-async function rawCaptureCreatedHandler(message: CaptureFeature) {
+async function rawCaptureCreatedHandler(message: RawCaptureFeature) {
   try {
     console.log('received raw capture event message', message)
-    const rawCaptureFeature = { ...message }
-    await addRawCapture(rawCaptureFeature)
-    await assignRegion(rawCaptureFeature)
-    await updateCluster(rawCaptureFeature)
+    await rawCaptureFeature(message)
     console.log('raw capture event handler finished')
   } catch (e) {
     console.error(e)
@@ -51,7 +45,7 @@ async function tokenAssignedHandler(message: TokenMessage) {
 export default async function registerEventHandlers() {
   try {
     await subscribe(
-      SubscriptionNames.CAPTURE_FEATURE,
+      SubscriptionNames.CAPTURE_CREATED,
       captureFeatureCreatedHandler,
     )
     await subscribe(
