@@ -38,6 +38,7 @@
     "test:unit": "jest server/ --runInBand"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "dotenv": "^10.0.0",
     "knex": "^0.95.14",
     "loglevel": "^1.6.8",
