@@ -1,7 +1,7 @@
 import data from '@test/mock/capture_in_kenya.json'
 import { truncateTables } from '@test/utils'
 import knex, { TableNames } from 'db/knex'
-import { addRawCapture, assignRegion } from './rawCaptureFeature'
+import { addRawCapture, assignRawCaptureRegion } from './rawCaptureFeature'
 
 const tables = [TableNames.RAW_CAPTURE_FEATURE, TableNames.REGION_ASSIGNMENT]
 
@@ -21,7 +21,7 @@ describe('calling createRawCaptureFeature function', () => {
   })
 
   it('should assign region', async () => {
-    await assignRegion(data)
+    await assignRawCaptureRegion(data)
     const assignRegionResult = await knex(TableNames.REGION_ASSIGNMENT)
       .select()
       .where({

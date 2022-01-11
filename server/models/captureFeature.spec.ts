@@ -1,7 +1,7 @@
 import data from '@test/mock/capture_in_kenya.json'
 import { truncateTables } from '@test/utils'
 import knex, { TableNames } from 'db/knex'
-import { addCaptureFeature, assignRegion } from './captureFeature'
+import { addCaptureFeature, assignCaptureFeatureRegion } from './captureFeature'
 
 describe('Creating CaptureFeature', () => {
   beforeAll(async () => {
@@ -22,7 +22,7 @@ describe('Creating CaptureFeature', () => {
   })
 
   it('should assign region', async () => {
-    await assignRegion(data)
+    await assignCaptureFeatureRegion(data)
     const assignRegionResult = await knex(TableNames.REGION_ASSIGNMENT)
       .select()
       .where({
