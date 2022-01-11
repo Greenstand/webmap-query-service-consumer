@@ -64,6 +64,7 @@
     "is-ci": "^3.0.1",
     "jest": "^27.4.5",
     "lint-staged": "^11.2.6",
+    "msw": "^0.36.4",
     "node-cipher": "^6.3.3",
     "prettier": "^2.4.1",
     "sort-package-json": "^1.53.1",
