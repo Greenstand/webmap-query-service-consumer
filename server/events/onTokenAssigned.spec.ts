@@ -3,7 +3,8 @@ import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/registerEventHandlers'
 import data from '@test/mock/capture.json'
-import { publishMessage, truncateTables } from '@test/utils'
+import { publishMessage } from '@test/publisher'
+import { truncateTables } from '@test/utils'
 
 describe('tokenAssigned', () => {
   beforeAll(async () => {

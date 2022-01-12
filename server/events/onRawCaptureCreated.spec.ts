@@ -3,7 +3,8 @@ import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/registerEventHandlers'
 import testData from '@test/mock/capture_in_kenya.json'
-import { prepareRegionData, publishMessage, truncateTables } from '@test/utils'
+import { publishMessage } from '@test/publisher'
+import { truncateTables, prepareRegionData } from '@test/utils'
 
 // check the region data, make sure the sample data has been imported from mock/xxx.copy
 /*

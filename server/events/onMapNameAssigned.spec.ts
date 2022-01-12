@@ -5,7 +5,8 @@ import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/registerEventHandlers'
 import { addRawCapture } from 'models/rawCaptureFeature'
 import mockCapture from '@test/mock/capture.json'
-import { publishMessage, truncateTables } from '@test/utils'
+import { publishMessage } from '@test/publisher'
+import { truncateTables } from '@test/utils'
 import { MapNameAssigned } from './onMapNameAssigned'
 
 beforeAll(async () => {
