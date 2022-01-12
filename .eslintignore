@@ -5,3 +5,5 @@ coverage/
 
 **/*.js
 ./knexfile.ts
+
+!.jest/

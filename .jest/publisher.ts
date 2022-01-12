@@ -1,19 +1,19 @@
+import { BrokerAsPromised } from 'rascal'
 import brokerConfig, {
   SubscriptionNames,
   VHOST_NAME,
 } from 'messaging/brokerConfig'
-import { BrokerAsPromised } from 'rascal'
 import { TestGlobal } from './TestGlobal'
 
-const _global = global as TestGlobal
+const testGlobal = global as TestGlobal
 
 export async function handleBrokers(
   cb: (b: BrokerAsPromised) => Promise<void>,
 ) {
   // get active brokers
   const brokers: BrokerAsPromised[] = [
-    _global.broker,
-    _global.publisher,
+    testGlobal.broker,
+    testGlobal.publisher,
   ].filter(Boolean) as BrokerAsPromised[]
 
   return Promise.all(brokers.map(cb))
@@ -45,18 +45,18 @@ async function createPublisher() {
     },
   })
 
-  _global.publisher = publisher
+  testGlobal.publisher = publisher
   return publisher
 }
 
 function getPublisher() {
-  return _global.publisher ?? createPublisher()
+  return testGlobal.publisher ?? createPublisher()
 }
 
 export async function publishMessage<T>(
   publicationName: SubscriptionNames,
   message: T,
-  routingKey: string = '',
+  routingKey = '',
   resultHandler: (messageId: string) => void = () => {},
 ) {
   try {

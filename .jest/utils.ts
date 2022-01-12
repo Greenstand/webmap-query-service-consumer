@@ -1,16 +1,16 @@
+import { BrokerAsPromised } from 'rascal'
 import knex, { TableNames } from 'db/knex'
 import CaptureFeature from 'interfaces/CaptureFeature'
-import { BrokerAsPromised } from 'rascal'
 import { TestGlobal } from './TestGlobal'
 
 export async function handleBrokers(
-  cb: (b: BrokerAsPromised) => Promise<void>,
+  cb: (broker: BrokerAsPromised) => Promise<void>,
 ) {
   // get active brokers
-  const _global = global as TestGlobal
+  const testGlobal = global as TestGlobal
   const brokers: BrokerAsPromised[] = [
-    _global.broker,
-    _global.publisher,
+    testGlobal.broker,
+    testGlobal.publisher,
   ].filter(Boolean) as BrokerAsPromised[]
 
   return Promise.all(brokers.map(cb))

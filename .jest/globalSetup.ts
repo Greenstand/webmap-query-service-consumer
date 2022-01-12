@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+
 dotenv.config()
 export default function globalSetup() {
   process.env.DATABASE_URL ??= 'postgresql://postgres:password@0.0.0.0/postgres'
