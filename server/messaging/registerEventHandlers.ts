@@ -1,7 +1,7 @@
-import onCaptureCreated from 'events/captureCreated'
-import onMapNameAssigned from 'events/mapNameAssigned'
-import onRawCaptureCreated from 'events/rawCaptureCreated'
-import onTokenAssigned from 'events/tokenAssigned'
+import onCaptureCreated from 'events/onCaptureCreated'
+import onMapNameAssigned from 'events/onMapNameAssigned'
+import onRawCaptureCreated from 'events/onRawCaptureCreated'
+import onTokenAssigned from 'events/onTokenAssigned'
 import { subscribe } from 'messaging/broker'
 import { SubscriptionNames } from './brokerConfig'
 
