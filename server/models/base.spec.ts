@@ -1,6 +1,6 @@
+import knex, { TableNames } from 'db/knex'
 import data from '@test/mock/capture.json'
 import { truncateTables } from '@test/utils'
-import knex, { TableNames } from 'db/knex'
 import { batchUpdate } from './base'
 
 beforeEach(async () => {

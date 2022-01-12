@@ -1,6 +1,6 @@
+import knex, { TableNames } from 'db/knex'
 import data from '@test/mock/capture_in_kenya.json'
 import { truncateTables } from '@test/utils'
-import knex, { TableNames } from 'db/knex'
 import { addRawCapture, assignRawCaptureRegion } from './rawCaptureFeature'
 
 const tables = [TableNames.RAW_CAPTURE_FEATURE, TableNames.REGION_ASSIGNMENT]

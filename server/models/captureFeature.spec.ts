@@ -1,10 +1,10 @@
-import data from '@test/mock/capture_in_kenya.json'
-import { truncateTables } from '@test/utils'
 import knex, { TableNames } from 'db/knex'
 import {
   addCaptureFeature,
   assignCaptureFeatureRegion,
 } from 'models/captureFeature'
+import data from '@test/mock/capture_in_kenya.json'
+import { truncateTables } from '@test/utils'
 
 describe('Creating CaptureFeature', () => {
   beforeAll(async () => {

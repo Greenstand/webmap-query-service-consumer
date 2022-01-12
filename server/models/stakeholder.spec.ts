@@ -1,6 +1,6 @@
-import data from '@test/mock/stakeholder.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
+import data from '@test/mock/stakeholder.json'
 import { getStakeholderMap } from './stakeholder'
 
 const stakeholderApiRoute = process.env.STAKEHOLDER_API_ROUTE ?? ''

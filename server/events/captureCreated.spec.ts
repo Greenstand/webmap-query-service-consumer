@@ -1,9 +1,9 @@
-import data from '@test/mock/capture_in_kenya.json'
-import { prepareRegionData, publishMessage, truncateTables } from '@test/utils'
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/registerEventHandlers'
+import data from '@test/mock/capture_in_kenya.json'
+import { prepareRegionData, publishMessage, truncateTables } from '@test/utils'
 
 describe('capture created', () => {
   const { id } = data

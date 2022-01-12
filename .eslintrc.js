@@ -51,6 +51,14 @@ module.exports = {
           'object', // ts only
           'type', // ts only
         ],
+        pathGroups: [
+          {
+            pattern: '@test/**',
+            group: 'internal',
+            position: 'after',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
         alphabetize: {
           order: 'asc',
           caseInsensitive: true,
