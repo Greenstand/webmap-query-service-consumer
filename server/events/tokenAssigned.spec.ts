@@ -1,9 +1,9 @@
 import { publishMessage, truncateTables } from '@test/utils'
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
+import CaptureFeature from 'interfaces/CaptureFeature'
 import { SubscriptionNames } from 'messaging/brokerConfig'
-import registerEventHandlers from 'messaging/eventHandlers'
-import { CaptureFeature } from 'models/captureFeature'
+import registerEventHandlers from 'messaging/registerEventHandlers'
 
 const data: CaptureFeature = {
   id: '3501b525-a932-4b41-9a5d-73e89feeb7e3',
@@ -14,7 +14,7 @@ const data: CaptureFeature = {
   field_username: 'fake_name',
   token_id: '9d7abad8-8eb0-11eb-8dcd-0242ac130003',
   wallet_name: 'oldone',
-  attributes: [],
+  attributes: {},
   device_identifier: 'x',
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
@@ -31,7 +31,6 @@ describe('tokenAssigned', () => {
 
   it('Successfully handle tokenAssigned event', async () => {
     // prepare the capture before the wallet event
-
     await knex(TableNames.CAPTURE_FEATURE).insert(data)
     const newWalletName = 'newone'
     const message = {

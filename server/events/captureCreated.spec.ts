@@ -3,7 +3,7 @@ import { prepareRegionData, publishMessage, truncateTables } from '@test/utils'
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
-import registerEventHandlers from 'messaging/eventHandlers'
+import registerEventHandlers from 'messaging/registerEventHandlers'
 
 describe('capture created', () => {
   const { id } = data
