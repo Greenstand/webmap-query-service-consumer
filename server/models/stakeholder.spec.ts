@@ -1,3 +1,4 @@
+import data from '@test/mock/stakeholder.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { getStakeholderMap } from './stakeholder'
@@ -5,27 +6,25 @@ import { getStakeholderMap } from './stakeholder'
 const stakeholderApiRoute = process.env.STAKEHOLDER_API_ROUTE ?? ''
 
 beforeAll(() => {
-  // 2. Define request handlers and response resolvers.
   const route = `${stakeholderApiRoute}/:id`
   console.log('route:', route)
 
-  const worker = setupServer(
+  const mockServer = setupServer(
     rest.get(route, (req, res, ctx) =>
       res(
         ctx.status(202, 'Mocked status'),
         ctx.json({
-          map: 'Mocked response JSON body',
+          ...data,
         }),
       ),
     ),
   )
 
-  // 3. Start the Service Worker.
-  worker.listen()
+  mockServer.listen()
 })
 
 it('should get map name from stakeholder api', async () => {
-  const stakeholderId = '1'
+  const stakeholderId = data.id
   const map = await getStakeholderMap(stakeholderId)
-  expect(map)
+  expect(map).toBe(data.map)
 })
