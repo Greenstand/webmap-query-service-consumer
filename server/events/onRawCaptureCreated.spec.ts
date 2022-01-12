@@ -4,7 +4,11 @@ import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/registerEventHandlers'
 import testData from '@test/mock/capture_in_kenya.json'
 import { publishMessage } from '@test/publisher'
-import { truncateTables, prepareRegionData } from '@test/utils'
+import {
+  prepareRegionData,
+  testForRegionData,
+  truncateTables,
+} from '@test/utils'
 
 // check the region data, make sure the sample data has been imported from mock/xxx.copy
 /*
@@ -64,30 +68,6 @@ describe('rawCaptureFeature', () => {
         .where('id', id)
       expect(result).toHaveLength(1)
     })
-  })
-
-  it('should assign region data', async () => {
-    await waitForExpect(async () => {
-      const result = await knex(TableNames.REGION_ASSIGNMENT).select().where({
-        map_feature_id: id,
-        zoom_level: 9,
-        region_id: 2281072,
-      })
-      expect(result).toHaveLength(1)
-    })
-
-    await waitForExpect(async () => {
-      const result = await knex(TableNames.REGION_ASSIGNMENT).select().where({
-        map_feature_id: id,
-      })
-      expect(result).toHaveLength(15)
-    })
-
-    await waitForExpect(async () => {
-      const result = await knex(TableNames.RAW_CAPTURE_CLUSTER).select().where({
-        count: 2,
-      })
-      expect(result).toHaveLength(1)
-    })
+    await testForRegionData(id, TableNames.RAW_CAPTURE_CLUSTER)
   })
 })
