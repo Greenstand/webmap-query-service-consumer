@@ -39,6 +39,11 @@ async function createPublisher() {
         vhost: VHOST_NAME,
         queue: SubscriptionNames.RAW_CAPTURE_CREATED,
       },
+
+      [SubscriptionNames.MAP_NAME_ASSIGNED]: {
+        vhost: VHOST_NAME,
+        queue: SubscriptionNames.MAP_NAME_ASSIGNED,
+      },
     },
   })
 
@@ -89,7 +94,6 @@ export async function prepareRegionData(
     location: `POINT(${lon + 1} ${lat})`,
     count: 1,
   })
-
   // a farther cluster
   await knex(table).insert({
     zoom_level: cluster_zoom_level,
