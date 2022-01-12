@@ -1,13 +1,13 @@
 import knex, { TableNames } from 'db/knex'
 import CaptureFeature from 'interfaces/CaptureFeature'
-import { Global } from 'interfaces/Global'
 import brokerConfig, {
   SubscriptionNames,
   VHOST_NAME,
 } from 'messaging/brokerConfig'
 import { BrokerAsPromised } from 'rascal'
+import { TestGlobal } from './TestGlobal'
 
-const _global = global as Global & { publisher?: BrokerAsPromised }
+const _global = global as TestGlobal
 
 export async function handleBrokers(
   cb: (b: BrokerAsPromised) => Promise<void>,
