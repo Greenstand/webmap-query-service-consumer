@@ -1,17 +1,10 @@
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
-import CaptureFeature from 'interfaces/CaptureFeature'
-import { SubscriptionNames } from 'messaging/brokerConfig'
-import registerEventHandlers from 'messaging/registerEventHandlers'
 import { addRawCapture } from 'models/rawCaptureFeature'
 import mockCapture from '@test/mock/capture.json'
-import { publishMessage } from '@test/publisher'
-import { truncateTables } from '@test/utils'
-import { MapNameAssigned } from './onMapNameAssigned'
-
-beforeAll(async () => {
-  await registerEventHandlers()
-})
+import stakeholder from '@test/mock/stakeholder.json'
+import { expectFeatureToHaveMap, truncateTables } from '@test/utils'
+import onMapNameAssigned, { MapNameAssigned } from './onMapNameAssigned'
 
 beforeEach(async () => {
   await truncateTables([
@@ -31,31 +24,25 @@ const message: MapNameAssigned = {
 
 it('should handle event and assign map name to capture feature', async () => {
   await knex(TableNames.CAPTURE_FEATURE).insert(mockCapture)
-  await publishMessage(SubscriptionNames.MAP_NAME_ASSIGNED, message, '', (e) =>
-    console.log('result:', e),
-  )
+  await onMapNameAssigned(message)
   await waitForExpect(async () => {
-    const result = await knex(TableNames.CAPTURE_FEATURE)
-      .select()
-      .where('id', mockCapture.id)
-    expect(result).toHaveLength(1)
-    const { map_name: map } = result[0] as CaptureFeature
-    expect(map)
+    await expectFeatureToHaveMap(
+      TableNames.CAPTURE_FEATURE,
+      mockCapture.id,
+      stakeholder.map,
+    )
   })
 })
 
 it('should handle event and assign map name for raw captures', async () => {
   await addRawCapture(mockCapture)
-  await publishMessage(SubscriptionNames.MAP_NAME_ASSIGNED, {
-    ...message, //
+  await onMapNameAssigned({
+    ...message,
     map_feature_kind: 'raw_capture',
   } as MapNameAssigned)
-  await waitForExpect(async () => {
-    const result = await knex(TableNames.RAW_CAPTURE_FEATURE)
-      .select()
-      .where('id', mockCapture.id)
-    expect(result).toHaveLength(1)
-    const { map_name: map } = result[0] as CaptureFeature
-    expect(map)
-  })
+  await expectFeatureToHaveMap(
+    TableNames.RAW_CAPTURE_FEATURE,
+    mockCapture.id,
+    stakeholder.map,
+  )
 })

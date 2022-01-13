@@ -33,7 +33,8 @@
     "lint": "eslint . --cache",
     "prepare": "is-ci || husky install",
     "start": "NODE_PATH=dist/ node -r dotenv/config dist/server.js",
-    "test": "jest --runInBand --silent"
+    "test": "jest server/ --runInBand --silent",
+    "test:i": "jest __tests__/integration/ --runInBand --silent"
   },
   "dependencies": {
     "axios": "^0.24.0",

@@ -76,3 +76,22 @@ export async function testForRegionData(
     expect(result).toHaveLength(1)
   })
 }
+
+export async function getTableItemsById<T>(
+  table: TableNames,
+  id: string,
+): Promise<T[]> {
+  const result = await knex(table).select().where('id', id)
+  return result
+}
+
+export async function expectFeatureToHaveMap(
+  table: TableNames,
+  id: string,
+  mapName: string,
+) {
+  const result: CaptureFeature[] = await knex(table).select().where('id', id)
+  expect(result).toHaveLength(1)
+  const { map_name: map } = result[0] as CaptureFeature
+  expect(map?.map).toEqual(mapName)
+}
