@@ -1,14 +1,32 @@
-import waitForExpect from 'wait-for-expect'
-import knex, { TableNames } from 'db/knex'
+import { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
-import registerEventHandlers from 'messaging/registerEventHandlers'
-import testData from '@test/mock/capture_in_kenya.json'
-import { publishMessage } from '@test/publisher'
+import data from '@test/mock/capture_in_kenya.json'
 import {
+  expectClusterHasRegionData,
+  expectTableHasId,
   prepareRegionData,
-  testForRegionData,
   truncateTables,
 } from '@test/utils'
+import onRawCaptureCreated from './onRawCaptureCreated'
+
+describe('rawCaptureFeature', () => {
+  const { id } = data
+
+  beforeAll(async () => {
+    await truncateTables([
+      TableNames.RAW_CAPTURE_FEATURE,
+      TableNames.REGION_ASSIGNMENT,
+      TableNames.RAW_CAPTURE_CLUSTER,
+    ])
+  })
+
+  it(`should successfully handle ${SubscriptionNames.RAW_CAPTURE_CREATED} event`, async () => {
+    await prepareRegionData(TableNames.RAW_CAPTURE_CLUSTER, data)
+    await onRawCaptureCreated(data)
+    await expectTableHasId(TableNames.RAW_CAPTURE_FEATURE, id)
+    await expectClusterHasRegionData(TableNames.RAW_CAPTURE_CLUSTER, id)
+  })
+})
 
 // check the region data, make sure the sample data has been imported from mock/xxx.copy
 /*
@@ -39,35 +57,3 @@ import {
           928260 |         15 | 5447363
       (15 rows)
       */
-
-describe('rawCaptureFeature', () => {
-  const { id } = testData
-
-  beforeAll(async () => {
-    await truncateTables([
-      TableNames.CAPTURE_FEATURE,
-      TableNames.RAW_CAPTURE_FEATURE,
-      TableNames.REGION_ASSIGNMENT,
-      TableNames.RAW_CAPTURE_CLUSTER,
-    ])
-
-    await prepareRegionData(TableNames.RAW_CAPTURE_CLUSTER, testData)
-    await registerEventHandlers()
-    await publishMessage(
-      SubscriptionNames.RAW_CAPTURE_CREATED,
-      testData,
-      '',
-      () => console.log('message received'),
-    )
-  })
-
-  it('should add raw capture to database', async () => {
-    await waitForExpect(async () => {
-      const result = await knex(TableNames.RAW_CAPTURE_FEATURE)
-        .select()
-        .where('id', id)
-      expect(result).toHaveLength(1)
-    })
-    await testForRegionData(id, TableNames.RAW_CAPTURE_CLUSTER)
-  })
-})

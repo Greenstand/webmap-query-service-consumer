@@ -27,7 +27,7 @@ export async function addRawCapture(data: RawCaptureFeature) {
 
 export async function assignRawCaptureRegion(data: RawCaptureFeature) {
   const { id, lat, lon } = data
-  const res = await knex.raw(
+  await knex.raw(
     `
       INSERT INTO region_assignment
         (map_feature_id, zoom_level, region_id)
@@ -45,8 +45,6 @@ export async function assignRawCaptureRegion(data: RawCaptureFeature) {
     `,
     [id, lon, lat],
   )
-  console.log('assign region result: ', res)
-  return true
 }
 
 export async function updateRawCaptureCluster(data: RawCaptureFeature) {
@@ -65,10 +63,3 @@ export async function updateRawCaptureCluster(data: RawCaptureFeature) {
     [data.lon, data.lat],
   )
 }
-
-async function rawCaptureFeature(data: RawCaptureFeature) {
-  await addRawCapture(data)
-  await assignRawCaptureRegion(data)
-  await updateRawCaptureCluster(data)
-}
-export default rawCaptureFeature

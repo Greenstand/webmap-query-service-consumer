@@ -66,10 +66,3 @@ export async function updateCaptureCluster(data: CaptureFeature) {
   )
   return res
 }
-
-async function captureFeature(data: CaptureFeature) {
-  await addCaptureFeature(data)
-  await assignCaptureFeatureRegion(data)
-  await updateCaptureCluster(data)
-}
-export default captureFeature

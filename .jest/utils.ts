@@ -1,21 +1,5 @@
-import { BrokerAsPromised } from 'rascal'
-import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import CaptureFeature from 'interfaces/CaptureFeature'
-import { TestGlobal } from './TestGlobal'
-
-export async function handleBrokers(
-  cb: (broker: BrokerAsPromised) => Promise<void>,
-) {
-  // get active brokers
-  const testGlobal = global as TestGlobal
-  const brokers: BrokerAsPromised[] = [
-    testGlobal.broker,
-    testGlobal.publisher,
-  ].filter(Boolean) as BrokerAsPromised[]
-
-  return Promise.all(brokers.map(cb))
-}
 
 export function truncateTables(tables: TableNames[]) {
   return Promise.all(
@@ -42,47 +26,24 @@ export async function prepareRegionData(
   })
 }
 
-export async function dataExists(id: string): Promise<boolean> {
-  const result = await knex(TableNames.REGION_ASSIGNMENT).select().where({
+export async function expectClusterHasRegionData(
+  clusterTable: TableNames.CAPTURE_CLUSTER | TableNames.RAW_CAPTURE_CLUSTER,
+  id: string,
+) {
+  let result = await knex(TableNames.REGION_ASSIGNMENT).select().where({
     map_feature_id: id,
     zoom_level: 9,
     region_id: 2281072,
   })
-  return result?.length === 1
-}
-
-export async function testForRegionData(
-  id: string,
-  clusterTable: TableNames.CAPTURE_CLUSTER | TableNames.RAW_CAPTURE_CLUSTER,
-) {
-  await waitForExpect(async () => {
-    const result = await knex(TableNames.REGION_ASSIGNMENT).select().where({
-      map_feature_id: id,
-      zoom_level: 9,
-      region_id: 2281072,
-    })
-    expect(result).toHaveLength(1)
+  expect(result).toHaveLength(1)
+  result = await knex(TableNames.REGION_ASSIGNMENT).select().where({
+    map_feature_id: id,
   })
-  await waitForExpect(async () => {
-    const result = await knex(TableNames.REGION_ASSIGNMENT).select().where({
-      map_feature_id: id,
-    })
-    expect(result).toHaveLength(15)
+  expect(result).toHaveLength(15)
+  result = await knex(clusterTable).select().where({
+    count: 2,
   })
-  await waitForExpect(async () => {
-    const result = await knex(clusterTable).select().where({
-      count: 2,
-    })
-    expect(result).toHaveLength(1)
-  })
-}
-
-export async function getTableItemsById<T>(
-  table: TableNames,
-  id: string,
-): Promise<T[]> {
-  const result = await knex(table).select().where('id', id)
-  return result
+  expect(result).toHaveLength(1)
 }
 
 export async function expectFeatureToHaveMap(
@@ -94,4 +55,9 @@ export async function expectFeatureToHaveMap(
   expect(result).toHaveLength(1)
   const { map_name: map } = result[0] as CaptureFeature
   expect(map?.map).toEqual(mapName)
+}
+
+export async function expectTableHasId(table: TableNames, id: string) {
+  const result = await knex(table).select().where('id', id)
+  expect(result).toHaveLength(1)
 }

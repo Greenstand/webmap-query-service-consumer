@@ -7,18 +7,6 @@ import { TestGlobal } from './TestGlobal'
 
 const testGlobal = global as TestGlobal
 
-export async function handleBrokers(
-  cb: (b: BrokerAsPromised) => Promise<void>,
-) {
-  // get active brokers
-  const brokers: BrokerAsPromised[] = [
-    testGlobal.broker,
-    testGlobal.publisher,
-  ].filter(Boolean) as BrokerAsPromised[]
-
-  return Promise.all(brokers.map(cb))
-}
-
 async function createPublisher() {
   const publisher = await BrokerAsPromised.create({
     ...brokerConfig,
@@ -44,13 +32,20 @@ async function createPublisher() {
       },
     },
   })
-
   testGlobal.publisher = publisher
   return publisher
 }
 
 function getPublisher() {
   return testGlobal.publisher ?? createPublisher()
+}
+
+export async function destroyPublisher() {
+  const { publisher } = testGlobal
+  if (!publisher) return
+  await publisher.unsubscribeAll()
+  await publisher.purge()
+  await publisher.shutdown()
 }
 
 export async function publishMessage<T>(
