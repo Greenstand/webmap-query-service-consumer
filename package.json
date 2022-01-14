@@ -34,7 +34,7 @@
     "prepare": "is-ci || husky install",
     "start": "NODE_PATH=dist/ node -r dotenv/config dist/server.js",
     "start:dev": "NODE_PATH=server/ ts-node -r dotenv/config --project tsconfig.build.json server/server.ts",
-    "test": "jest server/ --runInBand --silent",
+    "test": "jest --testPathIgnorePatterns=__tests__/integration --runInBand --silent",
     "test:i": "jest __tests__/integration/ --runInBand --silent"
   },
   "dependencies": {
