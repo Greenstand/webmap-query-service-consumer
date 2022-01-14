@@ -1,31 +1,19 @@
-import { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
-import data from '@test/mock/capture_in_kenya.json'
 import {
-  expectClusterHasRegionData,
-  expectTableHasId,
-  prepareRegionData,
-  truncateTables,
-} from '@test/utils'
+  addRawCapture,
+  assignRawCaptureRegion,
+  updateRawCaptureCluster,
+} from 'models/rawCaptureFeature'
+import data from '@test/mock/capture_in_kenya.json'
 import onRawCaptureCreated from './onRawCaptureCreated'
 
-describe('rawCaptureFeature', () => {
-  const { id } = data
+jest.mock('models/rawCaptureFeature')
 
-  beforeAll(async () => {
-    await truncateTables([
-      TableNames.RAW_CAPTURE_FEATURE,
-      TableNames.REGION_ASSIGNMENT,
-      TableNames.RAW_CAPTURE_CLUSTER,
-    ])
-  })
-
-  it(`should successfully handle ${SubscriptionNames.RAW_CAPTURE_CREATED} event`, async () => {
-    await prepareRegionData(TableNames.RAW_CAPTURE_CLUSTER, data)
-    await onRawCaptureCreated(data)
-    await expectTableHasId(TableNames.RAW_CAPTURE_FEATURE, id)
-    await expectClusterHasRegionData(TableNames.RAW_CAPTURE_CLUSTER, id)
-  })
+it(`should successfully handle ${SubscriptionNames.RAW_CAPTURE_CREATED} event`, async () => {
+  await onRawCaptureCreated(data)
+  expect(addRawCapture).toHaveBeenLastCalledWith(data)
+  expect(assignRawCaptureRegion).toHaveBeenLastCalledWith(data)
+  expect(updateRawCaptureCluster).toHaveBeenLastCalledWith(data)
 })
 
 // check the region data, make sure the sample data has been imported from mock/xxx.copy

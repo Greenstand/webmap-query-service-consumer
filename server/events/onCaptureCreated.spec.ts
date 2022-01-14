@@ -1,28 +1,17 @@
-import { TableNames } from 'db/knex'
-import data from '@test/mock/capture_in_kenya.json'
+import { SubscriptionNames } from 'messaging/brokerConfig'
 import {
-  expectTableHasId,
-  prepareRegionData,
-  expectClusterHasRegionData,
-  truncateTables,
-} from '@test/utils'
+  addCaptureFeature,
+  assignCaptureFeatureRegion,
+  updateCaptureCluster,
+} from 'models/captureFeature'
+import data from '@test/mock/capture_in_kenya.json'
 import onCaptureCreated from './onCaptureCreated'
 
-describe('capture created', () => {
-  const { id } = data
+jest.mock('models/captureFeature')
 
-  beforeAll(async () => {
-    await truncateTables([
-      TableNames.CAPTURE_FEATURE,
-      TableNames.REGION_ASSIGNMENT,
-      TableNames.CAPTURE_CLUSTER,
-    ])
-  })
-
-  it('should successfully handle captureCreated event', async () => {
-    await prepareRegionData(TableNames.CAPTURE_CLUSTER, data)
-    await onCaptureCreated(data)
-    await expectTableHasId(TableNames.CAPTURE_FEATURE, id)
-    await expectClusterHasRegionData(TableNames.CAPTURE_CLUSTER, id)
-  })
+it(`should successfully handle ${SubscriptionNames.CAPTURE_CREATED} event`, async () => {
+  await onCaptureCreated(data)
+  expect(addCaptureFeature).toHaveBeenLastCalledWith(data)
+  expect(assignCaptureFeatureRegion).toHaveBeenLastCalledWith(data)
+  expect(updateCaptureCluster).toHaveBeenLastCalledWith(data)
 })

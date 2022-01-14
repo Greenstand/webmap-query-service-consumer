@@ -1,30 +1,29 @@
-import knex, { TableNames } from 'db/knex'
+import { TableNames } from 'db/knex'
+import { SubscriptionNames } from 'messaging/brokerConfig'
+import { batchUpdate } from 'models/base'
 import data from '@test/mock/capture.json'
-import { truncateTables } from '@test/utils'
 import onTokenAssigned from './onTokenAssigned'
 
-describe('tokenAssigned', () => {
-  beforeEach(async () => {
-    await truncateTables([TableNames.CAPTURE_FEATURE])
-  })
+const message = {
+  type: 'TokensAssigned',
+  wallet_name: 'newone',
+  entries: [{ capture_id: data.id, token_id: data.token_id }],
+}
 
-  it('Successfully handle tokenAssigned event', async () => {
-    // prepare the capture before the wallet event
-    await knex(TableNames.CAPTURE_FEATURE).insert(data)
-    const newWalletName = 'newone'
-    const message = {
-      type: 'TokensAssigned',
-      wallet_name: newWalletName,
-      entries: [{ capture_id: data.id, token_id: data.token_id }],
-    }
+const { wallet_name, entries } = message
+const ids = entries.map((entry) => entry.capture_id)
+const updateObject = {
+  wallet_name,
+}
 
-    // publish the capture
-    await onTokenAssigned(message)
+jest.mock('models/base')
 
-    // check if message was consumed and handled
-    const result = await knex(TableNames.CAPTURE_FEATURE)
-      .select()
-      .where('wallet_name', newWalletName)
-    expect(result).toHaveLength(1)
-  })
+it(`Successfully handle ${SubscriptionNames.TOKEN_ASSIGNED} event`, async () => {
+  await onTokenAssigned(message)
+
+  expect(batchUpdate).toHaveBeenLastCalledWith(
+    ids,
+    updateObject,
+    TableNames.CAPTURE_FEATURE,
+  )
 })
