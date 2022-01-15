@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "coverage": "jest --runInBand --silent --coverage",
+    "coverage": "npm t -- --coverage",
     "db-migrate": "db-migrate up -v -m database/migrations/",
     "db-migrate-ci": "cd database; db-migrate up",
     "db-seed-region": "cat ./__tests__/mock/region.copy | psql $DATABASE_URL -c 'COPY region FROM STDIN'",
