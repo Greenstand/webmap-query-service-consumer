@@ -4,13 +4,12 @@ import {
   assignCaptureFeatureRegion,
   updateCaptureCluster,
 } from 'models/captureFeature'
-import data from '@test/mock/capture_in_kenya.json'
 import {
-  expectClusterHasRegionData,
   expectTableHasId,
-  prepareRegionData,
-  truncateTables,
-} from '@test/utils'
+  expectClusterHasRegionData,
+} from '@test/featureAssertions'
+import data from '@test/mock/capture_in_kenya.json'
+import { prepareRegionData, truncateTables } from '@test/utils'
 
 beforeAll(async () => {
   await truncateTables([
@@ -40,6 +39,5 @@ it('should assign region', async () => {
 it('should update cluster', async () => {
   await prepareRegionData(TableNames.CAPTURE_CLUSTER, data)
   await updateCaptureCluster(data)
-  const { id } = data
-  await expectClusterHasRegionData(TableNames.CAPTURE_CLUSTER, id)
+  await expectClusterHasRegionData(TableNames.CAPTURE_CLUSTER, data.id)
 })

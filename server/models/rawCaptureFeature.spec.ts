@@ -1,11 +1,10 @@
 import knex, { TableNames } from 'db/knex'
-import data from '@test/mock/capture_in_kenya.json'
 import {
-  expectClusterHasRegionData,
   expectTableHasId,
-  prepareRegionData,
-  truncateTables,
-} from '@test/utils'
+  expectClusterHasRegionData,
+} from '@test/featureAssertions'
+import data from '@test/mock/capture_in_kenya.json'
+import { prepareRegionData, truncateTables } from '@test/utils'
 import {
   addRawCapture,
   assignRawCaptureRegion,
