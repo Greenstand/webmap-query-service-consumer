@@ -1,7 +1,7 @@
 import { TableNames } from 'db/knex'
 import CaptureFeature from 'interfaces/CaptureFeature'
 import { batchUpdate } from 'models/base'
-import { getStakeholderMap } from 'models/stakeholder'
+import { getStakeholderMap } from 'utils/stakeholderApi'
 
 export type MapFeatureKinds = 'raw_capture' | 'capture'
 

@@ -6,7 +6,6 @@ export async function getStakeholderMap(stakeholderId: string) {
   if (!stakeholderApiRoute)
     return console.error('env var: STAKEHOLDER_API_ROUTE is not set')
   const path = `${stakeholderApiRoute}/${stakeholderId}`
-  console.log('path', path)
   const res = await axios.get(path)
   const { map } = res.data
   return map
