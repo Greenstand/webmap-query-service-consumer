@@ -3,7 +3,7 @@ import brokerConfig, {
   SubscriptionNames,
   VHOST_NAME,
 } from 'messaging/brokerConfig'
-import { TestGlobal } from './TestGlobal'
+import TestGlobal from './TestGlobal'
 
 const testGlobal = global as TestGlobal
 
