@@ -11,7 +11,7 @@ module.exports = {
   plugins: [],
 
   rules: {
-    'no-console': 'off',
+    'no-console': 'warn',
     'import/prefer-default-export': 'off',
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'no-promise-executor-return': 'off',
@@ -80,6 +80,9 @@ module.exports = {
     sourceType: 'module',
     project: ['./tsconfig.json'],
   },
+
+  // report unused eslint-disable comments
+  reportUnusedDisableDirectives: true,
 
   settings: {
     'import/resolver': {
