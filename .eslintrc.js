@@ -11,7 +11,7 @@ module.exports = {
   plugins: [],
 
   rules: {
-    'no-console': 'warn',
+    'no-console': ['warn', { allow: ['info', 'error'] }],
     'import/prefer-default-export': 'off',
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'no-promise-executor-return': 'off',

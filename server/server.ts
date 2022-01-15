@@ -4,13 +4,13 @@ import registerEventHandlers from './messaging/registerEventHandlers'
 
 async function main() {
   setupLoglevel()
-  console.log('registering event handlers')
+  console.info('registering event handlers')
   await registerEventHandlers()
 }
 
 main()
   .then(() => {
-    console.log('server is listening...')
+    console.info('server is listening...')
   })
   .catch((err) => {
     console.error(err)
