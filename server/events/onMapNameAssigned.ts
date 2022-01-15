@@ -5,7 +5,7 @@ import { getStakeholderMap } from 'utils/stakeholderApi'
 
 export type MapFeatureKinds = 'raw_capture' | 'capture'
 
-export type MapNameAssigned = {
+export type MapNameMessage = {
   type: string
   impact_producer_id: string
   map_feature_ids: string[]
@@ -17,7 +17,7 @@ const tableNameByMapFeatureKind: { [key in MapFeatureKinds]: TableNames } = {
   raw_capture: TableNames.RAW_CAPTURE_FEATURE,
 }
 
-export default async function onMapNameAssigned(message: MapNameAssigned) {
+export default async function onMapNameAssigned(message: MapNameMessage) {
   const { impact_producer_id, map_feature_ids, map_feature_kind } = message
   const map = await getStakeholderMap(impact_producer_id)
 

@@ -7,9 +7,9 @@ import mockCapture from '@test/mock/capture.json'
 import stakeholder from '@test/mock/stakeholder.json'
 import { createStakeholderApi } from '@test/stakeholderApi'
 import { truncateTables } from '@test/utils'
-import onMapNameAssigned, { MapNameAssigned } from './onMapNameAssigned'
+import onMapNameAssigned, { MapNameMessage } from './onMapNameAssigned'
 
-const message: MapNameAssigned = {
+const message: MapNameMessage = {
   type: 'ImpactProducerAssigned',
   impact_producer_id: '1',
   map_feature_ids: [
@@ -50,7 +50,7 @@ describe(`should handle ${SubscriptionNames.MAP_NAME_ASSIGNED} event`, () => {
     await onMapNameAssigned({
       ...message,
       map_feature_kind: 'raw_capture',
-    } as MapNameAssigned)
+    })
     await expectFeatureToHaveMap(
       TableNames.RAW_CAPTURE_FEATURE,
       mockCapture.id,
