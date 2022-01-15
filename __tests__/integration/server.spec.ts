@@ -2,17 +2,16 @@ import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { MapNameAssigned } from 'events/onMapNameAssigned'
 import { SubscriptionNames } from 'messaging/brokerConfig'
+import {
+  expectFeatureToHaveMap,
+  expectTableHasId,
+  expectClusterHasRegionData,
+} from '@test/featureAssertions'
 import captureData from '@test/mock/capture.json'
 import kenyaData from '@test/mock/capture_in_kenya.json'
 import stakeholder from '@test/mock/stakeholder.json'
 import { publishMessage } from '@test/publisher'
-import {
-  expectFeatureToHaveMap,
-  expectTableHasId,
-  prepareRegionData,
-  expectClusterHasRegionData,
-  truncateTables,
-} from '@test/utils'
+import { prepareRegionData, truncateTables } from '@test/utils'
 
 beforeEach(async () => {
   await truncateTables([
@@ -82,9 +81,7 @@ it(`should handle ${SubscriptionNames.TOKEN_ASSIGNED} event`, async () => {
   }
 
   // publish the capture
-  await publishMessage(SubscriptionNames.TOKEN_ASSIGNED, message, '', (e) =>
-    console.log('result:', e),
-  )
+  await publishMessage(SubscriptionNames.TOKEN_ASSIGNED, message)
 
   await waitForExpect(async () => {
     // check if message was consumed and handled
