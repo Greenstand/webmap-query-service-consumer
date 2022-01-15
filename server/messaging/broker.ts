@@ -3,7 +3,7 @@ import { Global } from 'interfaces/Global'
 import brokerConfig, { SubscriptionNames } from './brokerConfig'
 
 async function createBroker(config = brokerConfig) {
-  console.log('creating broker')
+  console.info('creating broker')
   const broker = await BrokerAsPromised.create(config)
   ;(global as Global).broker = broker
   return broker
