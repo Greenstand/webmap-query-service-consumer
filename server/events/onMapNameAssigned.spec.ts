@@ -1,13 +1,14 @@
 import { SetupServerApi } from 'msw/node'
 import knex, { TableNames } from 'db/knex'
+import MapNameMessage from 'interfaces/messages/MapNameAssigned'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import { addRawCapture } from 'models/rawCaptureFeature'
+import createStakeholderApi from '@test/createStakeholderApi'
 import { expectFeatureToHaveMap } from '@test/featureAssertions'
 import mockCapture from '@test/mock/capture.json'
 import stakeholder from '@test/mock/stakeholder.json'
-import { createStakeholderApi } from '@test/stakeholderApi'
 import { truncateTables } from '@test/utils'
-import onMapNameAssigned, { MapNameMessage } from './onMapNameAssigned'
+import onMapNameAssigned from './onMapNameAssigned'
 
 const message: MapNameMessage = {
   type: 'ImpactProducerAssigned',

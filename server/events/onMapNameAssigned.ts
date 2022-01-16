@@ -1,16 +1,10 @@
 import { TableNames } from 'db/knex'
 import CaptureFeature from 'interfaces/CaptureFeature'
+import MapNameMessage, {
+  MapFeatureKinds,
+} from 'interfaces/messages/MapNameAssigned'
 import { batchUpdate } from 'models/base'
 import { getStakeholderMap } from 'utils/stakeholderApi'
-
-export type MapFeatureKinds = 'raw_capture' | 'capture'
-
-export type MapNameMessage = {
-  type: string
-  impact_producer_id: string
-  map_feature_ids: string[]
-  map_feature_kind: MapFeatureKinds
-}
 
 const tableNameByMapFeatureKind: { [key in MapFeatureKinds]: TableNames } = {
   capture: TableNames.CAPTURE_FEATURE,

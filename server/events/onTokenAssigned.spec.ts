@@ -2,6 +2,7 @@ import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/registerEventHandlers'
+import { addCaptureFeature } from 'models/captureFeature'
 import data from '@test/mock/capture.json'
 import { publishMessage } from '@test/publisher'
 import { truncateTables } from '@test/utils'
@@ -21,14 +22,9 @@ beforeEach(async () => {
 })
 
 it('Successfully handle tokenAssigned event', async () => {
-  // prepare the capture before the wallet event
-  await knex(TableNames.CAPTURE_FEATURE).insert(data)
-
-  // publish the capture
+  await addCaptureFeature(data)
   await publishMessage(SubscriptionNames.TOKEN_ASSIGNED, message)
-
   await waitForExpect(async () => {
-    // check if message was consumed and handled
     const result = await knex(TableNames.CAPTURE_FEATURE)
       .select()
       .where('wallet_name', message.wallet_name)

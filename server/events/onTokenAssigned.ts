@@ -1,13 +1,7 @@
 import { TableNames } from 'db/knex'
+import TokenMessage from 'interfaces/messages/TokensAssigned'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import { batchUpdate } from 'models/base'
-
-type TokenMessage = {
-  entries: {
-    capture_id: string
-  }[]
-  wallet_name: string
-}
 
 export default async function onTokenAssigned(message: TokenMessage) {
   console.log(`${SubscriptionNames.TOKEN_ASSIGNED} message received`)

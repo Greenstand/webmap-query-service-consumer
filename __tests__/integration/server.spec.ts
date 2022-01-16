@@ -1,6 +1,6 @@
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
-import { MapNameMessage } from 'events/onMapNameAssigned'
+import MapNameMessage from 'interfaces/messages/MapNameAssigned'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import {
   expectFeatureToHaveMap,
