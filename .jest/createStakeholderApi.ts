@@ -4,14 +4,14 @@ import data from '@test/mock/stakeholder.json'
 
 const stakeholderApiRoute = process.env.STAKEHOLDER_API_ROUTE ?? ''
 
-export function createStakeholderApi() {
-  const route = `${stakeholderApiRoute}/:id`
+export default function createStakeholderApi() {
   return setupServer(
-    rest.get(route, (req, res, ctx) =>
+    rest.get(stakeholderApiRoute, (req, res, ctx) =>
       res(
-        ctx.status(202, 'Mocked status'),
+        ctx.status(200, 'Mock success'),
         ctx.json({
           ...data,
+          id: req.url.searchParams.get('stakeholder_id'),
         }),
       ),
     ),
