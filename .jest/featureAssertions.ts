@@ -28,8 +28,8 @@ export async function expectFeatureToHaveMap(
 ) {
   const result: CaptureFeature[] = await knex(table).select().where('id', id)
   expect(result).toHaveLength(1)
-  const { map_name: map } = result[0] as CaptureFeature
-  expect(map?.map).toEqual(mapName)
+  const { map } = result[0] as CaptureFeature
+  expect(map?.impact_producer).toEqual(mapName)
 }
 
 export async function expectTableHasId(table: TableNames, id: string) {

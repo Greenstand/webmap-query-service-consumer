@@ -1,5 +1,5 @@
 import Attributes from './Attribute'
-import MapName from './MapName'
+import FeatureMap from './FeatureMap'
 
 export default interface CaptureFeature {
   id: number | string
@@ -14,5 +14,5 @@ export default interface CaptureFeature {
   updated_at: string
   token_id: string
   wallet_name: string
-  map_name?: MapName
+  map?: FeatureMap
 }

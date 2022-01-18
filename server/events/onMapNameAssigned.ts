@@ -16,7 +16,7 @@ export default async function onMapNameAssigned(message: MapNameMessage) {
   const map = await getStakeholderMap(impact_producer_id)
 
   const updateObject = {
-    map_name: { map, impact_producer: impact_producer_id },
+    map: { map, impact_producer: impact_producer_id },
   } as Partial<CaptureFeature>
   await batchUpdate(
     map_feature_ids,

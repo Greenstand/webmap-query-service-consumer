@@ -1,5 +1,4 @@
 import axios from 'axios'
-import MapName from 'interfaces/MapName'
 import Stakeholder from 'interfaces/Stakeholder'
 
 const stakeholderApiRoute = process.env.STAKEHOLDER_API_ROUTE
@@ -19,7 +18,7 @@ export async function getStakeholder(
 
 export async function getStakeholderMap(
   stakeholderId: string,
-): Promise<MapName | void> {
+): Promise<string | undefined> {
   const data = await getStakeholder(stakeholderId)
   return data?.map
 }

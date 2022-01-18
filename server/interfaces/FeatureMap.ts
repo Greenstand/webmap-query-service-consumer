@@ -1,5 +1,4 @@
-export default interface MapName {
+export default interface FeatureMap {
   impact_producer?: string
   impact_manager?: string
-  map?: string
 }
