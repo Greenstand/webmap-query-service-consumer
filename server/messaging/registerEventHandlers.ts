@@ -10,7 +10,10 @@ export default async function registerEventHandlers() {
     await subscribe(SubscriptionNames.CAPTURE_CREATED, onCaptureCreated)
     await subscribe(SubscriptionNames.RAW_CAPTURE_CREATED, onRawCaptureCreated)
     await subscribe(SubscriptionNames.TOKEN_ASSIGNED, onTokenAssigned)
-    await subscribe(SubscriptionNames.MAP_NAME_ASSIGNED, onMapNameAssigned)
+    await subscribe(
+      SubscriptionNames.IMPACT_PRODUCER_ASSIGNED,
+      onMapNameAssigned,
+    )
   } catch (e) {
     console.error('Get error when handling message:', e)
   }

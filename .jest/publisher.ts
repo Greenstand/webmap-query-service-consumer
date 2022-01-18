@@ -26,9 +26,9 @@ async function createPublisher() {
         queue: SubscriptionNames.RAW_CAPTURE_CREATED,
       },
 
-      [SubscriptionNames.MAP_NAME_ASSIGNED]: {
+      [SubscriptionNames.IMPACT_PRODUCER_ASSIGNED]: {
         vhost: VHOST_NAME,
-        queue: SubscriptionNames.MAP_NAME_ASSIGNED,
+        queue: SubscriptionNames.IMPACT_PRODUCER_ASSIGNED,
       },
     },
   })

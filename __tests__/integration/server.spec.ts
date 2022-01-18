@@ -23,7 +23,7 @@ beforeEach(async () => {
   ])
 })
 
-it.skip(`should handle ${SubscriptionNames.MAP_NAME_ASSIGNED} event`, async () => {
+it.skip(`should handle ${SubscriptionNames.IMPACT_PRODUCER_ASSIGNED} event`, async () => {
   const message: MapNameMessage = {
     type: 'ImpactProducerAssigned',
     impact_producer_id: '1',
@@ -34,7 +34,7 @@ it.skip(`should handle ${SubscriptionNames.MAP_NAME_ASSIGNED} event`, async () =
   }
 
   await knex(TableNames.CAPTURE_FEATURE).insert(kenyaData)
-  await publishMessage(SubscriptionNames.MAP_NAME_ASSIGNED, message)
+  await publishMessage(SubscriptionNames.IMPACT_PRODUCER_ASSIGNED, message)
 
   await waitForExpect(async () => {
     await expectFeatureToHaveMap(

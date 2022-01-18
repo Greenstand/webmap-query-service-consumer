@@ -35,7 +35,7 @@ afterAll(() => {
   mockServer.close()
 })
 
-describe(`should handle ${SubscriptionNames.MAP_NAME_ASSIGNED} event`, () => {
+describe(`should handle ${SubscriptionNames.IMPACT_PRODUCER_ASSIGNED} event`, () => {
   it(`should assign map name to capture feature`, async () => {
     await knex(TableNames.CAPTURE_FEATURE).insert(mockCapture)
     await onMapNameAssigned(message)
