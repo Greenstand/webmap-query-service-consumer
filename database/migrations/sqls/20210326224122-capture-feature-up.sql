@@ -9,7 +9,7 @@ CREATE TABLE capture_feature
     device_identifier varchar NULL,
     attributes jsonb NULL, 
     tracking_session_id uuid NULL,
-    map_name jsonb NULL,
+    map jsonb NULL,
     token_id uuid NULL,
     wallet_name varchar NULL,
     created_at timestamptz NOT NULL,
@@ -23,4 +23,4 @@ CREATE INDEX capturef_trckgsess_idx ON capture_feature (tracking_session_id);
 CREATE INDEX capturef_token_idx ON capture_feature (token_id);
 CREATE INDEX capturef_wallet_idx ON capture_feature (wallet_name);
 CREATE INDEX capturef_attrbs_idx ON capture_feature USING GIN (attributes);
-CREATE INDEX capturef_map_name_idx ON capture_feature USING GIN (map_name jsonb_path_ops)
+CREATE INDEX capturef_map_idx ON capture_feature USING GIN (map)
