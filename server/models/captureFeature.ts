@@ -9,8 +9,8 @@ export async function addCaptureFeature(
   const result = await knex.raw(
     `insert into capture_feature (
              id, lat, lon, location, field_user_id, field_username, 
-             device_identifier, attributes, created_at, updated_at) 
-             values(?, ?, ?, ST_PointFromText(?, 4326), ?, ?, ?, ?, ?, ?)
+             device_identifier, attributes, created_at, updated_at, map) 
+             values(?, ?, ?, ST_PointFromText(?, 4326), ?, ?, ?, ?, ?, ?, ?)
              returning id`,
     [
       data.id,
@@ -23,6 +23,7 @@ export async function addCaptureFeature(
       JSON.stringify(data.attributes),
       data.created_at,
       data.created_at,
+      JSON.stringify(data.map),
     ],
   )
   return result.rows[0]

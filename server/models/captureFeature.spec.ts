@@ -21,6 +21,12 @@ beforeAll(async () => {
 })
 
 it('should add the capture to the db', async () => {
+  const res = await knex(TableNames.CAPTURE_FEATURE)
+    .select()
+    .where('id', data.id)
+  const captureFeature = res[0]
+  expect(captureFeature)
+  expect(captureFeature.map).toEqual(data.map)
   await expectTableHasId(TableNames.CAPTURE_FEATURE, data.id)
 })
 
