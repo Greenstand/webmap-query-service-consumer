@@ -11,5 +11,9 @@
   "capture_taken_at": "2021-07-09T03:58:07.814Z",
   "created_at": "2021-07-09T03:58:07.814Z",
   "updated_at": "2021-07-09T03:58:07.814Z",
-  "location": ""
+  "location": "",
+  "map": {
+    "impact_producer": "123",
+    "impact_manager": "abc"
+  }
 }
