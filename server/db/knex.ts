@@ -12,7 +12,6 @@ export const enum TableNames {
 }
 
 function connectToDb() {
-  console.info('connecting to db')
   const connection = initKnex(knexConfig)
   ;(global as Global).dbConnection = connection
   return connection
