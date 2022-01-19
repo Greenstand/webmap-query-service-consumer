@@ -1,6 +1,6 @@
 import { SetupServerApi } from 'msw/node'
 import knex, { TableNames } from 'db/knex'
-import MapNameMessage from 'interfaces/messages/MapNameAssigned'
+import ImpactProducerAssigned from 'interfaces/messages/ImpactProducerAssigned'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import { addRawCapture } from 'models/rawCaptureFeature'
 import createStakeholderApi from '@test/createStakeholderApi'
@@ -8,9 +8,9 @@ import { expectFeatureToHaveMap } from '@test/featureAssertions'
 import mockCapture from '@test/mock/capture.json'
 import stakeholder from '@test/mock/stakeholder.json'
 import { truncateTables } from '@test/utils'
-import onMapNameAssigned from './onMapNameAssigned'
+import onImpactProducerAssigned from './onImpactProducerAssigned'
 
-const message: MapNameMessage = {
+const message: ImpactProducerAssigned = {
   type: 'ImpactProducerAssigned',
   impact_producer_id: '1',
   map_feature_ids: [
@@ -36,11 +36,11 @@ afterAll(() => {
 })
 
 describe(`should handle ${SubscriptionNames.IMPACT_PRODUCER_ASSIGNED} event`, () => {
-  it(`should assign map name to capture feature`, async () => {
+  it(`should assign impact_producer to capture feature map object`, async () => {
     await knex(TableNames.CAPTURE_FEATURE).insert(mockCapture)
-    await onMapNameAssigned(message)
+    await onImpactProducerAssigned(message)
     await expectFeatureToHaveMap(
-      TableNames.CAPTURE_FEATURE,
+      TableNames.CAPTURE_FEATURE, //
       mockCapture.id,
       stakeholder.map,
     )
@@ -48,7 +48,7 @@ describe(`should handle ${SubscriptionNames.IMPACT_PRODUCER_ASSIGNED} event`, ()
 
   it('should assign map name to raw captures', async () => {
     await addRawCapture(mockCapture)
-    await onMapNameAssigned({
+    await onImpactProducerAssigned({
       ...message,
       map_feature_kind: 'raw_capture',
     })

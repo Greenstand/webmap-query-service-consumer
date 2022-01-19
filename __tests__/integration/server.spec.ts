@@ -1,6 +1,6 @@
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
-import MapNameMessage from 'interfaces/messages/MapNameAssigned'
+import ImpactProducerAssigned from 'interfaces/messages/ImpactProducerAssigned'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import {
   expectFeatureToHaveMap,
@@ -24,7 +24,7 @@ beforeEach(async () => {
 })
 
 it.skip(`should handle ${SubscriptionNames.IMPACT_PRODUCER_ASSIGNED} event`, async () => {
-  const message: MapNameMessage = {
+  const message: ImpactProducerAssigned = {
     type: 'ImpactProducerAssigned',
     impact_producer_id: '1',
     map_feature_ids: [
