@@ -34,7 +34,17 @@ export async function updateImpactProducer(
     ...feature,
     map: { ...feature.map, impact_producer: newImpactProducer },
   }
-
   const result = await batchUpdate([id], updateObject, tableName)
   return result
+}
+
+// update objects by ids on tableName with updateObject
+export function updateImpactProducers(
+  tableName: TableNames,
+  ids: string[],
+  newImpactProducer: string,
+): Promise<(number | void)[]> {
+  return Promise.all(
+    ids.map((id) => updateImpactProducer(tableName, id, newImpactProducer)),
+  )
 }

@@ -1,8 +1,14 @@
 import knex, { TableNames } from 'db/knex'
 import CaptureFeature from 'interfaces/CaptureFeature'
 import data from '@test/mock/capture.json'
+import data2 from '@test/mock/capture_in_kenya.json'
 import { truncateTables } from '@test/utils'
-import { batchUpdate, getFeatureById, updateImpactProducer } from './base'
+import {
+  batchUpdate,
+  getFeatureById,
+  updateImpactProducer,
+  updateImpactProducers,
+} from './base'
 import { addCaptureFeature } from './captureFeature'
 
 beforeEach(async () => {
@@ -45,6 +51,24 @@ it('should update impact producer', async () => {
   await updateImpactProducer(
     TableNames.CAPTURE_FEATURE,
     data.id,
+    newImpactProducer,
+  )
+  const result: CaptureFeature = await getFeatureById(
+    TableNames.CAPTURE_FEATURE,
+    data.id,
+  )
+  expect(result.map?.impact_producer).toBe(newImpactProducer)
+  expect(result.map?.impact_manager).toBe(data.map.impact_manager)
+})
+
+it('should update multiple impact producer', async () => {
+  // prepare the capture before the wallet event
+  await addCaptureFeature(data)
+  await addCaptureFeature(data2)
+  const newImpactProducer = 'new123'
+  await updateImpactProducers(
+    TableNames.CAPTURE_FEATURE,
+    [data.id, data2.id],
     newImpactProducer,
   )
   const result: CaptureFeature = await getFeatureById(
