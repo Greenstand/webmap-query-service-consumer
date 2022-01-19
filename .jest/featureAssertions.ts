@@ -1,5 +1,6 @@
 import knex, { TableNames } from 'db/knex'
 import CaptureFeature from 'interfaces/CaptureFeature'
+import { getFeatureById } from 'models/base'
 
 export async function expectClusterHasRegionData(
   clusterTable: TableNames.CAPTURE_CLUSTER | TableNames.RAW_CAPTURE_CLUSTER,
@@ -26,9 +27,8 @@ export async function expectFeatureToHaveMap(
   id: string,
   mapName: string,
 ) {
-  const result: CaptureFeature[] = await knex(table).select().where('id', id)
-  expect(result).toHaveLength(1)
-  const { map } = result[0] as CaptureFeature
+  const feature: CaptureFeature = await getFeatureById(table, id)
+  const { map } = feature
   expect(map?.impact_producer).toEqual(mapName)
 }
 
