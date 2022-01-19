@@ -31,7 +31,7 @@ export async function subscribe<T>(
             // republish until attempts limit then dead-letter
             {
               strategy: 'republish',
-              defer: 1000,
+              defer: 10000,
               attempts: 10,
             },
             {
