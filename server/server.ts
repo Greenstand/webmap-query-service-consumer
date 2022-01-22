@@ -1,5 +1,4 @@
 import { setupLoglevel } from 'utils/log'
-
 import registerEventHandlers from './messaging/registerEventHandlers'
 
 async function main() {

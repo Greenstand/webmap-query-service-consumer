@@ -1,6 +1,5 @@
 import { knex as initKnex } from 'knex'
 import { Global } from 'interfaces/Global'
-
 import knexConfig from './knexConfig'
 
 export const enum TableNames {
