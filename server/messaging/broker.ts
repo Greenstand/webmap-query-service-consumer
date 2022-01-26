@@ -45,3 +45,11 @@ export async function subscribe<T>(
     console.error(`Error subscribing to ${subscriptionName}, error: ${err}`)
   }
 }
+
+export async function teardownBroker() {
+  const { broker } = global as Global
+  if (!broker) return
+  await broker.unsubscribeAll()
+  await broker.purge()
+  await broker.shutdown()
+}
