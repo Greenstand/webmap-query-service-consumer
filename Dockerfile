@@ -5,4 +5,5 @@ COPY node_modules ./node_modules/
 COPY package.json ./
 COPY package-lock.json ./
 COPY dist ./dist/
+COPY database ./database/
 CMD [ "npm", "start" ]
