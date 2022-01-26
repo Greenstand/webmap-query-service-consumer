@@ -1,3 +1,11 @@
+## [1.9.1](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.9.0...v1.9.1) (2022-01-26)
+
+
+### Bug Fixes
+
+* depedencies to run db-migrate in image ([66555e4](https://github.com/Greenstand/webmap-query-service-consumer/commit/66555e4c330c05d43e82e47a1eccb68932bff432))
+* package.json syntax ([d82a1d3](https://github.com/Greenstand/webmap-query-service-consumer/commit/d82a1d3c7adf29bb0e793c5b9a6075f9a312e854))
+
 # [1.9.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.8.5...v1.9.0) (2022-01-10)
 
 
