@@ -1,3 +1,10 @@
+## [1.9.5](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.9.4...v1.9.5) (2022-01-26)
+
+
+### Bug Fixes
+
+* add test deployment workflow ([cbbad9a](https://github.com/Greenstand/webmap-query-service-consumer/commit/cbbad9a6c0c4040840273e00be8e8e582e61ecbd))
+
 ## [1.9.4](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.9.3...v1.9.4) (2022-01-26)
 
 
