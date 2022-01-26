@@ -4,7 +4,7 @@ export const enum SubscriptionNames {
   CAPTURE_CREATED = 'capture-created',
   RAW_CAPTURE_CREATED = 'raw-capture-created',
   TOKEN_ASSIGNED = 'token-assigned',
-  IMPACT_PRODUCER_ASSIGNED = 'ImpactProducerAssigned',
+  IMPACT_PRODUCER_ASSIGNED = 'impact-producer-assigned',
 }
 
 export const VHOST_NAME = 'v1'
