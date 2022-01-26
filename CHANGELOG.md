@@ -1,3 +1,11 @@
+## [1.9.3](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.9.2...v1.9.3) (2022-01-26)
+
+
+### Bug Fixes
+
+* add schema to secrets ([226c63a](https://github.com/Greenstand/webmap-query-service-consumer/commit/226c63a4339643d6abb190c831ff38e08a66c151))
+* reseal secrets for dev env ([f20e3f8](https://github.com/Greenstand/webmap-query-service-consumer/commit/f20e3f89da151e5cdcdf7f86135d90b46b6453ca))
+
 ## [1.9.2](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.9.1...v1.9.2) (2022-01-26)
 
 
