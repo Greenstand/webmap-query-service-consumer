@@ -1,3 +1,10 @@
+## [1.9.6](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.9.5...v1.9.6) (2022-01-27)
+
+
+### Bug Fixes
+
+* update sealed secrets for test env ([21e7ff3](https://github.com/Greenstand/webmap-query-service-consumer/commit/21e7ff3d8cf6b23286c6e6de358d49f1d04a43d0))
+
 ## [1.9.5](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.9.4...v1.9.5) (2022-01-26)
 
 
