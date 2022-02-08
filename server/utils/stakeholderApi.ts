@@ -1,16 +1,17 @@
+import path from 'path'
 import axios from 'axios'
 import Stakeholder from 'interfaces/Stakeholder'
 
-const stakeholderApiRoute = process.env.STAKEHOLDER_API_ROUTE
+export const stakeholderRoute = 'stakeholder/'
+const stakeholderHost = process.env.STAKEHOLDER_API_HOST || ''
+const url = path.join(stakeholderHost, stakeholderRoute)
 
 export async function getStakeholder(
   stakeholderId: string,
 ): Promise<Stakeholder | void> {
-  if (!stakeholderApiRoute)
-    return console.error('env var: STAKEHOLDER_API_ROUTE is not set')
-
+  if (!url) return console.error('env var: STAKEHOLDER_API_ROUTE is not set')
   try {
-    const res = await axios.get(stakeholderApiRoute, {
+    const res = await axios.get(url, {
       params: {
         stakeholder_id: stakeholderId,
       },
