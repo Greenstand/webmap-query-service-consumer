@@ -1,7 +1,7 @@
+import data from '@mock/capture.json'
+import data2 from '@mock/capture_in_kenya.json'
 import knex, { TableNames } from 'db/knex'
 import CaptureFeature from 'interfaces/CaptureFeature'
-import data from '@test/mock/capture.json'
-import data2 from '@test/mock/capture_in_kenya.json'
 import { truncateTables } from '@test/utils'
 import {
   batchUpdate,

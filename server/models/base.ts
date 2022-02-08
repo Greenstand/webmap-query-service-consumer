@@ -29,7 +29,7 @@ export async function updateImpactProducer(
   newImpactProducer: string,
 ) {
   const feature: RawCaptureFeature = await getFeatureById(tableName, id)
-  if (!feature) return console.error('feature with id not found')
+  if (!feature) return console.error(`feature with id: ${id} not found`)
   const updateObject = {
     ...feature,
     map: { ...feature.map, impact_producer: newImpactProducer },

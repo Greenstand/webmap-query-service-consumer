@@ -1,3 +1,6 @@
+import captureData from '@mock/capture.json'
+import kenyaData from '@mock/capture_in_kenya.json'
+import stakeholder from '@mock/stakeholder.json'
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import ImpactProducerAssigned from 'interfaces/messages/ImpactProducerAssigned'
@@ -7,9 +10,6 @@ import {
   expectTableHasId,
   expectClusterHasRegionData,
 } from '@test/featureAssertions'
-import captureData from '@test/mock/capture.json'
-import kenyaData from '@test/mock/capture_in_kenya.json'
-import stakeholder from '@test/mock/stakeholder.json'
 import { publishMessage } from '@test/publisher'
 import { prepareRegionData, truncateTables } from '@test/utils'
 

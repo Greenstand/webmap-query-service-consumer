@@ -1,9 +1,9 @@
+import data from '@mock/capture.json'
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/registerEventHandlers'
 import { addCaptureFeature } from 'models/captureFeature'
-import data from '@test/mock/capture.json'
 import { publishMessage } from '@test/publisher'
 import { truncateTables } from '@test/utils'
 

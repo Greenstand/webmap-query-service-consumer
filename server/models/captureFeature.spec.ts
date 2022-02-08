@@ -1,3 +1,4 @@
+import data from '@mock/capture_in_kenya.json'
 import knex, { TableNames } from 'db/knex'
 import {
   addCaptureFeature,
@@ -8,7 +9,6 @@ import {
   expectTableHasId,
   expectClusterHasRegionData,
 } from '@test/featureAssertions'
-import data from '@test/mock/capture_in_kenya.json'
 import { prepareRegionData, truncateTables } from '@test/utils'
 
 beforeAll(async () => {

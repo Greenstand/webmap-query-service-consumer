@@ -1,3 +1,4 @@
+import data from '@mock/capture_in_kenya.json'
 import waitForExpect from 'wait-for-expect'
 import { TableNames } from 'db/knex'
 import { SubscriptionNames } from 'messaging/brokerConfig'
@@ -6,7 +7,6 @@ import {
   expectTableHasId,
   expectClusterHasRegionData,
 } from '@test/featureAssertions'
-import data from '@test/mock/capture_in_kenya.json'
 import { publishMessage } from '@test/publisher'
 import { prepareRegionData, truncateTables } from '@test/utils'
 

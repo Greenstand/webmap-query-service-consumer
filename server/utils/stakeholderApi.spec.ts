@@ -1,17 +1,13 @@
-import { SetupServerApi } from 'msw/lib/types/node'
-import createStakeholderApi from '@test/createStakeholderApi'
-import data from '@test/mock/stakeholder.json'
+import server from '@mock/createStakeholderApi'
+import data from '@mock/stakeholder.json'
 import { getStakeholder, getStakeholderMap } from './stakeholderApi'
 
-let mockServer: SetupServerApi
-
 beforeAll(() => {
-  mockServer = createStakeholderApi()
-  mockServer.listen()
+  server.listen()
 })
 
 afterAll(() => {
-  mockServer.close()
+  server.close()
 })
 
 it('should get data with matching id from stakeholder api', async () => {

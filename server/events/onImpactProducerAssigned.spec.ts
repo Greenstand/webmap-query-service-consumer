@@ -1,14 +1,13 @@
-import { SetupServerApi } from 'msw/node'
+import mockCapture from '@mock/capture.json'
+import server from '@mock/createStakeholderApi'
+import stakeholder from '@mock/stakeholder.json'
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import ImpactProducerAssigned from 'interfaces/messages/ImpactProducerAssigned'
 import { SubscriptionNames } from 'messaging/brokerConfig'
 import registerEventHandlers from 'messaging/registerEventHandlers'
 import { addRawCapture } from 'models/rawCaptureFeature'
-import createStakeholderApi from '@test/createStakeholderApi'
 import { expectFeatureToHaveMap } from '@test/featureAssertions'
-import mockCapture from '@test/mock/capture.json'
-import stakeholder from '@test/mock/stakeholder.json'
 import { publishMessage } from '@test/publisher'
 import { truncateTables } from '@test/utils'
 
@@ -21,21 +20,18 @@ const message: ImpactProducerAssigned = {
   map_feature_kind: 'capture',
 }
 
-let mockServer: SetupServerApi
-
 beforeAll(async () => {
   await truncateTables([
     TableNames.CAPTURE_FEATURE, //
     TableNames.RAW_CAPTURE_FEATURE,
   ])
 
-  mockServer = createStakeholderApi()
-  mockServer.listen()
+  server.listen()
   await registerEventHandlers()
 })
 
 afterAll(() => {
-  mockServer.close()
+  server.close()
 })
 
 describe(`should handle ${SubscriptionNames.IMPACT_PRODUCER_ASSIGNED} event`, () => {
