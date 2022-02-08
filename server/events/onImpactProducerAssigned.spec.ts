@@ -1,6 +1,6 @@
 import mockCapture from '@mock/capture.json'
-import server from '@mock/createStakeholderApi'
 import stakeholder from '@mock/stakeholder.json'
+import server from '@mock/stakeholderApi'
 import waitForExpect from 'wait-for-expect'
 import knex, { TableNames } from 'db/knex'
 import ImpactProducerAssigned from 'interfaces/messages/ImpactProducerAssigned'
