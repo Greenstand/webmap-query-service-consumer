@@ -1,4 +1,4 @@
-export type TokenMessage = {
+export default interface TokenMessage {
   entries: {
     capture_id: string
   }[]

@@ -1,9 +1,10 @@
 import { BrokerConfig } from 'rascal'
 
-export enum SubscriptionNames {
+export const enum SubscriptionNames {
   CAPTURE_CREATED = 'capture-created',
   RAW_CAPTURE_CREATED = 'raw-capture-created',
   TOKEN_ASSIGNED = 'token-assigned',
+  IMPACT_PRODUCER_ASSIGNED = 'impact-producer-assigned',
 }
 
 export const VHOST_NAME = 'v1'
@@ -17,10 +18,12 @@ const brokerConfig: BrokerConfig = {
           timeout: 3000,
         },
       },
+
       queues: [
         SubscriptionNames.CAPTURE_CREATED,
         SubscriptionNames.RAW_CAPTURE_CREATED,
         SubscriptionNames.TOKEN_ASSIGNED,
+        SubscriptionNames.IMPACT_PRODUCER_ASSIGNED,
       ],
       subscriptions: {
         [SubscriptionNames.CAPTURE_CREATED]: {
@@ -33,6 +36,9 @@ const brokerConfig: BrokerConfig = {
         },
         [SubscriptionNames.TOKEN_ASSIGNED]: {
           queue: SubscriptionNames.TOKEN_ASSIGNED,
+        },
+        [SubscriptionNames.IMPACT_PRODUCER_ASSIGNED]: {
+          queue: SubscriptionNames.IMPACT_PRODUCER_ASSIGNED,
         },
       },
     },

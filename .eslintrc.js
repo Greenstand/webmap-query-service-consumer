@@ -11,7 +11,7 @@ module.exports = {
   plugins: [],
 
   rules: {
-    'no-console': 'off',
+    'no-console': ['warn', { allow: ['info', 'error'] }],
     'import/prefer-default-export': 'off',
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'no-promise-executor-return': 'off',
@@ -51,10 +51,19 @@ module.exports = {
           'object', // ts only
           'type', // ts only
         ],
+        pathGroups: [
+          {
+            pattern: '@test/**',
+            group: 'internal',
+            position: 'after',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
         alphabetize: {
           order: 'asc',
           caseInsensitive: true,
         },
+        'newlines-between': 'never',
       },
     ],
   },
@@ -72,6 +81,9 @@ module.exports = {
     sourceType: 'module',
     project: ['./tsconfig.json'],
   },
+
+  // report unused eslint-disable comments
+  reportUnusedDisableDirectives: true,
 
   settings: {
     'import/resolver': {

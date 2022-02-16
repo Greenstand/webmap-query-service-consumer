@@ -9,8 +9,8 @@ export async function addCaptureFeature(
   const result = await knex.raw(
     `insert into capture_feature (
              id, lat, lon, location, field_user_id, field_username, 
-             device_identifier, attributes, created_at, updated_at) 
-             values(?, ?, ?, ST_PointFromText(?, 4326), ?, ?, ?, ?, ?, ?)
+             device_identifier, attributes, created_at, updated_at, map) 
+             values(?, ?, ?, ST_PointFromText(?, 4326), ?, ?, ?, ?, ?, ?, ?)
              returning id`,
     [
       data.id,
@@ -23,13 +23,14 @@ export async function addCaptureFeature(
       JSON.stringify(data.attributes),
       data.created_at,
       data.created_at,
+      JSON.stringify(data.map),
     ],
   )
   return result.rows[0]
 }
 
-export async function assignRegion(data: CaptureFeature) {
-  const res = await knex.raw(
+export async function assignCaptureFeatureRegion(data: CaptureFeature) {
+  await knex.raw(
     `
       INSERT INTO region_assignment
         (map_feature_id, zoom_level, region_id)
@@ -47,11 +48,9 @@ export async function assignRegion(data: CaptureFeature) {
     `,
     [data.id, data.lon, data.lat],
   )
-  console.log('assign region result: ', res)
-  return true
 }
 
-export async function updateCluster(data: CaptureFeature) {
+export async function updateCaptureCluster(data: CaptureFeature) {
   const res = await knex.raw(
     `
       UPDATE capture_cluster 
@@ -68,10 +67,3 @@ export async function updateCluster(data: CaptureFeature) {
   )
   return res
 }
-
-async function captureFeature(data: CaptureFeature) {
-  await addCaptureFeature(data)
-  await assignRegion(data)
-  await updateCluster(data)
-}
-export default captureFeature

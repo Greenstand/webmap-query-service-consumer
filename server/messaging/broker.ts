@@ -3,7 +3,7 @@ import { Global } from 'interfaces/Global'
 import brokerConfig, { SubscriptionNames } from './brokerConfig'
 
 async function createBroker(config = brokerConfig) {
-  console.log('creating broker')
+  console.info('creating broker')
   const broker = await BrokerAsPromised.create(config)
   ;(global as Global).broker = broker
   return broker
@@ -31,7 +31,7 @@ export async function subscribe<T>(
             // republish until attempts limit then dead-letter
             {
               strategy: 'republish',
-              defer: 1000,
+              defer: 10000,
               attempts: 10,
             },
             {
@@ -44,4 +44,12 @@ export async function subscribe<T>(
   } catch (err) {
     console.error(`Error subscribing to ${subscriptionName}, error: ${err}`)
   }
+}
+
+export async function teardownBroker() {
+  const { broker } = global as Global
+  if (!broker) return
+  await broker.unsubscribeAll()
+  await broker.purge()
+  await broker.shutdown()
 }

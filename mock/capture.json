@@ -1,5 +1,5 @@
 {
-  "id": "63e00bca-8eb0-11eb-8dcd-0242ac130003",
+  "id": "2aafa9d2-3400-4a4f-a83c-330029fc35f8",
   "lat": 0,
   "lon": 0,
   "location": "POINT(0 0)",
@@ -11,5 +11,9 @@
   "attributes": {},
   "capture_taken_at": "2021-07-09T03:58:07.814Z",
   "created_at": "2021-07-09T03:58:07.814Z",
-  "updated_at": "2021-07-09T03:58:07.814Z"
+  "updated_at": "2021-07-09T03:58:07.814Z",
+  "map": {
+    "impact_producer": "123",
+    "impact_manager": "abc"
+  }
 }
