@@ -1,3 +1,16 @@
+# [1.10.0](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.9.6...v1.10.0) (2022-02-16)
+
+
+### Bug Fixes
+
+* stakeholder api uses params ([e43bd33](https://github.com/Greenstand/webmap-query-service-consumer/commit/e43bd3343194f54dc8984163eb059c02929b2bdd))
+
+
+### Features
+
+* handle map name assigned event ([70f90ca](https://github.com/Greenstand/webmap-query-service-consumer/commit/70f90caaaf8fef2069f48db3328c821d84bef73d))
+* map name assigned event handle raw capture kind ([19cf893](https://github.com/Greenstand/webmap-query-service-consumer/commit/19cf893fe789cfb0ae758b23079f5c3938825bb3))
+
 ## [1.9.6](https://github.com/Greenstand/webmap-query-service-consumer/compare/v1.9.5...v1.9.6) (2022-01-27)
 
 
